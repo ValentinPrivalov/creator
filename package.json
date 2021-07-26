@@ -1,0 +1,18 @@
+{
+  "name": "creator",
+  "description": "Game engine",
+  "author": "Valentyn Pryvalov",
+  "license": "ISC",
+  "devDependencies": {
+    "clean-webpack-plugin": "^4.0.0-alpha.0",
+    "copy-webpack-plugin": "^9.0.1",
+    "html-webpack-plugin": "^5.3.2",
+    "nunjucks": "^3.2.3",
+    "nunjucks-webpack-plugin": "^5.0.0",
+    "webpack": "^5.46.0",
+    "webpack-cli": "^4.7.2"
+  },
+  "dependencies": {
+    "pixi.js": "^6.0.4"
+  }
+}

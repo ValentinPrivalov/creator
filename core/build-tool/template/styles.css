@@ -1,0 +1,20 @@
+body, #gameFrame {
+    width: 100vw;
+    height: 100vh;
+    background-color: #000000;
+}
+
+#gameFrame {
+    position: relative;
+    display: flex;
+    flex-grow: 1;
+}
+
+* {
+    position: absolute;
+    border: none;
+    filter: none;
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+}
