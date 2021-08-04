@@ -15,6 +15,14 @@ function exportConfig() {
             path: path.resolve(rootPath, 'games-build', gameName)
         },
         devtool: 'eval-cheap-source-map',
+        resolve: {
+            extensions: ['.ts', '.js']
+        },
+        module: {
+            rules: [
+                {test: /\.ts$/, loader: 'ts-loader', exclude: /node_modules/}
+            ]
+        },
         plugins: [
             new CleanWebpackPlugin(),
             new CopyWebpackPlugin({
