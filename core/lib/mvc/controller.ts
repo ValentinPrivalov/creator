@@ -35,14 +35,14 @@ export class AbstractController extends MvcEntity implements IAbstractController
     }
 
     onRegister(): void {
-        this.addNotificationListeners();
-        this.addSignalListeners();
+        this.registerNotificationListeners();
+        this.registerSignalListeners();
     }
 
-    addNotificationListeners(): void {
+    registerNotificationListeners(): void {
     }
 
-    addSignalListeners(): void {
+    registerSignalListeners(): void {
     }
 
     raiseNotification(notificationName: string, body?: any): void {

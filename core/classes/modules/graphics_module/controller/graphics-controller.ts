@@ -8,13 +8,13 @@ export class GraphicsController extends AbstractController {
         return this._view as GraphicsView;
     }
 
-    addNotificationListeners() {
-        super.addNotificationListeners();
+    registerNotificationListeners() {
+        super.registerNotificationListeners();
         this.addNotificationListener(Notifications.INIT_ENGINE, this.onInitEngine.bind(this));
     }
 
-    addSignalListeners() {
-        super.addSignalListeners();
+    registerSignalListeners() {
+        super.registerSignalListeners();
         this.addSignalListener(Signals.MAIN_SCENE_INITIALIZED, this.onMainSceneInitialized.bind(this));
     }
 

@@ -5,6 +5,7 @@ import {AbstractController} from "../mvc/controller";
 import {AbstractModel} from "../mvc/model";
 import {AbstractView} from "../mvc/view";
 import {AbstractCollection} from "../../util/abstract-collection";
+import {Container} from "pixi.js";
 
 export class Mvc implements IMvc {
     private modulesCollection: AbstractCollection = new AbstractCollection();
@@ -54,6 +55,12 @@ export class Mvc implements IMvc {
         controller.onRegister();
         controller.bindView(this.viewCollection.getItem(viewId))
         controller.bindModel(this.modelCollection.getItem(viewId));
+    }
+
+    public bindLayer(layer: Container): void {
+        if (this.viewCollection.has(layer.name)) {
+            this.viewCollection.getItem(layer.name).display = layer;
+        }
     }
 }
 

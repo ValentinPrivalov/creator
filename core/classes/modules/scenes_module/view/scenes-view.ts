@@ -2,6 +2,7 @@ import {AbstractView} from "../../../../lib/mvc/view";
 import {ILayer} from "../static/scenes-interfaces";
 import {Container} from "pixi.js";
 import {ScenesNames} from "../static/scenes-names";
+import {Signals} from "../../../../global/signals";
 
 export class ScenesView extends AbstractView {
     public createLayers(layers: Array<ILayer>): void {
@@ -21,6 +22,7 @@ export class ScenesView extends AbstractView {
             this.createLayer(childLayer, container);
         })
 
+        this.raiseSignal(Signals.LAYER_CREATED, container);
         if (parent) {
             parent.addChild(container);
         }

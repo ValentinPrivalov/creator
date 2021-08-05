@@ -12,8 +12,8 @@ export class LoadingController extends AbstractController {
         return this._model as LoadingModel;
     }
 
-    addNotificationListeners() {
-        super.addNotificationListeners();
+    registerNotificationListeners() {
+        super.registerNotificationListeners();
         this.addNotificationListener(Notifications.MAIN_SCENE_INITIALIZED, this.onMainSceneInitialized.bind(this));
     }
 
