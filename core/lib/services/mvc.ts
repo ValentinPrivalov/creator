@@ -1,18 +1,17 @@
-import {IAbstractModule} from "../abstract-module";
 import {Log} from "../log";
 import {Services} from "../services";
 import {Names} from "../../global/names";
 import {AbstractController} from "../mvc/controller";
 import {AbstractModel} from "../mvc/model";
 import {AbstractView} from "../mvc/view";
-import {AbstractFactory} from "../../util/abstract-factory";
+import {AbstractCollection} from "../../util/abstract-collection";
 
 export class Mvc implements IMvc {
     private static _instance: IMvc;
-    private modules: { [key: string]: IAbstractModule } = {};
-    protected controllerFactory: AbstractFactory;
-    protected viewFactory: AbstractFactory;
-    protected modelFactory: AbstractFactory;
+    protected modulesCollection: AbstractCollection;
+    protected controllerCollection: AbstractCollection;
+    protected viewCollection: AbstractCollection;
+    protected modelCollection: AbstractCollection;
 
     static instance(): IMvc {
         if (!this._instance) {
@@ -22,28 +21,29 @@ export class Mvc implements IMvc {
     }
 
     constructor() {
-        this.controllerFactory = new AbstractFactory();
-        this.viewFactory = new AbstractFactory();
-        this.modelFactory = new AbstractFactory();
+        this.modulesCollection = new AbstractCollection();
+        this.controllerCollection = new AbstractCollection();
+        this.viewCollection = new AbstractCollection();
+        this.modelCollection = new AbstractCollection();
     }
 
-    registerModule(id: string, module: any): void {
-        if (this.modules[id]) {
+    registerModule(id: string, implementation: any): void {
+        if (this.modulesCollection.getItem(id)) {
             Log.warn('Module already registered: ' + id);
         } else {
             Log.info('Register module: ' + id);
-            this.modules[id] = new module(id);
-            this.modules[id].onRegister();
+            const module: AbstractModel = this.modulesCollection.addItem(id, implementation);
+            module.onRegister();
         }
     }
 
-    replaceModule(id: string, module: any): void {
-        if (!this.modules[id]) {
+    replaceModule(id: string, implementation: any): void {
+        if (!this.modulesCollection.getItem(id)) {
             Log.warn('Module not found for replacement: ' + id);
         } else {
             Log.info('Replace module: ' + id);
-            this.modules[id] = new module(id);
-            this.modules[id].onRegister();
+            const module: AbstractModel = this.modulesCollection.addItem(id, implementation);
+            module.onRegister();
         }
     }
 
@@ -53,25 +53,22 @@ export class Mvc implements IMvc {
 
     public registerModel(id: string, implementation: any): void {
         Log.info('Register model: ' + id);
-        this.modelFactory.addItem(id, implementation);
-        const model: AbstractModel = this.modelFactory.getItem(id);
+        const model: AbstractModel = this.modelCollection.addItem(id, implementation);
         model.onRegister();
     }
 
     public registerView(id: string, implementation: any): void {
         Log.info('Register view: ' + id);
-        this.viewFactory.addItem(id, implementation);
-        const view: AbstractView = this.viewFactory.getItem(id);
+        const view: AbstractView = this.viewCollection.addItem(id, implementation);
         view.onRegister();
     }
 
     public registerController(viewId: string, implementation: any): void {
         Log.info('Register controller: ' + viewId);
-        this.controllerFactory.addItem(viewId, implementation);
-        const controller: AbstractController = this.controllerFactory.getItem(viewId);
+        const controller: AbstractController = this.controllerCollection.addItem(viewId, implementation);
         controller.onRegister();
-        controller.bindView(this.viewFactory.getItem(viewId));
-        controller.bindModel(this.modelFactory.getItem(viewId));
+        controller.bindView(this.viewCollection.getItem(viewId));
+        controller.bindModel(this.modelCollection.getItem(viewId));
     }
 }
 

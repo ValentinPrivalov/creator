@@ -1,8 +1,9 @@
-export class AbstractFactory implements IAbstractFactory {
+export class AbstractCollection implements IAbstractCollection {
     protected _items: {[key: string]: any} = {};
 
-    addItem(id: string, implementation: any): void {
+    addItem(id: string, implementation: any): any {
         this._items[id] = new implementation(id);
+        return this._items[id];
     }
 
     getItem(id: string): any {
@@ -14,8 +15,8 @@ export class AbstractFactory implements IAbstractFactory {
     }
 }
 
-export interface IAbstractFactory {
-    addItem(id: string, item: any): void;
+export interface IAbstractCollection {
+    addItem(id: string, item: any): any;
     getItem(id: string): any;
     getAll(): any;
 }
