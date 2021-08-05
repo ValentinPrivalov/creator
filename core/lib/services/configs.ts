@@ -18,8 +18,18 @@ export class Configs implements IConfigs {
 
         this._configs[key][propertyName] = propertyValue;
     }
+
+    getProperty(key: string, propertyName: string): any {
+        return this._configs[key][propertyName];
+    }
+
+    get GAME_NAME(): string {
+        return this.gameName.toUpperCase().replace(/ /g, '_')
+    }
 }
 
 export interface IConfigs {
     addProperty(key: string, propertyName: string, propertyValue: any): void;
+
+    getProperty(key: string, propertyName: string): any;
 }

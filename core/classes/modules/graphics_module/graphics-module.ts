@@ -1,14 +1,12 @@
 import {AbstractModule} from "../../../lib/abstract-module";
-import {MainScene} from "./view/main-scene";
+import {GraphicsView} from "./view/graphics-view";
 import {Names} from "../../../global/names";
 import {GraphicsController} from "./controller/graphics-controller";
 
 export class GraphicsModule extends AbstractModule {
-    protected pixiScene: MainScene;
-
     registerViews(): void {
         super.registerViews();
-        this.addView(Names.Views.MAIN_SCENE, MainScene);
+        this.addView(Names.Views.MAIN_SCENE, GraphicsView);
     }
 
     registerControllers() {

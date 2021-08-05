@@ -1,11 +1,11 @@
 import {AbstractController} from "../../../../lib/mvc/controller";
 import {Notifications} from "../../../../global/notifications";
 import {Signals} from "../../../../global/signals";
-import {MainScene} from "../view/main-scene";
+import {GraphicsView} from "../view/graphics-view";
 
 export class GraphicsController extends AbstractController {
-    get view(): MainScene {
-        return this.viewComponent as MainScene;
+    get view(): GraphicsView {
+        return this._view as GraphicsView;
     }
 
     addNotificationListeners() {

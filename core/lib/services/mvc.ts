@@ -34,9 +34,6 @@ export class Mvc implements IMvc {
         }
     }
 
-    registerModel(id: string, module: any): void {
-    }
-
     sendNotification(notificationName: string, body?: any): void {
         Services.instance().get(Names.Services.EVENT_MANAGER).raise({name: notificationName, body});
     }
@@ -46,8 +43,6 @@ export interface IMvc {
     registerModule(id: string, module: any): void;
 
     replaceModule(id: string, module: any): void;
-
-    registerModel(id: string, module: any): void;
 
     sendNotification(notificationName: string, body?: any): void;
 }

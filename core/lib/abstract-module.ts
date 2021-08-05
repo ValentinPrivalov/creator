@@ -8,10 +8,12 @@ import {ViewFactory} from "../util/view-factory";
 import {ControllerFactory} from "../util/controller-factory";
 import {IAbstractFactory} from "../util/abstract-factory";
 import {IMvcEntity, MvcEntity} from "./mvc/mvc-entity";
+import {ModelFactory} from "../util/model-factory";
 
 export class AbstractModule extends MvcEntity implements IAbstractModule {
     protected controllerFactory: IAbstractFactory;
     protected viewFactory: IAbstractFactory;
+    protected modelFactory: IAbstractFactory;
 
     get mvc(): Mvc {
         return Services.instance().get(Names.Services.MVC) as Mvc;
@@ -21,6 +23,7 @@ export class AbstractModule extends MvcEntity implements IAbstractModule {
         super(name);
         this.controllerFactory = ControllerFactory.instance();
         this.viewFactory = ViewFactory.instance();
+        this.modelFactory = ModelFactory.instance();
     }
 
     onRegister(): void {
@@ -47,7 +50,7 @@ export class AbstractModule extends MvcEntity implements IAbstractModule {
     }
 
     addModel(id: string, model: any): void {
-        this.mvc.registerModel(id, model);
+        this.modelFactory.addItem(id, model);
     }
 
     addView(id: string, view: any): void {

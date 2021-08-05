@@ -1,20 +1,21 @@
 import {AbstractView, IAbstractView} from "./view";
 import {IMvcEntity, MvcEntity} from "./mvc-entity";
-import {Mvc} from "../services/mvc";
 import {Services} from "../services";
 import {Names} from "../../global/names";
 import {EventManager, IEventData} from "../services/event-manager";
+import {AbstractModel, IAbstractModel} from "./model";
 
 export class AbstractController extends MvcEntity implements IAbstractController {
-    protected viewComponent: IAbstractView;
+    protected _view: IAbstractView;
+    protected _model: IAbstractModel;
     protected eventManager: EventManager;
 
-    get mvc(): Mvc {
-        return Services.instance().get(Names.Services.MVC) as Mvc;
+    get view(): AbstractView {
+        return this._view as AbstractView;
     }
 
-    get view(): AbstractView {
-        return this.viewComponent as AbstractView;
+    get model(): AbstractModel {
+        return this._model as AbstractModel;
     }
 
     constructor(name: string) {
@@ -26,7 +27,11 @@ export class AbstractController extends MvcEntity implements IAbstractController
     }
 
     bindView(viewComponent: IAbstractView): void {
-        this.viewComponent = viewComponent;
+        this._view = viewComponent;
+    }
+
+    bindModel(modelComponent: IAbstractModel): void {
+        this._model = modelComponent;
     }
 
     onRegister(): void {

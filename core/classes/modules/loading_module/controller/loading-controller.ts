@@ -1,10 +1,15 @@
 import {AbstractController} from "../../../../lib/mvc/controller";
 import {Notifications} from "../../../../global/notifications";
 import {LoadingView} from "../view/loading-view";
+import {LoadingModel} from "../model/loading-model";
 
 export class LoadingController extends AbstractController {
     get view(): LoadingView {
-        return this.viewComponent as LoadingView;
+        return this._view as LoadingView;
+    }
+
+    get model(): LoadingModel {
+        return this._model as LoadingModel;
     }
 
     addNotificationListeners() {
@@ -13,6 +18,9 @@ export class LoadingController extends AbstractController {
     }
 
     protected onMainSceneInitialized(): void {
+        this.model.loadScene().then(data => {
+            this.sendNotification(Notifications.SCENES_LOADED, data);
+        });
         this.view.doSomething();
     }
 }

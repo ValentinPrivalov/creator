@@ -7,6 +7,10 @@ import {LoadingModule} from "./modules/loading_module/loading-module";
 import {EventManager, IEventManager} from "../lib/services/event-manager";
 import {Notifications} from "../global/notifications";
 import {Configs, IConfigs} from "../lib/services/configs";
+import {ScenesModule} from "./modules/scenes_module/scenes-module";
+import {SceneManager} from "./modules/graphics_module/view/scene-manager";
+import * as PIXI from "pixi.js";
+window.PIXI = PIXI; // pixiJS devtools dependence
 
 export class Entry {
     constructor() {
@@ -29,12 +33,14 @@ export class Entry {
         this.services.register(Names.Services.MVC, this.getMvcService());
         this.services.register(Names.Services.EVENT_MANAGER, this.getEventManagerService());
         this.services.register(Names.Services.CONFIGS, this.getConfigsService());
+        this.services.register(Names.Services.SCENE_MANAGER, this.getSceneManagerService());
     }
 
     protected initModules(): void {
         Log.info('Init modules');
         this.addModule(Names.Modules.GRAPHICS_MODULE, GraphicsModule);
         this.addModule(Names.Modules.LOADING_MODULE, LoadingModule);
+        this.addModule(Names.Modules.SCENES_MODULE, ScenesModule);
     }
 
     protected startEngine(): void {
@@ -43,7 +49,7 @@ export class Entry {
     }
 
     protected initGameConfigs(): void {
-        const configs = this.services.get(Names.Services.CONFIGS) as Configs;
+        const configs: Configs = this.services.get(Names.Services.CONFIGS);
         configs.gameName = 'Abstract Game';
     }
 
@@ -65,5 +71,9 @@ export class Entry {
 
     protected getConfigsService(): IConfigs {
         return Configs.instance();
+    }
+
+    protected getSceneManagerService(): SceneManager {
+        return SceneManager.instance();
     }
 }

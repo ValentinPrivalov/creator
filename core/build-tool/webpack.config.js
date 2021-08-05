@@ -27,7 +27,8 @@ function exportConfig() {
             new CleanWebpackPlugin(),
             new CopyWebpackPlugin({
                 patterns: [
-                    {from: path.resolve(buildToolDir, 'template/styles.css'), to: 'css/styles.css'}
+                    {from: path.resolve(buildToolDir, 'template/styles.css'), to: 'css/styles.css'},
+                    {from: path.resolve(rootPath, 'games', gameName, 'assets'), to: 'assets/'}
                 ]
             }),
             new HtmlWebpackPlugin({
