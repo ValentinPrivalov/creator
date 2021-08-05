@@ -2,19 +2,17 @@ import {IAbstractModule} from "../abstract-module";
 import {Log} from "../log";
 import {Services} from "../services";
 import {Names} from "../../global/names";
-import {ControllerFactory} from "../../util/controller-factory";
-import {ViewFactory} from "../../util/view-factory";
-import {ModelFactory} from "../../util/model-factory";
 import {AbstractController} from "../mvc/controller";
 import {AbstractModel} from "../mvc/model";
 import {AbstractView} from "../mvc/view";
+import {AbstractFactory} from "../../util/abstract-factory";
 
 export class Mvc implements IMvc {
     private static _instance: IMvc;
     private modules: { [key: string]: IAbstractModule } = {};
-    protected controllerFactory: ControllerFactory;
-    protected viewFactory: ViewFactory;
-    protected modelFactory: ModelFactory;
+    protected controllerFactory: AbstractFactory;
+    protected viewFactory: AbstractFactory;
+    protected modelFactory: AbstractFactory;
 
     static instance(): IMvc {
         if (!this._instance) {
@@ -24,9 +22,9 @@ export class Mvc implements IMvc {
     }
 
     constructor() {
-        this.controllerFactory = ControllerFactory.instance();
-        this.viewFactory = ViewFactory.instance();
-        this.modelFactory = ModelFactory.instance();
+        this.controllerFactory = new AbstractFactory();
+        this.viewFactory = new AbstractFactory();
+        this.modelFactory = new AbstractFactory();
     }
 
     registerModule(id: string, module: any): void {
