@@ -9,7 +9,7 @@ export module Names {
     export class Modules {
         static GRAPHICS_MODULE: string = 'GRAPHICS_MODULE';
         static LOADING_MODULE: string = 'LOADING_MODULE';
-        static SCENES_MODULE: string = 'SCENES_MODULE';
+        static LAYERS_MODULE: string = 'LAYERS_MODULE';
     }
 
     export class Views {

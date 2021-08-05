@@ -7,7 +7,7 @@ import {LoadingModule} from "./modules/loading_module/loading-module";
 import {EventManager} from "../lib/services/event-manager";
 import {Notifications} from "../global/notifications";
 import {Configs} from "../lib/services/configs";
-import {ScenesModule} from "./modules/scenes_module/scenes-module";
+import {LayersModule} from "./modules/layers_module/layers-module";
 import {SceneManager} from "./modules/graphics_module/view/scene-manager";
 import * as PIXI from "pixi.js";
 window.PIXI = PIXI; // pixiJS devtools dependence
@@ -40,7 +40,7 @@ export class Entry {
         Log.info('Init modules');
         this.addModule(Names.Modules.GRAPHICS_MODULE, GraphicsModule);
         this.addModule(Names.Modules.LOADING_MODULE, LoadingModule);
-        this.addModule(Names.Modules.SCENES_MODULE, ScenesModule);
+        this.addModule(Names.Modules.LAYERS_MODULE, LayersModule);
     }
 
     protected startEngine(): void {

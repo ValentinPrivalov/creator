@@ -1,14 +1,14 @@
 import {AbstractController} from "../../../../lib/mvc/controller";
 import {Notifications} from "../../../../global/notifications";
-import {ILayer} from "../static/scenes-interfaces";
+import {ILayer} from "../static/layers-interfaces";
 import {IEventData} from "../../../../lib/services/event-manager";
-import {ScenesView} from "../view/scenes-view";
+import {LayersView} from "../view/layers-view";
 import {Signals} from "../../../../global/signals";
 import {Container} from "pixi.js";
 
-export class ScenesController extends AbstractController {
-    get view(): ScenesView {
-        return this._view as ScenesView;
+export class LayersController extends AbstractController {
+    get view(): LayersView {
+        return this._view as LayersView;
     }
 
     registerNotificationListeners(): void {
