@@ -1,21 +1,23 @@
 import {Log} from "../log";
+import {AbstractCollection} from "../../util/abstract-collection";
 
 export class EventManager implements IEventManager {
-    protected events: { [key: string]: IEvent } = {};
+    private eventCollection: AbstractCollection = new AbstractCollection();
 
     raise(eventData: IEventData): void {
-        if (this.events[eventData.name] && this.events[eventData.name].listeners.length !== 0) {
-            this.events[eventData.name].listeners.forEach((listener: any): void => listener(eventData));
+        if (this.eventCollection.has(eventData.name)) {
+            this.eventCollection.getItem(eventData.name).listeners.forEach((listener: any): void => listener(eventData));
         } else {
             Log.warn('Empty event: ' + eventData.name);
         }
     }
 
     addEventListener(eventName: string, listener: any): void {
-        if (!this.events[eventName]) {
-            this.events[eventName] = {name: eventName, listeners: []} as IEvent;
+        if (!this.eventCollection.has(eventName)) {
+            const event: IEvent = {name: eventName, listeners: []};
+            this.eventCollection.addItem(eventName, event, false);
         }
-        this.events[eventName].listeners.push(listener);
+        this.eventCollection.getItem(eventName).listeners.push(listener);
     }
 }
 

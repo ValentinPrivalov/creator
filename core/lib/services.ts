@@ -1,8 +1,9 @@
 import {Log} from "./log";
+import {AbstractCollection} from "../util/abstract-collection";
 
 export class Services implements IServices {
     private static _instance: IServices;
-    private _registry: { [key: string]: any } = {};
+    private registryCollection: AbstractCollection = new AbstractCollection();
 
     static instance(): IServices {
         if (!this._instance) {
@@ -12,22 +13,20 @@ export class Services implements IServices {
     }
 
     public register(id: string, implementation: any): void {
-        if (this.has(id)) {
+        if (this.registryCollection.has(id)) {
             Log.warn('Service already registered: ' + id);
         } else {
             Log.info('Register service: ' + id);
-            this._registry[id] = implementation;
+            this.registryCollection.addItem(id, implementation);
         }
     }
 
     public get(id: string): any {
-        if (this.has(id)) {
-            return this._registry[id];
+        if (this.registryCollection.has(id)) {
+            return this.registryCollection.getItem(id);
+        } else {
+            Log.warn('Service not found: ' + id);
         }
-    }
-
-    public has(id: string): boolean {
-        return this._registry[id] !== undefined;
     }
 }
 
@@ -35,6 +34,4 @@ export interface IServices {
     register(id: string, implementation: any): void;
 
     get(id: string): any;
-
-    has(id: string): boolean;
 }

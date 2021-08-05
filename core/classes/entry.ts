@@ -1,12 +1,12 @@
 import {Log} from "../lib/log";
 import {Names} from "../global/names";
 import {IServices, Services} from "../lib/services";
-import {IMvc, Mvc} from "../lib/services/mvc";
+import {Mvc} from "../lib/services/mvc";
 import {GraphicsModule} from "./modules/graphics_module/graphics-module";
 import {LoadingModule} from "./modules/loading_module/loading-module";
-import {EventManager, IEventManager} from "../lib/services/event-manager";
+import {EventManager} from "../lib/services/event-manager";
 import {Notifications} from "../global/notifications";
-import {Configs, IConfigs} from "../lib/services/configs";
+import {Configs} from "../lib/services/configs";
 import {ScenesModule} from "./modules/scenes_module/scenes-module";
 import {SceneManager} from "./modules/graphics_module/view/scene-manager";
 import * as PIXI from "pixi.js";
@@ -30,10 +30,10 @@ export class Entry {
 
     protected initServices(): void {
         Log.info('Init Services');
-        this.services.register(Names.Services.MVC, this.getMvcService());
-        this.services.register(Names.Services.EVENT_MANAGER, this.getEventManagerService());
-        this.services.register(Names.Services.CONFIGS, this.getConfigsService());
-        this.services.register(Names.Services.SCENE_MANAGER, this.getSceneManagerService());
+        this.services.register(Names.Services.MVC, Mvc);
+        this.services.register(Names.Services.EVENT_MANAGER, EventManager);
+        this.services.register(Names.Services.CONFIGS, Configs);
+        this.services.register(Names.Services.SCENE_MANAGER, SceneManager);
     }
 
     protected initModules(): void {
@@ -59,21 +59,5 @@ export class Entry {
 
     protected replaceModule(id: string, module: any): void {
         this.mvc.replaceModule(id, module);
-    }
-
-    protected getMvcService(): IMvc {
-        return new Mvc();
-    }
-
-    protected getEventManagerService(): IEventManager {
-        return new EventManager();
-    }
-
-    protected getConfigsService(): IConfigs {
-        return new Configs();
-    }
-
-    protected getSceneManagerService(): SceneManager {
-        return new SceneManager();
     }
 }
