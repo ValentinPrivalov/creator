@@ -1,4 +1,3 @@
-import {Log} from "../lib/log";
 import {AbstractFactory} from "./abstract-factory";
 
 export class ViewFactory extends AbstractFactory {
@@ -9,11 +8,5 @@ export class ViewFactory extends AbstractFactory {
             this._instance = new ViewFactory();
         }
         return this._instance;
-    }
-
-    addItem(id: string, view: any): void {
-        super.addItem(id, view);
-        Log.info('Register view: ' + id);
-        this._items[id].onRegister();
     }
 }

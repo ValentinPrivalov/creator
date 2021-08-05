@@ -1,31 +1,9 @@
 import {IAbstractController} from "./mvc/controller";
 import {IAbstractModel} from "./mvc/model";
 import {IAbstractView} from "./mvc/view";
-import {Mvc} from "./services/mvc";
-import {Services} from "./services";
-import {Names} from "../global/names";
-import {ViewFactory} from "../util/view-factory";
-import {ControllerFactory} from "../util/controller-factory";
-import {IAbstractFactory} from "../util/abstract-factory";
 import {IMvcEntity, MvcEntity} from "./mvc/mvc-entity";
-import {ModelFactory} from "../util/model-factory";
 
 export class AbstractModule extends MvcEntity implements IAbstractModule {
-    protected controllerFactory: IAbstractFactory;
-    protected viewFactory: IAbstractFactory;
-    protected modelFactory: IAbstractFactory;
-
-    get mvc(): Mvc {
-        return Services.instance().get(Names.Services.MVC) as Mvc;
-    }
-
-    constructor(name: string) {
-        super(name);
-        this.controllerFactory = ControllerFactory.instance();
-        this.viewFactory = ViewFactory.instance();
-        this.modelFactory = ModelFactory.instance();
-    }
-
     onRegister(): void {
         this.registerCommands();
         this.registerModels();
@@ -45,16 +23,16 @@ export class AbstractModule extends MvcEntity implements IAbstractModule {
     registerControllers(): void {
     }
 
-    addController(viewId: string, controller: any): void {
-        this.controllerFactory.addItem(viewId, controller);
-    }
-
     addModel(id: string, model: any): void {
-        this.modelFactory.addItem(id, model);
+        this.mvc.registerModel(id, model);
     }
 
     addView(id: string, view: any): void {
-        this.viewFactory.addItem(id, view);
+        this.mvc.registerView(id, view);
+    }
+
+    addController(viewId: string, controller: any): void {
+        this.mvc.registerController(viewId, controller);
     }
 }
 
