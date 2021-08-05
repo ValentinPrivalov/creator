@@ -1,5 +1,3 @@
-import {SceneManager} from "../classes/modules/graphics_module/view/scene-manager";
-
 export module Names {
     export class Services {
         static MVC: string = 'MVC';

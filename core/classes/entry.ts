@@ -62,18 +62,18 @@ export class Entry {
     }
 
     protected getMvcService(): IMvc {
-        return Mvc.instance();
+        return new Mvc();
     }
 
     protected getEventManagerService(): IEventManager {
-        return EventManager.instance();
+        return new EventManager();
     }
 
     protected getConfigsService(): IConfigs {
-        return Configs.instance();
+        return new Configs();
     }
 
     protected getSceneManagerService(): SceneManager {
-        return SceneManager.instance();
+        return new SceneManager();
     }
 }

@@ -1,15 +1,7 @@
 import {Log} from "../log";
 
 export class EventManager implements IEventManager {
-    private static _instance: IEventManager;
     protected events: { [key: string]: IEvent } = {};
-
-    static instance(): IEventManager {
-        if (!this._instance) {
-            this._instance = new EventManager();
-        }
-        return this._instance;
-    }
 
     raise(eventData: IEventData): void {
         if (this.events[eventData.name] && this.events[eventData.name].listeners.length !== 0) {

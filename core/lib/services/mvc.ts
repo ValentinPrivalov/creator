@@ -7,18 +7,10 @@ import {AbstractView} from "../mvc/view";
 import {AbstractCollection} from "../../util/abstract-collection";
 
 export class Mvc implements IMvc {
-    private static _instance: IMvc;
     protected modulesCollection: AbstractCollection;
     protected controllerCollection: AbstractCollection;
     protected viewCollection: AbstractCollection;
     protected modelCollection: AbstractCollection;
-
-    static instance(): IMvc {
-        if (!this._instance) {
-            this._instance = new Mvc();
-        }
-        return this._instance;
-    }
 
     constructor() {
         this.modulesCollection = new AbstractCollection();
