@@ -6,12 +6,17 @@ import {AbstractModel} from "../mvc/model";
 import {AbstractView} from "../mvc/view";
 import {AbstractCollection} from "../../util/abstract-collection";
 import {Container} from "pixi.js";
+import {EventManager} from "./event-manager";
 
 export class Mvc implements IMvc {
     private modulesCollection: AbstractCollection = new AbstractCollection();
     private controllerCollection: AbstractCollection = new AbstractCollection();
     private viewCollection: AbstractCollection = new AbstractCollection();
     private modelCollection: AbstractCollection = new AbstractCollection();
+
+    get eventManager(): EventManager {
+        return Services.instance().get(Names.Services.EVENT_MANAGER) as EventManager;
+    }
 
     registerModule(id: string, implementation: any): void {
         if (this.modulesCollection.has(id)) {
@@ -34,7 +39,7 @@ export class Mvc implements IMvc {
     }
 
     sendNotification(notificationName: string, body?: any): void {
-        Services.instance().get(Names.Services.EVENT_MANAGER).raise({name: notificationName, body});
+        this.eventManager.raise({name: notificationName, body});
     }
 
     public registerModel(id: string, implementation: any): void {
@@ -61,6 +66,10 @@ export class Mvc implements IMvc {
         if (this.viewCollection.has(layer.name)) {
             this.viewCollection.getItem(layer.name).display = layer;
         }
+    }
+
+    public getModel(id: string): any {
+        return this.modelCollection.getItem(id);
     }
 }
 

@@ -18,6 +18,10 @@ export class MvcEntity implements IMvcEntity {
 
     onRegister(): void {
     }
+
+    getModel(id: string): any {
+        return this.mvc.getModel(id);
+    }
 }
 
 export interface IMvcEntity {

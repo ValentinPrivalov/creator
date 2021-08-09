@@ -1,11 +1,11 @@
 import {AbstractModel} from "../../../../lib/mvc/model";
 import {LoadingNames} from "../static/loading-names";
+import {ISceneData} from "../static/loading-interfaces";
 
 export class LoadingModel extends AbstractModel {
-    public async loadScene(): Promise<Object> {
+    public async loadScene(): Promise<ISceneData> {
         const path: string = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.SCENES);
         const response: any = await fetch('assets' + path);
-        const data: Object = await response.json();
-        return data;
+        return await response.json() as ISceneData;
     }
 }
