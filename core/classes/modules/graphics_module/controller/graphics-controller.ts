@@ -22,6 +22,7 @@ export class GraphicsController extends AbstractController {
     registerSignalListeners() {
         super.registerSignalListeners();
         this.addSignalListener(Signals.MAIN_SCENE_INITIALIZED, this.onMainSceneInitialized.bind(this));
+        this.addSignalListener(Signals.RESIZE, this.resize.bind(this));
     }
 
     protected onScenesLoaded(): void {
@@ -31,5 +32,9 @@ export class GraphicsController extends AbstractController {
 
     protected onMainSceneInitialized(): void {
         this.sendNotification(Notifications.MAIN_SCENE_INITIALIZED);
+    }
+
+    protected resize(): void {
+        this.sendNotification(Notifications.RESIZE);
     }
 }

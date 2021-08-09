@@ -4,6 +4,7 @@ export module Names {
         static EVENT_MANAGER: string = 'EVENT_MANAGER';
         static CONFIGS: string = 'CONFIGS';
         static SCENE_MANAGER: string = 'SCENE_MANAGER';
+        static WINDOW_EVENTS: string = 'WINDOW_EVENTS';
     }
 
     export class Modules {

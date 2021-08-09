@@ -4,6 +4,7 @@ import {Services} from "../services";
 import {Names} from "../../global/names";
 import {EventManager, IEventData} from "../services/event-manager";
 import {AbstractModel, IAbstractModel} from "./model";
+import {Notifications} from "../../global/notifications";
 
 export class AbstractController extends MvcEntity implements IAbstractController {
     protected _view: IAbstractView;
@@ -40,6 +41,7 @@ export class AbstractController extends MvcEntity implements IAbstractController
     }
 
     registerNotificationListeners(): void {
+        this.addNotificationListener(Notifications.RESIZE, this.onResize.bind(this));
     }
 
     registerSignalListeners(): void {
@@ -59,6 +61,10 @@ export class AbstractController extends MvcEntity implements IAbstractController
 
     addSignalListener(signalName: string, listener: any): void {
         this.eventManager.addEventListener(signalName, listener);
+    }
+
+    protected onResize(): void {
+        this.view.onResize();
     }
 }
 

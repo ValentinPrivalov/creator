@@ -12,6 +12,10 @@ export class AbstractCollection implements IAbstractCollection {
         }
     }
 
+    removeItem(id: string): void {
+        delete this._items[id];
+    }
+
     has(id: string): boolean {
         return this._items[id] !== undefined;
     }

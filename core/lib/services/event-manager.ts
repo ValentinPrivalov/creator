@@ -1,4 +1,4 @@
-import {Log} from "../log";
+import {Log} from "../../util/log";
 import {AbstractCollection} from "../../util/abstract-collection";
 
 export class EventManager implements IEventManager {

@@ -2,14 +2,18 @@ import {autoDetectRenderer, Renderer, Container} from "pixi.js";
 import {AbstractView} from "../../../../lib/mvc/view";
 import {Signals} from "../../../../global/signals";
 import {ISceneSize} from "../static/graphics-interfaces";
+import {Names} from "../../../../global/names";
+import {GraphicsModel} from "../model/graphics-model";
+import {WindowEventNames} from "../../../../lib/services/window-events";
 
 export class GraphicsView extends AbstractView {
     static viewID: string = 'game';
+    static containerID: string = 'gameFrame';
 
     public create(sceneSize: ISceneSize): void {
-        const renderer: Renderer = autoDetectRenderer(this.getRendererOptions(sceneSize));
+        const renderer: Renderer = autoDetectRenderer(GraphicsView.getRendererOptions(sceneSize));
         renderer.view.id = GraphicsView.viewID;
-        document.getElementById('gameFrame').appendChild(renderer.view);
+        document.getElementById(GraphicsView.containerID).appendChild(renderer.view);
 
         const stage = new Container();
         stage.name = this.configs.GAME_NAME;
@@ -17,6 +21,8 @@ export class GraphicsView extends AbstractView {
         this.ticker.add(() => this.loop(renderer, stage));
         this.sceneManager.renderer = renderer;
         this.sceneManager.stage = stage;
+        this.resize();
+        this.windowEvents.add(WindowEventNames.RESIZE, this.resize.bind(this));
         this.raiseSignal(Signals.MAIN_SCENE_INITIALIZED);
     }
 
@@ -24,7 +30,23 @@ export class GraphicsView extends AbstractView {
         renderer.render(stage);
     }
 
-    private getRendererOptions(sceneSize: ISceneSize): any {
+    protected resize(): void {
+        const {innerWidth, innerHeight} = window;
+        const graphicsModel: GraphicsModel = this.getModel(Names.Views.MAIN_SCENE);
+        const sceneSize: ISceneSize = graphicsModel.getSceneSize();
+
+        const ratio = sceneSize.width / sceneSize.height;
+        const windowRatio = innerWidth / innerHeight;
+        const scale = windowRatio < ratio ?
+            innerWidth / sceneSize.width :
+            innerHeight / sceneSize.height;
+
+        this.sceneManager.renderer.resize(sceneSize.width * scale, sceneSize.height * scale);
+        this.sceneManager.stage.scale.set(scale);
+        this.raiseSignal(Signals.RESIZE);
+    }
+
+    private static getRendererOptions(sceneSize: ISceneSize): any {
         return {
             width: sceneSize.width,
             height: sceneSize.height,

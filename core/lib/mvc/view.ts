@@ -21,6 +21,10 @@ export class AbstractView extends MvcEntity implements IAbstractView {
     raiseSignal(signalName: string, body?: any): void {
         this.eventManager.raise({name: signalName, body});
     }
+
+    public onResize(): void {
+
+    }
 }
 
 export interface IAbstractView extends IMvcEntity {

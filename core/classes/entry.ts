@@ -1,4 +1,4 @@
-import {Log} from "../lib/log";
+import {Log} from "../util/log";
 import {Names} from "../global/names";
 import {IServices, Services} from "../lib/services";
 import {Mvc} from "../lib/services/mvc";
@@ -9,6 +9,7 @@ import {Notifications} from "../global/notifications";
 import {Configs} from "../lib/services/configs";
 import {LayersModule} from "./modules/layers_module/layers-module";
 import {SceneManager} from "./modules/graphics_module/view/scene-manager";
+import {WindowEvents} from "../lib/services/window-events";
 import * as PIXI from "pixi.js";
 window.PIXI = PIXI; // pixiJS devtools dependence
 
@@ -34,6 +35,7 @@ export class Entry {
         this.services.register(Names.Services.EVENT_MANAGER, EventManager);
         this.services.register(Names.Services.CONFIGS, Configs);
         this.services.register(Names.Services.SCENE_MANAGER, SceneManager);
+        this.services.register(Names.Services.WINDOW_EVENTS, WindowEvents);
     }
 
     protected initModules(): void {

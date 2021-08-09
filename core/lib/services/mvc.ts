@@ -1,4 +1,4 @@
-import {Log} from "../log";
+import {Log} from "../../util/log";
 import {Services} from "../services";
 import {Names} from "../../global/names";
 import {AbstractController} from "../mvc/controller";
