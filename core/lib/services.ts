@@ -1,9 +1,9 @@
 import {Log} from "../util/log";
-import {AbstractCollection} from "../util/abstract-collection";
+import {Collection} from "../util/collection";
 
 export class Services implements IServices {
     private static _instance: IServices;
-    private registryCollection: AbstractCollection = new AbstractCollection();
+    private registryCollection: Collection = new Collection();
 
     static instance(): IServices {
         if (!this._instance) {

@@ -1,9 +1,8 @@
 import {AbstractRenderer, Container} from "pixi.js";
-import {AbstractCollection} from "../../../../util/abstract-collection";
-import {ISceneSize} from "../static/graphics-interfaces";
+import {Collection} from "../../../../util/collection";
 
 export class SceneManager {
-    private sceneCollection: AbstractCollection = new AbstractCollection();
+    private sceneCollection: Collection = new Collection();
     public renderer: AbstractRenderer;
     public stage: Container;
 

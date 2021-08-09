@@ -1,4 +1,4 @@
-export class AbstractCollection implements IAbstractCollection {
+export class Collection implements ICollection {
     protected _items: { [key: string]: any } = {};
 
     addItem(id: string, implementation: any, isConstructor: boolean = true): any {
@@ -25,10 +25,12 @@ export class AbstractCollection implements IAbstractCollection {
     }
 }
 
-export interface IAbstractCollection {
+export interface ICollection {
     addItem(id: string, item: any, isConstructor: boolean): any;
 
     getItem(id: string): any;
+
+    removeItem(id: string): void;
 
     has(id: string): boolean;
 

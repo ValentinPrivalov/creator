@@ -4,15 +4,15 @@ import {Names} from "../../global/names";
 import {AbstractController} from "../mvc/controller";
 import {AbstractModel} from "../mvc/model";
 import {AbstractView} from "../mvc/view";
-import {AbstractCollection} from "../../util/abstract-collection";
+import {Collection} from "../../util/collection";
 import {Container} from "pixi.js";
 import {EventManager} from "./event-manager";
 
 export class Mvc implements IMvc {
-    private modulesCollection: AbstractCollection = new AbstractCollection();
-    private controllerCollection: AbstractCollection = new AbstractCollection();
-    private viewCollection: AbstractCollection = new AbstractCollection();
-    private modelCollection: AbstractCollection = new AbstractCollection();
+    private modulesCollection: Collection = new Collection();
+    private controllerCollection: Collection = new Collection();
+    private viewCollection: Collection = new Collection();
+    private modelCollection: Collection = new Collection();
 
     get eventManager(): EventManager {
         return Services.instance().get(Names.Services.EVENT_MANAGER) as EventManager;

@@ -1,7 +1,7 @@
-import {AbstractCollection} from "../../util/abstract-collection";
+import {Collection} from "../../util/collection";
 
 export class WindowEvents {
-    private _handlers: AbstractCollection = new AbstractCollection();
+    private _handlers: Collection = new Collection();
 
     public add(eventName: string, handler: any): void {
         this._handlers.addItem(eventName, handler, false);

@@ -1,8 +1,8 @@
 import {Log} from "../../util/log";
-import {AbstractCollection} from "../../util/abstract-collection";
+import {Collection} from "../../util/collection";
 
 export class EventManager implements IEventManager {
-    private eventCollection: AbstractCollection = new AbstractCollection();
+    private eventCollection: Collection = new Collection();
 
     raise(eventData: IEventData): void {
         if (this.eventCollection.has(eventData.name)) {
