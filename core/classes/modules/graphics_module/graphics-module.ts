@@ -5,7 +5,7 @@ import {GraphicsController} from "./controller/graphics-controller";
 import {GraphicsModel} from "./model/graphics-model";
 
 export class GraphicsModule extends AbstractModule {
-    registerModels() {
+    registerModels(): void {
         super.registerModels();
         this.addModel(Names.Views.MAIN_SCENE, GraphicsModel);
     }
@@ -15,7 +15,7 @@ export class GraphicsModule extends AbstractModule {
         this.addView(Names.Views.MAIN_SCENE, GraphicsView);
     }
 
-    registerControllers() {
+    registerControllers(): void {
         super.registerControllers();
         this.addController(Names.Views.MAIN_SCENE, GraphicsController);
     }

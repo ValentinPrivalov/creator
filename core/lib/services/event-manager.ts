@@ -6,7 +6,7 @@ export class EventManager implements IEventManager {
 
     raise(eventData: IEventData): void {
         if (this.eventCollection.has(eventData.name)) {
-            this.eventCollection.getItem(eventData.name).listeners.forEach((listener: any): void => listener(eventData));
+            this.eventCollection.get(eventData.name).listeners.forEach((listener: any): void => listener(eventData));
         } else {
             Log.warn('Empty event: ' + eventData.name);
         }
@@ -15,9 +15,9 @@ export class EventManager implements IEventManager {
     addEventListener(eventName: string, listener: any): void {
         if (!this.eventCollection.has(eventName)) {
             const event: IEvent = {name: eventName, listeners: []};
-            this.eventCollection.addItem(eventName, event);
+            this.eventCollection.add(eventName, event);
         }
-        this.eventCollection.getItem(eventName).listeners.push(listener);
+        this.eventCollection.get(eventName).listeners.push(listener);
     }
 }
 

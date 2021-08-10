@@ -4,13 +4,13 @@ export class WindowEvents {
     private _handlers: Collection = new Collection();
 
     public add(eventName: string, handler: any): void {
-        this._handlers.addItem(eventName, handler);
+        this._handlers.add(eventName, handler);
         window.addEventListener(eventName, handler);
     }
 
     public remove(eventName: string): void {
-        this._handlers.removeItem(eventName);
-        window.removeEventListener(eventName, this._handlers.getItem(eventName));
+        this._handlers.remove(eventName);
+        window.removeEventListener(eventName, this._handlers.get(eventName));
     }
 }
 

@@ -1,5 +1,5 @@
 import {AbstractRenderer, Container} from "pixi.js";
-import {Collection} from "../../../../util/collection";
+import {Collection} from "../../util/collection";
 
 export class SceneManager {
     private sceneCollection: Collection = new Collection();
@@ -7,10 +7,10 @@ export class SceneManager {
     public stage: Container;
 
     add(scene: Container): void {
-        this.sceneCollection.addItem(scene.name, scene);
+        this.sceneCollection.add(scene.name, scene);
     }
 
     get(name: string): Container {
-        return this.sceneCollection.getItem(name);
+        return this.sceneCollection.get(name);
     }
 }

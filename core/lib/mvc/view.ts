@@ -3,7 +3,7 @@ import {EventManager} from "../services/event-manager";
 import {Services} from "../services";
 import {Names} from "../../global/names";
 import {Container, Ticker} from "pixi.js";
-import {SceneManager} from "../../classes/modules/graphics_module/view/scene-manager";
+import {SceneManager} from "../services/scene-manager";
 
 export class AbstractView extends MvcEntity implements IAbstractView {
     public display: Container;
@@ -22,7 +22,7 @@ export class AbstractView extends MvcEntity implements IAbstractView {
         this.eventManager.raise({name: signalName, body});
     }
 
-    public onResize(): void {
+    onResize(): void {
 
     }
 }
@@ -31,4 +31,6 @@ export interface IAbstractView extends IMvcEntity {
     display: Container;
 
     raiseSignal(signalName: string, body: any): void;
+
+    onResize(): void;
 }

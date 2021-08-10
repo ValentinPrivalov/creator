@@ -22,7 +22,7 @@ export class LoadingController extends AbstractController {
         this.graphicsModel = this.getModel(Names.Views.MAIN_SCENE) as GraphicsModel;
     }
 
-    registerNotificationListeners() {
+    registerNotificationListeners(): void {
         super.registerNotificationListeners();
         this.addNotificationListener(Notifications.INIT_ENGINE, this.loadScenes.bind(this));
     }

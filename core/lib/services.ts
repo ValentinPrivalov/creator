@@ -18,13 +18,13 @@ export class Services implements IServices {
         } else {
             Log.info('Register service: ' + id);
             const service = new implementation(id);
-            this.registryCollection.addItem(id, service);
+            this.registryCollection.add(id, service);
         }
     }
 
     public get(id: string): any {
         if (this.registryCollection.has(id)) {
-            return this.registryCollection.getItem(id);
+            return this.registryCollection.get(id);
         } else {
             Log.warn('Service not found: ' + id);
         }

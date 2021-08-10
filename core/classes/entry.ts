@@ -8,7 +8,7 @@ import {EventManager} from "../lib/services/event-manager";
 import {Notifications} from "../global/notifications";
 import {Configs} from "../lib/services/configs";
 import {LayersModule} from "./modules/layers_module/layers-module";
-import {SceneManager} from "./modules/graphics_module/view/scene-manager";
+import {SceneManager} from "../lib/services/scene-manager";
 import {WindowEvents} from "../lib/services/window-events";
 import * as PIXI from "pixi.js";
 window.PIXI = PIXI; // pixiJS devtools dependence

@@ -26,7 +26,7 @@ export class GraphicsView extends AbstractView {
         this.raiseSignal(Signals.MAIN_SCENE_INITIALIZED);
     }
 
-    public loop(renderer: Renderer, stage: Container): void {
+    protected loop(renderer: Renderer, stage: Container): void {
         renderer.render(stage);
     }
 

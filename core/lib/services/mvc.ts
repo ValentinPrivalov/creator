@@ -9,7 +9,7 @@ import {Container} from "pixi.js";
 import {EventManager} from "./event-manager";
 import {AbstractModule} from "../abstract-module";
 
-export class Mvc implements IMvc {
+export class Mvc {
     private modulesCollection: Collection = new Collection();
     private controllerCollection: Collection = new Collection();
     private viewCollection: Collection = new Collection();
@@ -26,7 +26,7 @@ export class Mvc implements IMvc {
             Log.info('Register module: ' + id);
             const module: AbstractModule = new implementation(id);
             module.onRegister();
-            this.modulesCollection.addItem(id, module);
+            this.modulesCollection.add(id, module);
         }
     }
 
@@ -37,7 +37,7 @@ export class Mvc implements IMvc {
             Log.info('Replace module: ' + id);
             const module: AbstractModule = new implementation(id);
             module.onRegister();
-            this.modulesCollection.addItem(id, module);
+            this.modulesCollection.add(id, module);
         }
     }
 
@@ -49,40 +49,32 @@ export class Mvc implements IMvc {
         Log.info('Register model: ' + id);
         const model: AbstractModel = new implementation(id);
         model.onRegister();
-        this.modelCollection.addItem(id, model);
+        this.modelCollection.add(id, model);
     }
 
     public registerView(id: string, implementation: any): void {
         Log.info('Register view: ' + id);
         const view: AbstractView = new implementation(id);
         view.onRegister();
-        this.viewCollection.addItem(id, view);
+        this.viewCollection.add(id, view);
     }
 
     public registerController(viewId: string, implementation: any): void {
         Log.info('Register controller: ' + viewId);
         const controller: AbstractController = new implementation(viewId);
         controller.onRegister();
-        controller.bindView(this.viewCollection.getItem(viewId))
-        controller.bindModel(this.modelCollection.getItem(viewId));
-        this.controllerCollection.addItem(viewId, controller);
+        controller.bindView(this.viewCollection.get(viewId))
+        controller.bindModel(this.modelCollection.get(viewId));
+        this.controllerCollection.add(viewId, controller);
     }
 
     public bindLayer(layer: Container): void {
         if (this.viewCollection.has(layer.name)) {
-            this.viewCollection.getItem(layer.name).display = layer;
+            this.viewCollection.get(layer.name).display = layer;
         }
     }
 
     public getModel(id: string): any {
-        return this.modelCollection.getItem(id);
+        return this.modelCollection.get(id);
     }
-}
-
-export interface IMvc {
-    registerModule(id: string, module: any): void;
-
-    replaceModule(id: string, module: any): void;
-
-    sendNotification(notificationName: string, body?: any): void;
 }

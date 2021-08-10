@@ -1,18 +1,18 @@
 export class Collection implements ICollection {
     protected _items: { [key: string]: any } = {};
 
-    addItem(id: string, implementation: any): any {
+    add(id: string, implementation: any): any {
         this._items[id] = implementation;
         return this._items[id];
     }
 
-    getItem(id: string): any {
+    get(id: string): any {
         if (this.has(id)) {
             return this._items[id];
         }
     }
 
-    removeItem(id: string): void {
+    remove(id: string): void {
         delete this._items[id];
     }
 
@@ -26,11 +26,11 @@ export class Collection implements ICollection {
 }
 
 export interface ICollection {
-    addItem(id: string, item: any, isConstructor: boolean): any;
+    add(id: string, item: any, isConstructor: boolean): any;
 
-    getItem(id: string): any;
+    get(id: string): any;
 
-    removeItem(id: string): void;
+    remove(id: string): void;
 
     has(id: string): boolean;
 

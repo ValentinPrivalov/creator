@@ -14,12 +14,12 @@ export class GraphicsController extends AbstractController {
         return this._model as GraphicsModel;
     }
 
-    registerNotificationListeners() {
+    registerNotificationListeners(): void {
         super.registerNotificationListeners();
         this.addNotificationListener(Notifications.SCENES_LOADED, this.onScenesLoaded.bind(this));
     }
 
-    registerSignalListeners() {
+    registerSignalListeners(): void {
         super.registerSignalListeners();
         this.addSignalListener(Signals.MAIN_SCENE_INITIALIZED, this.onMainSceneInitialized.bind(this));
         this.addSignalListener(Signals.RESIZE, this.resize.bind(this));
