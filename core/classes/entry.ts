@@ -14,7 +14,7 @@ import * as PIXI from "pixi.js";
 window.PIXI = PIXI; // pixiJS devtools dependence
 
 export class Entry {
-    private _version: string = '0.0.1';
+    private _version: string = '0.0.2';
     protected _gameVersion: string = '0.0.1'; // should be redefined in each game
 
     constructor() {

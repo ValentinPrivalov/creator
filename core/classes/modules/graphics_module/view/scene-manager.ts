@@ -7,7 +7,7 @@ export class SceneManager {
     public stage: Container;
 
     add(scene: Container): void {
-        this.sceneCollection.addItem(scene.name, scene, false);
+        this.sceneCollection.addItem(scene.name, scene);
     }
 
     get(name: string): Container {

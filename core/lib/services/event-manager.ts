@@ -15,7 +15,7 @@ export class EventManager implements IEventManager {
     addEventListener(eventName: string, listener: any): void {
         if (!this.eventCollection.has(eventName)) {
             const event: IEvent = {name: eventName, listeners: []};
-            this.eventCollection.addItem(eventName, event, false);
+            this.eventCollection.addItem(eventName, event);
         }
         this.eventCollection.getItem(eventName).listeners.push(listener);
     }

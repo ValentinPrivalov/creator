@@ -7,6 +7,7 @@ import {AbstractView} from "../mvc/view";
 import {Collection} from "../../util/collection";
 import {Container} from "pixi.js";
 import {EventManager} from "./event-manager";
+import {AbstractModule} from "../abstract-module";
 
 export class Mvc implements IMvc {
     private modulesCollection: Collection = new Collection();
@@ -23,8 +24,9 @@ export class Mvc implements IMvc {
             Log.warn('Module already registered: ' + id);
         } else {
             Log.info('Register module: ' + id);
-            const module: AbstractModel = this.modulesCollection.addItem(id, implementation);
+            const module: AbstractModule = new implementation(id);
             module.onRegister();
+            this.modulesCollection.addItem(id, module);
         }
     }
 
@@ -33,8 +35,9 @@ export class Mvc implements IMvc {
             Log.warn('Module not found for replacement: ' + id);
         } else {
             Log.info('Replace module: ' + id);
-            const module: AbstractModel = this.modulesCollection.addItem(id, implementation);
+            const module: AbstractModule = new implementation(id);
             module.onRegister();
+            this.modulesCollection.addItem(id, module);
         }
     }
 
@@ -44,22 +47,25 @@ export class Mvc implements IMvc {
 
     public registerModel(id: string, implementation: any): void {
         Log.info('Register model: ' + id);
-        const model: AbstractModel = this.modelCollection.addItem(id, implementation);
+        const model: AbstractModel = new implementation(id);
         model.onRegister();
+        this.modelCollection.addItem(id, model);
     }
 
     public registerView(id: string, implementation: any): void {
         Log.info('Register view: ' + id);
-        const view: AbstractView = this.viewCollection.addItem(id, implementation);
+        const view: AbstractView = new implementation(id);
         view.onRegister();
+        this.viewCollection.addItem(id, view);
     }
 
     public registerController(viewId: string, implementation: any): void {
         Log.info('Register controller: ' + viewId);
-        const controller: AbstractController = this.controllerCollection.addItem(viewId, implementation);
+        const controller: AbstractController = new implementation(viewId);
         controller.onRegister();
         controller.bindView(this.viewCollection.getItem(viewId))
         controller.bindModel(this.modelCollection.getItem(viewId));
+        this.controllerCollection.addItem(viewId, controller);
     }
 
     public bindLayer(layer: Container): void {

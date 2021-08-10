@@ -4,7 +4,7 @@ export class WindowEvents {
     private _handlers: Collection = new Collection();
 
     public add(eventName: string, handler: any): void {
-        this._handlers.addItem(eventName, handler, false);
+        this._handlers.addItem(eventName, handler);
         window.addEventListener(eventName, handler);
     }
 

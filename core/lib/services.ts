@@ -17,7 +17,8 @@ export class Services implements IServices {
             Log.warn('Service already registered: ' + id);
         } else {
             Log.info('Register service: ' + id);
-            this.registryCollection.addItem(id, implementation);
+            const service = new implementation(id);
+            this.registryCollection.addItem(id, service);
         }
     }
 

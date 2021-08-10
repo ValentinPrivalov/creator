@@ -1,8 +1,8 @@
 export class Collection implements ICollection {
     protected _items: { [key: string]: any } = {};
 
-    addItem(id: string, implementation: any, isConstructor: boolean = true): any {
-        this._items[id] = isConstructor ? new implementation(id) : implementation;
+    addItem(id: string, implementation: any): any {
+        this._items[id] = implementation;
         return this._items[id];
     }
 
