@@ -6,11 +6,11 @@ import {Names} from "../../../global/names";
 export class LayersModule extends AbstractModule {
     registerControllers(): void {
         super.registerControllers();
-        this.addController(Names.Views.SCENES, LayersController);
+        this.addController(Names.Views.SCENE, LayersController);
     }
 
     registerViews(): void {
         super.registerViews();
-        this.addView(Names.Views.SCENES, LayersView);
+        this.addView(Names.Views.SCENE, LayersView);
     }
 }

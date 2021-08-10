@@ -14,7 +14,7 @@ import * as PIXI from "pixi.js";
 window.PIXI = PIXI; // pixiJS devtools dependence
 
 export class Entry {
-    private _version: string = '0.0.2';
+    private _engineVersion: string = '0.0.3';
     protected _gameVersion: string = '0.0.1'; // should be redefined in each game
 
     constructor() {
@@ -49,7 +49,7 @@ export class Entry {
     }
 
     protected startEngine(): void {
-        Log.info('Engine version: ' + this._version);
+        Log.info('Engine version: ' + this._engineVersion);
         Log.info('Game version: ' + this._gameVersion);
         this.mvc.sendNotification(Notifications.INIT_ENGINE);
     }

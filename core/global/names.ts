@@ -16,6 +16,6 @@ export module Names {
     export class Views {
         static MAIN_SCENE: string = 'MAIN_SCENE';
         static LOADING_SCREEN: string = 'LOADING_SCREEN';
-        static SCENES: string = 'SCENES';
+        static SCENE: string = 'SCENE';
     }
 }

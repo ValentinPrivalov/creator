@@ -1,4 +1,5 @@
 export class LoadingNames {
     static ASSETS: string = 'ASSETS';
-    static SCENES: string = 'SCENES';
+    static SCENE: string = 'SCENE';
+    static LEVELS: string = 'LEVELS';
 }

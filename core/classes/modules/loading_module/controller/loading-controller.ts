@@ -24,12 +24,12 @@ export class LoadingController extends AbstractController {
 
     registerNotificationListeners(): void {
         super.registerNotificationListeners();
-        this.addNotificationListener(Notifications.INIT_ENGINE, this.loadScenes.bind(this));
+        this.addNotificationListener(Notifications.INIT_ENGINE, this.loadAssets.bind(this));
     }
 
-    protected loadScenes(): void {
-        this.model.loadScene().then((data: ISceneData) => {
-            this.graphicsModel.setSceneSize(data);
+    protected loadAssets(): void {
+        this.model.loadAssets().then((data: ISceneData) => {
+            this.graphicsModel.setSceneSize(data); // todo listen notification
             this.sendNotification(Notifications.SCENES_LOADED, data);
             this.view.drawTestRect();
         });
