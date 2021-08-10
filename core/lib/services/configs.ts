@@ -1,6 +1,7 @@
 export class Configs implements IConfigs {
     private _configs: { [key: string]: any } = {};
     public gameName: string;
+    public gameVersion: string;
 
     addProperty(key: string, propertyName: string, propertyValue: any): void {
         if (!this._configs[key]) {

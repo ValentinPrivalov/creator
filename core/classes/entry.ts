@@ -14,6 +14,9 @@ import * as PIXI from "pixi.js";
 window.PIXI = PIXI; // pixiJS devtools dependence
 
 export class Entry {
+    private _version: string = '0.0.1';
+    protected _gameVersion: string = '0.0.1'; // should be redefined in each game
+
     constructor() {
         this.initServices();
         this.initModules();
@@ -46,13 +49,15 @@ export class Entry {
     }
 
     protected startEngine(): void {
-        Log.info('Start engine');
+        Log.info('Engine version: ' + this._version);
+        Log.info('Game version: ' + this._gameVersion);
         this.mvc.sendNotification(Notifications.INIT_ENGINE);
     }
 
     protected initGameConfigs(): void {
         const configs: Configs = this.services.get(Names.Services.CONFIGS);
         configs.gameName = 'Abstract Game';
+        configs.gameVersion = this._gameVersion;
     }
 
     protected addModule(id: string, module: any): void {
