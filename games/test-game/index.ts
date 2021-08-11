@@ -3,17 +3,18 @@ import {Names} from "../../core/global/names";
 import {Configs} from "../../core/lib/services/configs";
 import {LoadingNames} from "../../core/classes/modules/loading_module/static/loading-names";
 
-class TestEntry extends Entry {
-    protected _gameVersion: string = '0.0.1';
+class TanksBattleground extends Entry {
+    protected _gameVersion: string = '0.0.3';
 
     protected initGameConfigs(): void {
         super.initGameConfigs();
-        const configs = this.services.get(Names.Services.CONFIGS) as Configs;
-        configs.gameName = 'Test Game';
-        configs.addProperty(LoadingNames.ASSETS, LoadingNames.SCENES, '/scenes.json');
+        const configs: Configs = this.services.get(Names.Services.CONFIGS);
+        configs.gameName = 'Tanks Battleground';
+        configs.addProperty(LoadingNames.ASSETS, LoadingNames.SCENE, 'scene.json');
+        configs.addProperty(LoadingNames.ASSETS, LoadingNames.LEVELS, ['level.json']);
     }
 }
 
 window.onload = () => {
-    (window as any).Entry = new TestEntry();
+    (window as any).Entry = new TanksBattleground();
 }
