@@ -15,7 +15,7 @@ export class GraphicsView extends AbstractView {
         renderer.view.id = GraphicsView.viewID;
         document.getElementById(GraphicsView.containerID).appendChild(renderer.view);
 
-        const stage = new Container();
+        const stage: Container = new Container();
         stage.name = this.configs.GAME_NAME;
 
         this.ticker.add(() => this.loop(renderer, stage));
@@ -35,9 +35,9 @@ export class GraphicsView extends AbstractView {
         const graphicsModel: GraphicsModel = this.getModel(Names.Views.MAIN_SCENE);
         const sceneSize: ISceneSize = graphicsModel.getSceneSize();
 
-        const ratio = sceneSize.width / sceneSize.height;
-        const windowRatio = innerWidth / innerHeight;
-        const scale = windowRatio < ratio ?
+        const ratio: number = sceneSize.width / sceneSize.height;
+        const windowRatio: number = innerWidth / innerHeight;
+        const scale: number = windowRatio < ratio ?
             innerWidth / sceneSize.width :
             innerHeight / sceneSize.height;
 

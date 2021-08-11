@@ -5,7 +5,7 @@ export class LoadingView extends AbstractView {
     static rectName: string = 'rectangle';
 
     public drawTestRect(): void {
-        const rect = new Graphics();
+        const rect: Graphics = new Graphics();
         rect.name = LoadingView.rectName;
         rect.position.set(100, 100);
         rect.beginFill(0xff0000);

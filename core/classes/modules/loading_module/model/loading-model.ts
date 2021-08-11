@@ -25,22 +25,22 @@ export class LoadingModel extends AbstractModel {
     protected async loadScene(): Promise<ISceneData> {
         const path: string = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.SCENE);
         const response: any = await fetch(this._assetsRoot + path);
-        return await response.json() as ISceneData;
+        const sceneData: ISceneData = await response.json();
+        return Promise.resolve(sceneData);
     }
 
-    protected async loadLevels(): Promise<Array<ISceneData>> {
+    protected loadLevels(): Promise<Array<ISceneData>> {
         const promises: Array<Promise<any>> = [];
         const levels: Array<string> = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.LEVELS);
-        const arr: Array<Promise<any>> = await levels.map(async (levelName: string) => {
+        levels.forEach(async (levelName: string) => {
             const response: any = await fetch(this._assetsRoot + levelName);
-            return await response.json();
+            promises.push(response.json());
         });
-        promises.push(...arr);
 
         return Promise.all(promises);
     }
 
-    protected async loadTileSetImages(levels: Array<ISceneData>): Promise<Array<HTMLImageElement>> {
+    protected loadTileSetImages(levels: Array<ISceneData>): Promise<Array<HTMLImageElement>> {
         const promises: Array<Promise<any>> = [];
 
         const imagesSrc: Array<string> = [];
@@ -61,7 +61,7 @@ export class LoadingModel extends AbstractModel {
 
     protected loadImage(path: string): Promise<HTMLImageElement> {
         return new Promise(resolve => {
-            const image = new Image();
+            const image: HTMLImageElement = new Image();
             image.src = this._assetsRoot + path;
             image.addEventListener('load', () => {
                 this.assets.images.add(path, image);

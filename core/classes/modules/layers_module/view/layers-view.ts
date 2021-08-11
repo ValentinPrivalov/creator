@@ -14,7 +14,7 @@ export class LayersView extends AbstractView {
     }
 
     protected createLayer(layer: ILayer, parent?: Container): Container {
-        const container = new Container();
+        const container: Container = new Container();
         container.name = layer.name;
         container.alpha = layer.opacity;
         container.position.set(layer.x, layer.y);

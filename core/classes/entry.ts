@@ -51,6 +51,8 @@ export class Entry {
     protected startEngine(): void {
         Log.info('Engine version: ' + this._engineVersion);
         Log.info('Game version: ' + this._gameVersion);
+        const configs: Configs = this.services.get(Names.Services.CONFIGS);
+        document.title = configs.gameName;
         this.mvc.sendNotification(Notifications.INIT_ENGINE);
     }
 
