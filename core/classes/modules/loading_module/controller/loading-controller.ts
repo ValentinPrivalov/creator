@@ -1,8 +1,7 @@
 import {AbstractController} from "../../../../lib/mvc/controller";
 import {Notifications} from "../../../../global/notifications";
 import {LoadingView} from "../view/loading-view";
-import {LoadingModel} from "../model/loading-model";
-import {ISceneData} from "../static/loading-interfaces";
+import {IAssets, LoadingModel} from "../model/loading-model";
 import {Names} from "../../../../global/names";
 import {GraphicsModel} from "../../graphics_module/model/graphics-model";
 
@@ -28,9 +27,8 @@ export class LoadingController extends AbstractController {
     }
 
     protected loadAssets(): void {
-        this.model.loadAssets().then((data: ISceneData) => {
-            this.graphicsModel.setSceneSize(data); // todo listen notification
-            this.sendNotification(Notifications.SCENES_LOADED, data);
+        this.model.loadAssets().then((assets: IAssets) => {
+            this.sendNotification(Notifications.SCENES_LOADED, assets);
             this.view.drawTestRect();
         });
     }

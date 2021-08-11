@@ -16,6 +16,7 @@ export interface ITileSet {
 }
 
 export interface ITile {
+    id: number;
     image: string;
     imageheight: number;
     imagewidth: number;

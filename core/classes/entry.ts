@@ -11,6 +11,7 @@ import {LayersModule} from "./modules/layers_module/layers-module";
 import {SceneManager} from "../lib/services/scene-manager";
 import {WindowEvents} from "../lib/services/window-events";
 import * as PIXI from "pixi.js";
+import {LoadingNames} from "./modules/loading_module/static/loading-names";
 window.PIXI = PIXI; // pixiJS devtools dependence
 
 export class Entry {
@@ -60,6 +61,7 @@ export class Entry {
         const configs: Configs = this.services.get(Names.Services.CONFIGS);
         configs.gameName = 'Abstract Game';
         configs.gameVersion = this._gameVersion;
+        configs.addProperty(LoadingNames.ASSETS, LoadingNames.ASSETS_PATH, 'assets/');
     }
 
     protected addModule(id: string, module: any): void {

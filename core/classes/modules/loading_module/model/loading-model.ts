@@ -4,7 +4,6 @@ import {ISceneData, ITile, ITileSet} from "../static/loading-interfaces";
 import {Collection} from "../../../../util/collection";
 
 export class LoadingModel extends AbstractModel {
-    protected _assetsRoot: string = 'assets/';
     protected assets: IAssets = {
         scene: null,
         levels: [],
@@ -19,22 +18,25 @@ export class LoadingModel extends AbstractModel {
         this.assets.scene = scene;
         this.assets.levels = levels;
 
-        return Promise.resolve(scene);
+        return Promise.resolve(this.assets);
     }
 
     protected async loadScene(): Promise<ISceneData> {
-        const path: string = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.SCENE);
-        const response: any = await fetch(this._assetsRoot + path);
+        const path: string = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.ASSETS_PATH);
+        const fileName: string = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.SCENE);
+        const response: any = await fetch(path + fileName);
         const sceneData: ISceneData = await response.json();
         return Promise.resolve(sceneData);
     }
 
-    protected loadLevels(): Promise<Array<ISceneData>> {
-        const promises: Array<Promise<any>> = [];
+    protected async loadLevels(): Promise<Array<ISceneData>> {
+        const path: string = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.ASSETS_PATH);
         const levels: Array<string> = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.LEVELS);
-        levels.forEach(async (levelName: string) => {
-            const response: any = await fetch(this._assetsRoot + levelName);
-            promises.push(response.json());
+
+        const promises: Array<Promise<ISceneData>> = await levels.map(async (levelName: string) => {
+            const response: any = await fetch(path + levelName);
+            const sceneData: ISceneData = await response.json();
+            return sceneData;
         });
 
         return Promise.all(promises);
@@ -52,17 +54,18 @@ export class LoadingModel extends AbstractModel {
             });
         });
 
-        imagesSrc.forEach((path: string) => {
-            promises.push(this.loadImage(path));
+        imagesSrc.forEach((imagePath: string) => {
+            promises.push(this.loadImage(imagePath));
         });
 
         return Promise.all(promises);
     }
 
-    protected loadImage(path: string): Promise<HTMLImageElement> {
+    protected loadImage(imagePath: string): Promise<HTMLImageElement> {
         return new Promise(resolve => {
+            const path: string = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.ASSETS_PATH);
             const image: HTMLImageElement = new Image();
-            image.src = this._assetsRoot + path;
+            image.src = path + imagePath;
             image.addEventListener('load', () => {
                 this.assets.images.add(path, image);
                 resolve(image);

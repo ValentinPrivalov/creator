@@ -5,9 +5,10 @@ import {ISceneSize} from "../static/graphics-interfaces";
 export class GraphicsModel extends AbstractModel {
     protected _sceneSize: ISceneSize = {} as ISceneSize;
 
-    public setSceneSize(data: ISceneData): void {
+    public setSceneSize(data: ISceneData): ISceneSize {
         this._sceneSize.width = data.tilewidth * data.width;
         this._sceneSize.height = data.tileheight * data.height;
+        return this.getSceneSize();
     }
 
     public getSceneSize(): ISceneSize {
