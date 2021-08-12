@@ -15,3 +15,7 @@ npm run watch
 ```
 
 The output is found in ```games-build/<your_game_name>/```
+
+## Launch game
+
+Start the game using ```index.html``` in game ```games-build/<your_game_name>/``` folder
