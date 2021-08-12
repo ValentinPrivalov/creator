@@ -1,81 +1,79 @@
 import {AbstractModel} from "../../../../lib/mvc/model";
 import {LoadingNames} from "../static/loading-names";
-import {ISceneData, ITile, ITileSet} from "../static/loading-interfaces";
 import {Collection} from "../../../../util/collection";
+import {ISceneData, ITile, ITileSet} from "../../../../lib/tiled/tiled-interfaces";
+import {ILevelData, IMapData} from "../static/loading-interfaces";
+import {Loader} from "pixi.js";
 
 export class LoadingModel extends AbstractModel {
-    protected assets: IAssets = {
-        scene: null,
-        levels: [],
-        images: new Collection()
-    };
+    protected data: Collection = new Collection();
+    protected loader: Loader;
+    protected loaderResourceIdSeparator: string = ':';
+
+    onRegister() {
+        super.onRegister();
+        this.loader = Loader.shared;
+    }
 
     public async loadAssets(): Promise<any> {
-        const scene: ISceneData = await this.loadScene();
-        const levels: Array<ISceneData> = await this.loadLevels();
-        await this.loadTileSetImages(levels);
+        await this.loadScene();
+        await this.loadLevels();
+        await this.loadMapsImages(this.getData());
 
-        this.assets.scene = scene;
-        this.assets.levels = levels;
-
-        return Promise.resolve(this.assets);
+        return Promise.resolve(this.getData());
     }
 
-    protected async loadScene(): Promise<ISceneData> {
-        const path: string = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.ASSETS_PATH);
+    protected async loadScene(): Promise<IMapData> {
+        const assetsPath: string = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.ASSETS_PATH);
         const fileName: string = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.SCENE);
-        const response: any = await fetch(path + fileName);
-        const sceneData: ISceneData = await response.json();
-        return Promise.resolve(sceneData);
+
+        const mapData: IMapData = await this.loadMap(assetsPath + fileName);
+        this.data.add(LoadingNames.SCENE, mapData);
+        return mapData;
     }
 
-    protected async loadLevels(): Promise<Array<ISceneData>> {
-        const path: string = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.ASSETS_PATH);
-        const levels: Array<string> = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.LEVELS);
+    protected async loadLevels(): Promise<Array<IMapData>> {
+        const assetsPath: string = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.ASSETS_PATH);
+        const levels: Array<ILevelData> = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.LEVELS);
 
-        const promises: Array<Promise<ISceneData>> = await levels.map(async (levelName: string) => {
-            const response: any = await fetch(path + levelName);
-            const sceneData: ISceneData = await response.json();
-            return sceneData;
+        const promises: Array<Promise<IMapData>> = await levels.map(async (levelData: ILevelData) => {
+            const mapData: IMapData = await this.loadMap(assetsPath + levelData.path);
+            this.data.add(levelData.name, mapData);
+            return mapData;
         });
 
         return Promise.all(promises);
     }
 
-    protected loadTileSetImages(levels: Array<ISceneData>): Promise<Array<HTMLImageElement>> {
-        const promises: Array<Promise<any>> = [];
+    protected async loadMap(path: string): Promise<IMapData> {
+        const response: Response = await fetch(path);
+        const sceneData: ISceneData = await response.json();
+        return {sceneData, images: new Collection()} as IMapData;
+    }
 
-        const imagesSrc: Array<string> = [];
-        levels.forEach((level: ISceneData) => {
-            level.tilesets.forEach((tileset: ITileSet) => {
+    protected loadMapsImages(maps: Collection): Promise<Collection> {
+        const assetsPath: string = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.ASSETS_PATH);
+
+        maps.forEach((mapName: string, map: IMapData) => {
+            map.sceneData.tilesets.forEach((tileset: ITileSet) => {
                 tileset.tiles.forEach((tile: ITile) => {
-                    imagesSrc.push(tile.image)
+                    const id: string = mapName + this.loaderResourceIdSeparator + tile.id;
+                    const path: string = assetsPath + tile.image;
+                    this.loader.add(id, path);
                 });
             });
         });
 
-        imagesSrc.forEach((imagePath: string) => {
-            promises.push(this.loadImage(imagePath));
-        });
-
-        return Promise.all(promises);
-    }
-
-    protected loadImage(imagePath: string): Promise<HTMLImageElement> {
         return new Promise(resolve => {
-            const path: string = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.ASSETS_PATH);
-            const image: HTMLImageElement = new Image();
-            image.src = path + imagePath;
-            image.addEventListener('load', () => {
-                this.assets.images.add(path, image);
-                resolve(image);
+            this.loader.load((loader: Loader, resources: any) => {
+                const collection: Collection = new Collection(resources);
+                collection.forEach((resourceId: string, item) => {
+                    const [mapName, id] = resourceId.split(this.loaderResourceIdSeparator);
+                    const map: IMapData = maps.get(mapName);
+                    map.images.add(id, item);
+                });
+                resolve(maps);
             });
         });
     }
-}
-
-export interface IAssets {
-    scene: ISceneData;
-    levels: Array<ISceneData>;
-    images: Collection;
 }

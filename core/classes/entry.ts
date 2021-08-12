@@ -15,10 +15,14 @@ import {LoadingNames} from "./modules/loading_module/static/loading-names";
 window.PIXI = PIXI; // pixiJS devtools dependence
 
 export class Entry {
-    private _engineVersion: string = '0.0.4';
-    protected _gameVersion: string = '0.0.1'; // should be redefined in each game
+    private _engineVersion: string = '0.0.5';
+    protected _gameVersion: string; // should be redefined in each game
 
     constructor() {
+        requestAnimationFrame(this.init.bind(this));
+    }
+
+    protected init(): void {
         this.initServices();
         this.initModules();
         this.initGameConfigs();

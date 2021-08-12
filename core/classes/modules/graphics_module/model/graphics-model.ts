@@ -1,6 +1,6 @@
 import {AbstractModel} from "../../../../lib/mvc/model";
-import {ISceneData} from "../../loading_module/static/loading-interfaces";
 import {ISceneSize} from "../static/graphics-interfaces";
+import {ISceneData} from "../../../../lib/tiled/tiled-interfaces";
 
 export class GraphicsModel extends AbstractModel {
     protected _sceneSize: ISceneSize = {} as ISceneSize;

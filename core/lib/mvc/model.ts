@@ -4,7 +4,7 @@ import {Services} from "../services";
 import {Names} from "../../global/names";
 
 export class AbstractModel extends MvcEntity implements IAbstractModel {
-    public data: any;
+    protected data: any;
     protected eventManager: EventManager;
 
     constructor(name: string) {
@@ -26,8 +26,6 @@ export class AbstractModel extends MvcEntity implements IAbstractModel {
 }
 
 export interface IAbstractModel extends IMvcEntity {
-    data: any;
-
     setData(vo: any): void;
 
     getData(): any;

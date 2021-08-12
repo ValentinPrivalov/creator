@@ -5,7 +5,9 @@ import {GraphicsView} from "../view/graphics-view";
 import {GraphicsModel} from "../model/graphics-model";
 import {ISceneSize} from "../static/graphics-interfaces";
 import {IEventData} from "../../../../lib/services/event-manager";
-import {IAssets} from "../../loading_module/model/loading-model";
+import {Collection} from "../../../../util/collection";
+import {LoadingNames} from "../../loading_module/static/loading-names";
+import {ISceneData} from "../../../../lib/tiled/tiled-interfaces";
 
 export class GraphicsController extends AbstractController {
     get view(): GraphicsView {
@@ -28,8 +30,9 @@ export class GraphicsController extends AbstractController {
     }
 
     protected onScenesLoaded(notification: IEventData): void {
-        const assets: IAssets = notification.body;
-        const sceneSize: ISceneSize = this.model.setSceneSize(assets.scene);
+        const assets: Collection = notification.body;
+        const sceneData: ISceneData = assets.get(LoadingNames.SCENE).sceneData;
+        const sceneSize: ISceneSize = this.model.setSceneSize(sceneData);
         this.view.create(sceneSize);
     }
 

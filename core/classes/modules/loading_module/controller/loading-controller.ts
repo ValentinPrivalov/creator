@@ -1,9 +1,10 @@
 import {AbstractController} from "../../../../lib/mvc/controller";
 import {Notifications} from "../../../../global/notifications";
 import {LoadingView} from "../view/loading-view";
-import {IAssets, LoadingModel} from "../model/loading-model";
+import {LoadingModel} from "../model/loading-model";
 import {Names} from "../../../../global/names";
 import {GraphicsModel} from "../../graphics_module/model/graphics-model";
+import {Collection} from "../../../../util/collection";
 
 export class LoadingController extends AbstractController {
     protected graphicsModel: GraphicsModel;
@@ -27,7 +28,7 @@ export class LoadingController extends AbstractController {
     }
 
     protected loadAssets(): void {
-        this.model.loadAssets().then((assets: IAssets) => {
+        this.model.loadAssets().then((assets: Collection) => {
             this.sendNotification(Notifications.SCENES_LOADED, assets);
             this.view.drawTestRect();
         });

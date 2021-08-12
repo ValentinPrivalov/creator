@@ -1,10 +1,10 @@
 import {AbstractController} from "../../../../lib/mvc/controller";
 import {Notifications} from "../../../../global/notifications";
-import {ILayer} from "../static/layers-interfaces";
 import {IEventData} from "../../../../lib/services/event-manager";
 import {LayersView} from "../view/layers-view";
 import {Signals} from "../../../../global/signals";
 import {Container} from "pixi.js";
+import {Collection} from "../../../../util/collection";
 
 export class LayersController extends AbstractController {
     get view(): LayersView {
@@ -22,8 +22,8 @@ export class LayersController extends AbstractController {
     }
 
     protected onScenesLoaded(notification: IEventData): void {
-        const layers: Array<ILayer> = notification.body.layers;
-        this.view.createLayers(layers);
+        const assets: Collection = notification.body;
+        this.view.createLayers(assets);
     }
 
     protected onLayerCreated(notification: IEventData): void {
