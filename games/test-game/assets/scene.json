@@ -16,6 +16,51 @@
          "id":3,
          "layers":[
                 {
+                 "id":5,
+                 "layers":[],
+                 "name":"LEVEL",
+                 "opacity":1,
+                 "type":"group",
+                 "visible":true,
+                 "x":0,
+                 "y":0
+                }, 
+                {
+                 "id":8,
+                 "layers":[
+                        {
+                         "draworder":"topdown",
+                         "id":7,
+                         "name":"image",
+                         "objects":[
+                                {
+                                 "gid":4,
+                                 "height":526.389228886169,
+                                 "id":1,
+                                 "name":"",
+                                 "rotation":0,
+                                 "type":"",
+                                 "visible":true,
+                                 "width":634.366506606409,
+                                 "x":0,
+                                 "y":526
+                                }],
+                         "opacity":1,
+                         "type":"objectgroup",
+                         "visible":true,
+                         "x":0,
+                         "y":0
+                        }],
+                 "name":"MAIN_MENU",
+                 "offsetx":100,
+                 "offsety":0,
+                 "opacity":1,
+                 "type":"group",
+                 "visible":true,
+                 "x":0,
+                 "y":0
+                }, 
+                {
                  "id":2,
                  "layers":[],
                  "name":"LOADING_SCREEN",
@@ -32,13 +77,84 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":5,
- "nextobjectid":1,
+ "nextlayerid":9,
+ "nextobjectid":2,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.7.1",
  "tileheight":8,
- "tilesets":[],
+ "tilesets":[
+        {
+         "columns":0,
+         "firstgid":1,
+         "grid":
+            {
+             "height":1,
+             "orientation":"orthogonal",
+             "width":1
+            },
+         "margin":0,
+         "name":"assets",
+         "spacing":0,
+         "tilecount":9,
+         "tileheight":780,
+         "tiles":[
+                {
+                 "id":0,
+                 "image":"images\/GUI\/Buttons\/BTNs\/Play_BTN.png",
+                 "imageheight":210,
+                 "imagewidth":210
+                }, 
+                {
+                 "id":1,
+                 "image":"images\/GUI\/Buttons\/BTNs\/Close_BTN.png",
+                 "imageheight":210,
+                 "imagewidth":210
+                }, 
+                {
+                 "id":2,
+                 "image":"images\/GUI\/Accept\/Ok_BTN.png",
+                 "imageheight":210,
+                 "imagewidth":210
+                }, 
+                {
+                 "id":3,
+                 "image":"images\/GUI\/Accept\/Window.png",
+                 "imageheight":780,
+                 "imagewidth":940
+                }, 
+                {
+                 "id":4,
+                 "image":"images\/GUI\/Level_Menu\/Header.png",
+                 "imageheight":58,
+                 "imagewidth":332
+                }, 
+                {
+                 "id":5,
+                 "image":"images\/GUI\/Loading_Bar\/Loading_Bar_1_2.png",
+                 "imageheight":40,
+                 "imagewidth":890
+                }, 
+                {
+                 "id":6,
+                 "image":"images\/GUI\/Rating\/Menu_BTN.png",
+                 "imageheight":210,
+                 "imagewidth":210
+                }, 
+                {
+                 "id":7,
+                 "image":"images\/GUI\/Ship_Parts\/Armor_Icon.png",
+                 "imageheight":61,
+                 "imagewidth":65
+                }, 
+                {
+                 "id":8,
+                 "image":"images\/GUI\/Ship_Parts\/HP_Icon.png",
+                 "imageheight":55,
+                 "imagewidth":65
+                }],
+         "tilewidth":940
+        }],
  "tilewidth":8,
  "type":"map",
  "version":"1.6",
