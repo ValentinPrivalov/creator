@@ -15,7 +15,7 @@ import {LoadingNames} from "./modules/loading_module/static/loading-names";
 window.PIXI = PIXI; // pixiJS devtools dependence
 
 export class Entry {
-    private _engineVersion: string = '0.0.5';
+    private _engineVersion: string = '0.0.6';
     protected _gameVersion: string; // should be redefined in each game
 
     constructor() {

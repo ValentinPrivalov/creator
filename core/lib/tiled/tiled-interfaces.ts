@@ -1,4 +1,5 @@
 import {TiledLayerNames} from "./tiled-names";
+import {Point} from "pixi.js";
 
 export interface ILayer {
     id: number;
@@ -7,9 +8,12 @@ export interface ILayer {
     visible: boolean;
     x: number;
     y: number;
+    offsetx: number;
+    offsety: number;
     type: TiledLayerNames;
     layers: Array<ILayer>;
     objects?: Array<ILayerObject>;
+    properties?: Array<{ name: string, value: string }>;
 }
 
 export interface ISceneData {
@@ -35,11 +39,15 @@ export interface ITile {
 }
 
 export interface ILayerObject {
-    gid: number;
     x: number;
     y: number;
     width: number;
     height: number;
     rotation: number;
     visible: boolean;
+    name: string;
+    gid?: number;
+    point?: boolean;
+    polygon?: Array<Point>;
+    ellipse?: boolean;
 }
