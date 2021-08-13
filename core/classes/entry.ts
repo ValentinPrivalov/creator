@@ -12,10 +12,11 @@ import {SceneManager} from "../lib/services/scene-manager";
 import {WindowEvents} from "../lib/services/window-events";
 import * as PIXI from "pixi.js";
 import {LoadingNames} from "./modules/loading_module/static/loading-names";
+import {LevelModule} from "./modules/level_module/level-module";
 window.PIXI = PIXI; // pixiJS devtools dependence
 
 export class Entry {
-    private _engineVersion: string = '0.0.6';
+    private _engineVersion: string = '0.0.7';
     protected _gameVersion: string; // should be redefined in each game
 
     constructor() {
@@ -51,6 +52,7 @@ export class Entry {
         this.addModule(Names.Modules.GRAPHICS_MODULE, GraphicsModule);
         this.addModule(Names.Modules.LOADING_MODULE, LoadingModule);
         this.addModule(Names.Modules.LAYERS_MODULE, LayersModule);
+        this.addModule(Names.Modules.LEVEL_MODULE, LevelModule);
     }
 
     protected startEngine(): void {

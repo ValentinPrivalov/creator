@@ -18,6 +18,7 @@ export class LayersController extends AbstractController {
 
     registerSignalListeners(): void {
         super.registerSignalListeners();
+        this.addSignalListener(Signals.MAIN_SCENE_CREATED, this.onSceneCreated.bind(this));
         this.addSignalListener(Signals.LAYER_CREATED, this.onLayerCreated.bind(this));
     }
 
@@ -28,5 +29,9 @@ export class LayersController extends AbstractController {
 
     protected onLayerCreated(notification: IEventData): void {
         this.mvc.bindLayer(notification.body as Container);
+    }
+
+    protected onSceneCreated(): void {
+        this.sendNotification(Notifications.MAIN_SCENE_CREATED);
     }
 }

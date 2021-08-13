@@ -19,6 +19,7 @@ export class LayersView extends AbstractView {
             });
         });
         this.sceneManager.stage.addChild(this.sceneManager.get(LayersNames.ROOT));
+        this.raiseSignal(Signals.MAIN_SCENE_CREATED);
     }
 
     protected createLayer(mapId: string, layer: ILayer, parent?: Container): Container {
