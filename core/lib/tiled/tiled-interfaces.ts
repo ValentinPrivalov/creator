@@ -1,18 +1,21 @@
 import {TiledLayerNames} from "./tiled-names";
 import {Point} from "pixi.js";
 
-export interface ILayer {
+export interface ITiledLayer {
     id: number;
     name: string;
     opacity: number;
     visible: boolean;
     x: number;
     y: number;
+    width: number;
+    height: number;
     offsetx: number;
     offsety: number;
     type: TiledLayerNames;
-    layers: Array<ILayer>;
-    objects?: Array<ILayerObject>;
+    data?: Array<number>;
+    layers?: Array<ITiledLayer>;
+    objects?: Array<ITiledLayerObject>;
     properties?: Array<{ name: string, value: string }>;
 }
 
@@ -21,7 +24,7 @@ export interface ISceneData {
     height: number;
     tilewidth: number;
     tileheight: number;
-    layers: Array<ILayer>;
+    layers: Array<ITiledLayer>;
     tilesets: Array<ITileSet>;
 }
 
@@ -38,7 +41,7 @@ export interface ITile {
     imagewidth: number;
 }
 
-export interface ILayerObject {
+export interface ITiledLayerObject {
     x: number;
     y: number;
     width: number;

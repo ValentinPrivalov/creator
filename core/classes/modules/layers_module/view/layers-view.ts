@@ -1,52 +1,55 @@
 import {AbstractView} from "../../../../lib/mvc/view";
-import {Container, Sprite, LoaderResource} from "pixi.js";
+import {Container, Sprite, Texture, LoaderResource} from "pixi.js";
 import {LayersNames} from "../static/layers-names";
 import {Signals} from "../../../../global/signals";
-import {ILayer, ILayerObject} from "../../../../lib/tiled/tiled-interfaces";
+import {ITiledLayer, ITiledLayerObject} from "../../../../lib/tiled/tiled-interfaces";
 import {TiledLayerNames} from "../../../../lib/tiled/tiled-names";
-import {Names} from "../../../../global/names";
-import {LoadingModel} from "../../loading_module/model/loading-model";
 import {Collection} from "../../../../util/collection";
 import {IMapData} from "../../loading_module/static/loading-interfaces";
-import {IContainerWrap} from "../static/layers-interfaces";
+import {ISceneSize} from "../../graphics_module/static/graphics-interfaces";
+import {Layer} from "./layer";
 
 export class LayersView extends AbstractView {
     public createLayers(assets: Collection): void {
-        assets.forEach((mapId: string, item: IMapData) => {
-            item.sceneData.layers.forEach((layer: ILayer) => {
-                const container: Container = this.createLayer(mapId, layer);
-                this.sceneManager.add(container);
+        assets.forEach((mapId: string, map: IMapData) => {
+            map.sceneData.layers.forEach((tiledLayer: ITiledLayer) => {
+                const rootLayer: Layer = this.createLayer(map, tiledLayer);
+                this.sceneManager.add(rootLayer);
             });
         });
         this.sceneManager.stage.addChild(this.sceneManager.get(LayersNames.ROOT));
         this.raiseSignal(Signals.MAIN_SCENE_CREATED);
     }
 
-    protected createLayer(mapId: string, layer: ILayer, parent?: Container): Container {
-        const container: Container = new Container();
-        container.name = layer.name;
-        container.alpha = layer.opacity;
-        container.visible = layer.visible;
-        container.position.set(layer.offsetx, layer.offsety);
-        const containerWrap: IContainerWrap = {container, data: new Collection()};
+    protected createLayer(map: IMapData, tiledLayer: ITiledLayer, parent?: Container): Layer {
+        const layer: Layer = new Layer();
+        layer.name = tiledLayer.name;
+        layer.alpha = tiledLayer.opacity;
+        layer.visible = tiledLayer.visible;
+        layer.position.set(tiledLayer.offsetx, tiledLayer.offsety);
+        layer.properties = tiledLayer.properties;
 
-        layer.layers?.forEach((childLayer: ILayer) =>
-            this.createLayer(mapId, childLayer, container as Container));
-        layer.objects?.map((obj: ILayerObject) =>
-            this.createObject(mapId, obj, containerWrap));
+        tiledLayer.layers?.forEach((childLayer: ITiledLayer) =>
+            this.createLayer(map, childLayer, layer));
+        tiledLayer.objects?.map((obj: ITiledLayerObject) =>
+            this.createObject(map, obj, layer));
 
-        if (layer.type === TiledLayerNames.GROUP) {
-            this.raiseSignal(Signals.LAYER_CREATED, container);
+        switch (tiledLayer.type) {
+            case TiledLayerNames.GROUP:
+                this.raiseSignal(Signals.LAYER_CREATED, layer);
+                break;
+            case TiledLayerNames.TILE_LAYER:
+                this.createTileLayer(map, tiledLayer, layer);
+                break;
         }
 
-        parent?.addChild(container);
-        return container;
+        parent?.addChild(layer);
+        return layer;
     }
 
-    protected createObject(mapId: string, obj: ILayerObject, containerWrap: IContainerWrap): void {
+    protected createObject(map: IMapData, obj: ITiledLayerObject, parentLayer: Layer): void {
         if (obj.gid) {
-            const sprite: Sprite = this.createImageObject(mapId, obj);
-            containerWrap.container.addChild(sprite);
+            this.createImageObject(map, obj, parentLayer);
         }
         if (obj.point) {
 
@@ -59,12 +62,9 @@ export class LayersView extends AbstractView {
         }
     }
 
-    protected createImageObject(mapId: string, obj: ILayerObject): Sprite {
-        const loadingModel: LoadingModel = this.getModel(Names.Views.LOADING_SCREEN);
-        const mapData: IMapData = loadingModel.getData().get(mapId);
-        const resource: LoaderResource = mapData.images.get((obj.gid - 1).toString());
-
-        const image: Sprite = new Sprite(resource.texture);
+    protected createImageObject(map: IMapData, obj: ITiledLayerObject, parentLayer: Layer): Sprite {
+        const texture: Texture = this.getTextureByGID(map, obj.gid);
+        const image: Sprite = new Sprite(texture);
         image.name = obj.name;
         image.width = obj.width;
         image.height = obj.height;
@@ -72,6 +72,41 @@ export class LayersView extends AbstractView {
         image.rotation = obj.rotation; // todo check
         image.visible = obj.visible;
 
+        parentLayer.addChild(image);
         return image;
+    }
+
+    protected createTileLayer(map: IMapData, tiledLayer: ITiledLayer, parentLayer: Layer): void {
+        const tileWidth = map.sceneData.tilewidth;
+        const tileHeight = map.sceneData.tileheight;
+        const sceneSize: ISceneSize = {
+            width: tileWidth * tiledLayer.width,
+            height: tileHeight * tiledLayer.height,
+        }
+
+        tiledLayer.data.forEach((gid: number, index: number) => {
+            if (gid !== 0) { // skip empty tile
+                const texture: Texture = this.getTextureByGID(map, gid);
+                const imageObj: ITiledLayerObject = {
+                    gid: gid,
+                    x: (tileWidth * index) % sceneSize.width,
+                    y: Math.floor(index / tiledLayer.width) * tileHeight,
+                    width: texture.width,
+                    height: texture.height,
+                    rotation: 0,
+                    visible: true,
+                    name: gid.toString()
+                };
+
+                this.createImageObject(map, imageObj, parentLayer);
+            }
+        });
+    }
+
+    protected getTextureByGID(map: IMapData, gid: number): Texture {
+        const imageId: string = (gid - 1).toString();
+        const images: Collection = map.images;
+        const resource: LoaderResource = images.get(imageId);
+        return resource.texture;
     }
 }
