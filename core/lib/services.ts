@@ -3,7 +3,7 @@ import {Collection} from "../util/collection";
 
 export class Services implements IServices {
     private static _instance: IServices;
-    private registryCollection: Collection = new Collection();
+    private registryCollection: Collection<Object> = new Collection();
 
     static instance(): IServices {
         if (!this._instance) {

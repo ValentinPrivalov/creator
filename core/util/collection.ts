@@ -1,16 +1,16 @@
-export class Collection implements ICollection {
-    protected _items: { [key: string]: any } = {};
+export class Collection<T> implements ICollection {
+    protected _items: ICollectionItem<T> = {};
 
-    constructor(items?: { [key: string]: any }) {
+    constructor(items?: ICollectionItem<T>) {
         this._items = items ?? {};
     }
 
-    add(id: string, implementation: any): any {
+    add(id: string, implementation: T): T {
         this._items[id] = implementation;
         return this._items[id];
     }
 
-    get(id: string): any {
+    get(id: string): T {
         if (this.has(id)) {
             return this._items[id];
         }
@@ -30,8 +30,10 @@ export class Collection implements ICollection {
 
     forEach(func: (id: string, item: any) => void) {
         for (const id in this._items) {
-            const item = this._items[id];
-            func(id, item);
+            if (this._items.hasOwnProperty(id)) {
+                const item = this._items[id];
+                func(id, item);
+            }
         }
     }
 }
@@ -48,4 +50,8 @@ export interface ICollection {
     getAll(): any;
 
     forEach(func: Function): void;
+}
+
+export interface ICollectionItem<T> {
+    [key: string]: T;
 }

@@ -10,7 +10,7 @@ import {ISceneSize} from "../../graphics_module/static/graphics-interfaces";
 import {Layer} from "./layer";
 
 export class LayersView extends AbstractView {
-    public createLayers(assets: Collection): void {
+    public createLayers(assets: Collection<IMapData>): void {
         assets.forEach((mapId: string, map: IMapData) => {
             map.sceneData.layers.forEach((tiledLayer: ITiledLayer) => {
                 const rootLayer: Layer = this.createLayer(map, tiledLayer);
@@ -106,7 +106,7 @@ export class LayersView extends AbstractView {
 
     protected getTextureByGID(map: IMapData, gid: number): Texture {
         const imageId: string = (gid - 1).toString();
-        const images: Collection = map.images;
+        const images: Collection<LoaderResource> = map.images;
         const resource: LoaderResource = images.get(imageId);
         return resource.texture;
     }

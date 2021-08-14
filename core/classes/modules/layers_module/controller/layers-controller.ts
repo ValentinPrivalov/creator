@@ -5,6 +5,7 @@ import {LayersView} from "../view/layers-view";
 import {Signals} from "../../../../global/signals";
 import {Container} from "pixi.js";
 import {Collection} from "../../../../util/collection";
+import {IMapData} from "../../loading_module/static/loading-interfaces";
 
 export class LayersController extends AbstractController {
     get view(): LayersView {
@@ -23,7 +24,7 @@ export class LayersController extends AbstractController {
     }
 
     protected onScenesLoaded(notification: IEventData): void {
-        const assets: Collection = notification.body;
+        const assets: Collection<IMapData> = notification.body;
         this.view.createLayers(assets);
     }
 

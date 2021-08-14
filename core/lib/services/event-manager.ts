@@ -2,7 +2,7 @@ import {Log} from "../../util/log";
 import {Collection} from "../../util/collection";
 
 export class EventManager implements IEventManager {
-    private eventCollection: Collection = new Collection();
+    private eventCollection: Collection<IEvent> = new Collection();
 
     raise(eventData: IEventData): void {
         if (this.eventCollection.has(eventData.name)) {

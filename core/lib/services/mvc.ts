@@ -10,10 +10,10 @@ import {EventManager} from "./event-manager";
 import {AbstractModule} from "../abstract-module";
 
 export class Mvc {
-    private modulesCollection: Collection = new Collection();
-    private controllerCollection: Collection = new Collection();
-    private viewCollection: Collection = new Collection();
-    private modelCollection: Collection = new Collection();
+    private modulesCollection: Collection<AbstractModule> = new Collection();
+    private controllerCollection: Collection<AbstractController> = new Collection();
+    private viewCollection: Collection<AbstractView> = new Collection();
+    private modelCollection: Collection<AbstractModel> = new Collection();
 
     get eventManager(): EventManager {
         return Services.instance().get(Names.Services.EVENT_MANAGER) as EventManager;

@@ -3,10 +3,10 @@ import {LoadingNames} from "../static/loading-names";
 import {Collection} from "../../../../util/collection";
 import {ISceneData, ITile, ITileSet} from "../../../../lib/tiled/tiled-interfaces";
 import {ILevelData, IMapData} from "../static/loading-interfaces";
-import {Loader} from "pixi.js";
+import {Loader, LoaderResource} from "pixi.js";
 
 export class LoadingModel extends AbstractModel {
-    protected data: Collection = new Collection();
+    protected data: Collection<IMapData> = new Collection();
     protected loader: Loader;
     protected loaderResourceIdSeparator: string = ':';
 
@@ -15,7 +15,7 @@ export class LoadingModel extends AbstractModel {
         this.loader = Loader.shared;
     }
 
-    public async loadAssets(): Promise<any> {
+    public async loadAssets(): Promise<Collection<IMapData>> {
         await this.loadScene();
         await this.loadLevels();
         await this.loadMapsImages(this.getData());
@@ -48,10 +48,10 @@ export class LoadingModel extends AbstractModel {
     protected async loadMap(path: string): Promise<IMapData> {
         const response: Response = await fetch(path);
         const sceneData: ISceneData = await response.json();
-        return {sceneData, images: new Collection()} as IMapData;
+        return {sceneData, images: new Collection<LoaderResource>()} as IMapData;
     }
 
-    protected loadMapsImages(maps: Collection): Promise<Collection> {
+    protected loadMapsImages(maps: Collection<IMapData>): Promise<Collection<IMapData>> {
         const assetsPath: string = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.ASSETS_PATH);
 
         maps.forEach((mapName: string, map: IMapData) => {
@@ -66,8 +66,7 @@ export class LoadingModel extends AbstractModel {
 
         return new Promise(resolve => {
             this.loader.load((loader: Loader, resources: any) => {
-                const collection: Collection = new Collection(resources);
-                collection.forEach((resourceId: string, item) => {
+                new Collection<LoaderResource>(resources).forEach((resourceId: string, item: LoaderResource) => {
                     const [mapName, id] = resourceId.split(this.loaderResourceIdSeparator);
                     const map: IMapData = maps.get(mapName);
                     map.images.add(id, item);

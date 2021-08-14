@@ -5,6 +5,7 @@ import {LoadingModel} from "../model/loading-model";
 import {Names} from "../../../../global/names";
 import {GraphicsModel} from "../../graphics_module/model/graphics-model";
 import {Collection} from "../../../../util/collection";
+import {IMapData} from "../static/loading-interfaces";
 
 export class LoadingController extends AbstractController {
     protected graphicsModel: GraphicsModel;
@@ -28,7 +29,7 @@ export class LoadingController extends AbstractController {
     }
 
     protected loadAssets(): void {
-        this.model.loadAssets().then((assets: Collection) => {
+        this.model.loadAssets().then((assets: Collection<IMapData>) => {
             this.sendNotification(Notifications.SCENES_LOADED, assets);
             this.view.drawTestRect();
         });

@@ -8,6 +8,7 @@ import {IEventData} from "../../../../lib/services/event-manager";
 import {Collection} from "../../../../util/collection";
 import {LoadingNames} from "../../loading_module/static/loading-names";
 import {ISceneData} from "../../../../lib/tiled/tiled-interfaces";
+import {IMapData} from "../../loading_module/static/loading-interfaces";
 
 export class GraphicsController extends AbstractController {
     get view(): GraphicsView {
@@ -30,7 +31,7 @@ export class GraphicsController extends AbstractController {
     }
 
     protected onScenesLoaded(notification: IEventData): void {
-        const assets: Collection = notification.body;
+        const assets: Collection<IMapData> = notification.body;
         const sceneData: ISceneData = assets.get(LoadingNames.SCENE).sceneData;
         const sceneSize: ISceneSize = this.model.setSceneSize(sceneData);
         this.view.create(sceneSize);

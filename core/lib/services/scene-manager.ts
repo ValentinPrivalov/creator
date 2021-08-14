@@ -2,7 +2,7 @@ import {AbstractRenderer, Container} from "pixi.js";
 import {Collection} from "../../util/collection";
 
 export class SceneManager {
-    private sceneCollection: Collection = new Collection();
+    private sceneCollection: Collection<Container> = new Collection();
     public renderer: AbstractRenderer;
     public stage: Container;
 
