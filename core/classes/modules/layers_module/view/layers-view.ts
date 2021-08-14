@@ -1,8 +1,8 @@
 import {AbstractView} from "../../../../lib/mvc/view";
-import {Container, Sprite, Texture, LoaderResource} from "pixi.js";
+import {Sprite, Texture, LoaderResource} from "pixi.js";
 import {LayersNames} from "../static/layers-names";
 import {Signals} from "../../../../global/signals";
-import {ITiledLayer, ITiledLayerObject} from "../../../../lib/tiled/tiled-interfaces";
+import {ITiledLayer, ITiledLayerObject, ITiledProperty} from "../../../../lib/tiled/tiled-interfaces";
 import {TiledLayerNames} from "../../../../lib/tiled/tiled-names";
 import {Collection} from "../../../../util/collection";
 import {IMapData} from "../../loading_module/static/loading-interfaces";
@@ -21,13 +21,14 @@ export class LayersView extends AbstractView {
         this.raiseSignal(Signals.MAIN_SCENE_CREATED);
     }
 
-    protected createLayer(map: IMapData, tiledLayer: ITiledLayer, parent?: Container): Layer {
+    protected createLayer(map: IMapData, tiledLayer: ITiledLayer, parentLayer?: Layer): Layer {
         const layer: Layer = new Layer();
         layer.name = tiledLayer.name;
         layer.alpha = tiledLayer.opacity;
         layer.visible = tiledLayer.visible;
         layer.position.set(tiledLayer.offsetx, tiledLayer.offsety);
-        layer.properties = tiledLayer.properties;
+        tiledLayer.properties?.forEach((property: ITiledProperty) =>
+            layer.properties[property.name] = property.value);
 
         tiledLayer.layers?.forEach((childLayer: ITiledLayer) =>
             this.createLayer(map, childLayer, layer));
@@ -43,7 +44,7 @@ export class LayersView extends AbstractView {
                 break;
         }
 
-        parent?.addChild(layer);
+        parentLayer?.addChild(layer);
         return layer;
     }
 

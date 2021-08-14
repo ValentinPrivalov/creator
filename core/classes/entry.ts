@@ -16,7 +16,7 @@ import {LevelModule} from "./modules/level_module/level-module";
 window.PIXI = PIXI; // pixiJS devtools dependence
 
 export class Entry {
-    private _engineVersion: string = '0.0.7';
+    private _engineVersion: string = '0.0.8';
     protected _gameVersion: string; // should be redefined in each game
 
     constructor() {

@@ -54,3 +54,9 @@ export interface ITiledLayerObject {
     polygon?: Array<Point>;
     ellipse?: boolean;
 }
+
+export interface ITiledProperty {
+    name: string;
+    type: string;
+    value: any;
+}
