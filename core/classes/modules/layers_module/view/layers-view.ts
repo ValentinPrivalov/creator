@@ -27,9 +27,9 @@ export class LayersView extends AbstractView {
         layer.alpha = tiledLayer.opacity;
         layer.visible = tiledLayer.visible;
         layer.position.set(tiledLayer.offsetx, tiledLayer.offsety);
+
         tiledLayer.properties?.forEach((property: ITiledProperty) =>
             layer.properties[property.name] = property.value);
-
         tiledLayer.layers?.forEach((childLayer: ITiledLayer) =>
             this.createLayer(map, childLayer, layer));
         tiledLayer.objects?.map((obj: ITiledLayerObject) =>
