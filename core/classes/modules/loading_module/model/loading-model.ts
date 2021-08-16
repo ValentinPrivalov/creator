@@ -4,20 +4,26 @@ import {Collection} from "../../../../util/collection";
 import {ISceneData, ITile, ITileSet} from "../../../../lib/tiled/tiled-interfaces";
 import {ILevelData, IMapData} from "../static/loading-interfaces";
 import {Loader, LoaderResource} from "pixi.js";
+import {Signals} from "../../../../global/signals";
 
 export class LoadingModel extends AbstractModel {
     protected data: Collection<IMapData> = new Collection();
     protected loader: Loader;
-    protected loaderResourceIdSeparator: string = ':';
+    public loaderResourceIdSeparator: string = ':';
 
     onRegister(): void {
         super.onRegister();
         this.loader = Loader.shared;
     }
 
-    public async loadAssets(): Promise<Collection<IMapData>> {
+    public async loadMaps(): Promise<Collection<IMapData>> {
         await this.loadScene();
         await this.loadLevels();
+
+        return Promise.resolve(this.getData());
+    }
+
+    public async loadAssets(): Promise<Collection<IMapData>> {
         await this.loadMapsImages(this.getData());
 
         return Promise.resolve(this.getData());
@@ -48,13 +54,17 @@ export class LoadingModel extends AbstractModel {
     protected async loadMap(path: string): Promise<IMapData> {
         const response: Response = await fetch(path);
         const sceneData: ISceneData = await response.json();
-        return {sceneData, images: new Collection<LoaderResource>()} as IMapData;
+        return {
+            sceneData,
+            images: new Collection<LoaderResource>(),
+            objects: []
+        } as IMapData;
     }
 
     protected loadMapsImages(maps: Collection<IMapData>): Promise<Collection<IMapData>> {
         const assetsPath: string = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.ASSETS_PATH);
 
-        maps.forEach((mapName: string, map: IMapData) => {
+        maps.forEach((map: IMapData, mapName: string) => {
             map.sceneData.tilesets.forEach((tileset: ITileSet) => {
                 tileset.tiles.forEach((tile: ITile) => {
                     const id: string = mapName + this.loaderResourceIdSeparator + tile.id;
@@ -64,9 +74,14 @@ export class LoadingModel extends AbstractModel {
             });
         });
 
+        this.loader.onLoad.add((loader: Loader, resource: LoaderResource) => {
+            this.raiseSignal(Signals.ASSET_LOADED, resource);
+            this.raiseSignal(Signals.LOAD_PROGRESS, loader.progress);
+        })
+
         return new Promise(resolve => {
             this.loader.load((loader: Loader, resources: any) => {
-                new Collection<LoaderResource>(resources).forEach((resourceId: string, item: LoaderResource) => {
+                new Collection<LoaderResource>(resources).forEach((item: LoaderResource, resourceId: string) => {
                     const [mapName, id] = resourceId.split(this.loaderResourceIdSeparator);
                     const map: IMapData = maps.get(mapName);
                     map.images.add(id, item);

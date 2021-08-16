@@ -3,7 +3,7 @@ import {Notifications} from "../../../../global/notifications";
 import {IEventData} from "../../../../lib/services/event-manager";
 import {LayersView} from "../view/layers-view";
 import {Signals} from "../../../../global/signals";
-import {Container} from "pixi.js";
+import {Container, LoaderResource} from "pixi.js";
 import {Collection} from "../../../../util/collection";
 import {IMapData} from "../../loading_module/static/loading-interfaces";
 
@@ -15,6 +15,7 @@ export class LayersController extends AbstractController {
     registerNotificationListeners(): void {
         super.registerNotificationListeners();
         this.addNotificationListener(Notifications.SCENES_LOADED, this.onScenesLoaded.bind(this));
+        this.addNotificationListener(Notifications.ASSET_LOADED, this.onAssetLoaded.bind(this));
     }
 
     registerSignalListeners(): void {
@@ -26,6 +27,11 @@ export class LayersController extends AbstractController {
     protected onScenesLoaded(notification: IEventData): void {
         const assets: Collection<IMapData> = notification.body;
         this.view.createLayers(assets);
+    }
+
+    protected onAssetLoaded(notification: IEventData): void {
+        const resource: LoaderResource = notification.body;
+        this.view.updateObjects(resource);
     }
 
     protected onLayerCreated(notification: IEventData): void {

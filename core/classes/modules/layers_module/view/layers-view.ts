@@ -1,17 +1,20 @@
 import {AbstractView} from "../../../../lib/mvc/view";
-import {Sprite, Texture, LoaderResource} from "pixi.js";
+import {DisplayObject, LoaderResource, Sprite} from "pixi.js";
 import {LayersNames} from "../static/layers-names";
 import {Signals} from "../../../../global/signals";
-import {ITiledLayer, ITiledLayerObject, ITiledProperty} from "../../../../lib/tiled/tiled-interfaces";
+import {ITiledLayer, ITiledLayerObject, ITiledProperty, ITileSet} from "../../../../lib/tiled/tiled-interfaces";
 import {TiledLayerNames} from "../../../../lib/tiled/tiled-names";
 import {Collection} from "../../../../util/collection";
 import {IMapData} from "../../loading_module/static/loading-interfaces";
 import {ISceneSize} from "../../graphics_module/static/graphics-interfaces";
 import {Layer} from "./layer";
+import {ImageObject} from "./layer-object";
+import {Names} from "../../../../global/names";
+import {LoadingModel} from "../../loading_module/model/loading-model";
 
 export class LayersView extends AbstractView {
     public createLayers(assets: Collection<IMapData>): void {
-        assets.forEach((mapId: string, map: IMapData) => {
+        assets.forEach((map: IMapData) => {
             map.sceneData.layers.forEach((tiledLayer: ITiledLayer) => {
                 const rootLayer: Layer = this.createLayer(map, tiledLayer);
                 this.sceneManager.add(rootLayer);
@@ -64,8 +67,8 @@ export class LayersView extends AbstractView {
     }
 
     protected createImageObject(map: IMapData, obj: ITiledLayerObject, parentLayer: Layer): Sprite {
-        const texture: Texture = this.getTextureByGID(map, obj.gid);
-        const image: Sprite = new Sprite(texture);
+        const image: ImageObject = new ImageObject();
+        image.gid = obj.gid;
         image.name = obj.name;
         image.width = obj.width;
         image.height = obj.height;
@@ -73,6 +76,7 @@ export class LayersView extends AbstractView {
         image.rotation = obj.rotation; // todo check
         image.visible = obj.visible;
 
+        map.objects.push(image);
         parentLayer.addChild(image);
         return image;
     }
@@ -87,13 +91,13 @@ export class LayersView extends AbstractView {
 
         tiledLayer.data.forEach((gid: number, index: number) => {
             if (gid !== 0) { // skip empty tile
-                const texture: Texture = this.getTextureByGID(map, gid);
+                const tileSet: ITileSet = map.sceneData.tilesets[0];
                 const imageObj: ITiledLayerObject = {
                     gid: gid,
                     x: (tileWidth * index) % sceneSize.width,
                     y: Math.floor(index / tiledLayer.width) * tileHeight,
-                    width: texture.width,
-                    height: texture.height,
+                    width: tileSet.tilewidth,
+                    height: tileSet.tileheight,
                     rotation: 0,
                     visible: true,
                     name: gid.toString()
@@ -104,10 +108,17 @@ export class LayersView extends AbstractView {
         });
     }
 
-    protected getTextureByGID(map: IMapData, gid: number): Texture {
-        const imageId: string = (gid - 1).toString();
-        const images: Collection<LoaderResource> = map.images;
-        const resource: LoaderResource = images.get(imageId);
-        return resource.texture;
+    public updateObjects(resource: LoaderResource): void {
+        const loadingModel: LoadingModel = this.getModel(Names.Views.LOADING_SCREEN);
+        const [mapName, id] = resource.name.split(loadingModel.loaderResourceIdSeparator);
+        loadingModel
+            .getData()
+            .get(mapName)
+            .objects
+            .forEach((object: DisplayObject) => {
+                if ((object['gid'] - 1).toString() === id) {
+                    object['texture'] = resource.texture;
+                }
+            });
     }
 }

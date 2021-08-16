@@ -1,6 +1,6 @@
 import {ISceneData} from "../../../../lib/tiled/tiled-interfaces";
 import {Collection} from "../../../../util/collection";
-import {LoaderResource} from "pixi.js";
+import {LoaderResource, DisplayObject} from "pixi.js";
 
 export interface ILevelData {
     name: string;
@@ -10,4 +10,5 @@ export interface ILevelData {
 export interface IMapData {
     sceneData: ISceneData;
     images: Collection<LoaderResource>;
+    objects: Array<DisplayObject>;
 }

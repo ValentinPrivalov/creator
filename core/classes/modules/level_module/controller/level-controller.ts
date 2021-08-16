@@ -11,7 +11,7 @@ export class LevelController extends AbstractController {
 
     registerNotificationListeners(): void {
         super.registerNotificationListeners();
-        this.addNotificationListener(Notifications.MAIN_SCENE_CREATED, this.onSceneCreated.bind(this));
+        this.addNotificationListener(Notifications.ASSETS_LOADED, this.onSceneCreated.bind(this));
     }
 
     protected onSceneCreated(): void {

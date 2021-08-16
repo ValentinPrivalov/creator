@@ -6,6 +6,8 @@ import {Names} from "../../../../global/names";
 import {GraphicsModel} from "../../graphics_module/model/graphics-model";
 import {Collection} from "../../../../util/collection";
 import {IMapData} from "../static/loading-interfaces";
+import {Signals} from "../../../../global/signals";
+import {IEventData} from "../../../../lib/services/event-manager";
 
 export class LoadingController extends AbstractController {
     protected graphicsModel: GraphicsModel;
@@ -25,13 +27,29 @@ export class LoadingController extends AbstractController {
 
     registerNotificationListeners(): void {
         super.registerNotificationListeners();
-        this.addNotificationListener(Notifications.INIT_ENGINE, this.loadAssets.bind(this));
+        this.addNotificationListener(Notifications.INIT_ENGINE, this.loadMaps.bind(this));
+        this.addNotificationListener(Notifications.MAIN_SCENE_CREATED, this.loadAssets.bind(this));
+    }
+
+    registerSignalListeners() {
+        super.registerSignalListeners();
+        this.addSignalListener(Signals.ASSET_LOADED, this.resourceLoaded.bind(this));
+    }
+
+    protected loadMaps(): void {
+        this.model.loadMaps().then((maps: Collection<IMapData>) => {
+            this.sendNotification(Notifications.SCENES_LOADED, maps);
+        });
     }
 
     protected loadAssets(): void {
         this.model.loadAssets().then((assets: Collection<IMapData>) => {
-            this.sendNotification(Notifications.SCENES_LOADED, assets);
+            this.sendNotification(Notifications.ASSETS_LOADED, assets);
             this.view.drawTestRect();
         });
+    }
+
+    protected resourceLoaded(notification: IEventData): void {
+        this.sendNotification(Notifications.ASSET_LOADED, notification.body);
     }
 }
