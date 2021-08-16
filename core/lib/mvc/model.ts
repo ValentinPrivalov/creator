@@ -16,8 +16,9 @@ export class AbstractModel extends MvcEntity implements IAbstractModel {
         this.eventManager.raise({name: signalName, body});
     }
 
-    public setData(data: any): void {
+    public setData(data: any): any {
         this.data = data;
+        return this.data;
     }
 
     public getData(): any {

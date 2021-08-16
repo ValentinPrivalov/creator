@@ -33,8 +33,8 @@ export class LoadingController extends AbstractController {
 
     registerSignalListeners() {
         super.registerSignalListeners();
-        this.addSignalListener(Signals.ASSET_LOADED, this.resourceLoaded.bind(this));
-        this.addNotificationListener(Signals.LOAD_PROGRESS, this.onLoadProgress.bind(this));
+        this.addSignalListener(Signals.ASSET_LOADED, this.onAssetLoaded.bind(this));
+        this.addSignalListener(Signals.LOAD_PROGRESS, this.onLoadProgress.bind(this));
     }
 
     protected onStateChanged(current: string, previous?: string): void {
@@ -55,7 +55,7 @@ export class LoadingController extends AbstractController {
         });
     }
 
-    protected resourceLoaded(notification: IEventData): void {
+    protected onAssetLoaded(notification: IEventData): void {
         this.sendNotification(Notifications.ASSET_LOADED, notification.body);
     }
 

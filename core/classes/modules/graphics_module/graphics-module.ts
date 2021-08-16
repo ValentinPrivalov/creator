@@ -3,6 +3,8 @@ import {GraphicsView} from "./view/graphics-view";
 import {Names} from "../../../global/names";
 import {GraphicsController} from "./controller/graphics-controller";
 import {GraphicsModel} from "./model/graphics-model";
+import * as PIXI from "pixi.js";
+window.PIXI = PIXI; // pixiJS devtools dependence
 
 export class GraphicsModule extends AbstractModule {
     registerModels(): void {

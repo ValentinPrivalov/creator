@@ -3,15 +3,13 @@ import {ISceneSize} from "../static/graphics-interfaces";
 import {ISceneData} from "../../../../lib/tiled/tiled-interfaces";
 
 export class GraphicsModel extends AbstractModel {
-    protected _sceneSize: ISceneSize = {} as ISceneSize;
+    protected data: ISceneSize = {} as ISceneSize;
 
     public setSceneSize(data: ISceneData): ISceneSize {
-        this._sceneSize.width = data.tilewidth * data.width;
-        this._sceneSize.height = data.tileheight * data.height;
-        return this.getSceneSize();
-    }
-
-    public getSceneSize(): ISceneSize {
-        return this._sceneSize;
+        const sceneSize: ISceneSize = {
+            width: data.tilewidth * data.width,
+            height: data.tileheight * data.height
+        }
+        return this.setData(sceneSize);
     }
 }

@@ -32,7 +32,7 @@ export class GraphicsView extends AbstractView {
     protected resize(): void {
         const {innerWidth, innerHeight} = window;
         const graphicsModel: GraphicsModel = this.getModel(Names.Views.MAIN_SCENE);
-        const sceneSize: ISceneSize = graphicsModel.getSceneSize();
+        const sceneSize: ISceneSize = graphicsModel.getData();
 
         const ratio: number = sceneSize.width / sceneSize.height;
         const windowRatio: number = innerWidth / innerHeight;

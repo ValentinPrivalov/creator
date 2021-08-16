@@ -2,7 +2,7 @@ import {IMvcEntity, MvcEntity} from "./mvc-entity";
 import {EventManager} from "../services/event-manager";
 import {Services} from "../services";
 import {Names} from "../../global/names";
-import {Container, Ticker} from "pixi.js";
+import {Container, DisplayObject, Ticker} from "pixi.js";
 import {SceneManager} from "../services/scene-manager";
 
 export class AbstractView extends MvcEntity implements IAbstractView {
@@ -24,6 +24,14 @@ export class AbstractView extends MvcEntity implements IAbstractView {
 
     onResize(): void {
 
+    }
+
+    protected findChildByName(name: string, container: Container = this.display): DisplayObject {
+        let result: DisplayObject = null;
+        container.children?.forEach((child: DisplayObject) => {
+            result = child.name === name ? child : this.findChildByName(name, child as Container);
+        });
+        return result;
     }
 }
 
