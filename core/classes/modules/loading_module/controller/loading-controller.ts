@@ -34,6 +34,7 @@ export class LoadingController extends AbstractController {
     registerSignalListeners() {
         super.registerSignalListeners();
         this.addSignalListener(Signals.ASSET_LOADED, this.resourceLoaded.bind(this));
+        this.addNotificationListener(Signals.LOAD_PROGRESS, this.onLoadProgress.bind(this));
     }
 
     protected onStateChanged(current: string, previous?: string): void {
@@ -51,11 +52,14 @@ export class LoadingController extends AbstractController {
     protected loadAssets(): void {
         this.model.loadAssets().then((assets: Collection<IMapData>) => {
             this.sendNotification(Notifications.ASSETS_LOADED, assets);
-            this.view.drawTestRect();
         });
     }
 
     protected resourceLoaded(notification: IEventData): void {
         this.sendNotification(Notifications.ASSET_LOADED, notification.body);
+    }
+
+    protected onLoadProgress(notification: IEventData): void {
+        this.view.showProgress(notification.body);
     }
 }

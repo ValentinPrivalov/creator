@@ -5,7 +5,6 @@ import {Mvc} from "../lib/services/mvc";
 import {GraphicsModule} from "./modules/graphics_module/graphics-module";
 import {LoadingModule} from "./modules/loading_module/loading-module";
 import {EventManager} from "../lib/services/event-manager";
-import {Notifications} from "../global/notifications";
 import {Configs} from "../lib/services/configs";
 import {LayersModule} from "./modules/layers_module/layers-module";
 import {SceneManager} from "../lib/services/scene-manager";
@@ -18,7 +17,7 @@ import {States} from "../global/states";
 window.PIXI = PIXI; // pixiJS devtools dependence
 
 export class Entry {
-    private _engineVersion: string = '0.1.3';
+    private _engineVersion: string = '0.1.4';
     protected _gameVersion: string; // should be redefined in each game
 
     constructor() {

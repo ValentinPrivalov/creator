@@ -23,7 +23,6 @@ export class GraphicsView extends AbstractView {
         this.sceneManager.stage = stage;
         this.resize();
         this.windowEvents.add(WindowEventNames.RESIZE, this.resize.bind(this));
-        this.raiseSignal(Signals.MAIN_SCENE_INITIALIZED);
     }
 
     protected loop(renderer: Renderer, stage: Container): void {

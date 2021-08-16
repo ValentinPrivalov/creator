@@ -14,7 +14,7 @@ export class LayersController extends AbstractController {
 
     registerNotificationListeners(): void {
         super.registerNotificationListeners();
-        this.addNotificationListener(Notifications.SCENES_LOADED, this.onScenesLoaded.bind(this));
+        this.addNotificationListener(Notifications.MAIN_SCENE_INITIALIZED, this.onMainSceneInitialized.bind(this));
         this.addNotificationListener(Notifications.ASSET_LOADED, this.onAssetLoaded.bind(this));
     }
 
@@ -24,7 +24,7 @@ export class LayersController extends AbstractController {
         this.addSignalListener(Signals.LAYER_CREATED, this.onLayerCreated.bind(this));
     }
 
-    protected onScenesLoaded(notification: IEventData): void {
+    protected onMainSceneInitialized(notification: IEventData): void {
         const assets: Collection<IMapData> = notification.body;
         this.view.createLayers(assets);
     }

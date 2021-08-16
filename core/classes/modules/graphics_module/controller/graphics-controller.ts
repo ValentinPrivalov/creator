@@ -26,7 +26,6 @@ export class GraphicsController extends AbstractController {
 
     registerSignalListeners(): void {
         super.registerSignalListeners();
-        this.addSignalListener(Signals.MAIN_SCENE_INITIALIZED, this.onMainSceneInitialized.bind(this));
         this.addSignalListener(Signals.RESIZE, this.resize.bind(this));
     }
 
@@ -35,10 +34,7 @@ export class GraphicsController extends AbstractController {
         const sceneData: ISceneData = assets.get(LoadingNames.SCENE).sceneData;
         const sceneSize: ISceneSize = this.model.setSceneSize(sceneData);
         this.view.create(sceneSize);
-    }
-
-    protected onMainSceneInitialized(): void {
-        this.sendNotification(Notifications.MAIN_SCENE_INITIALIZED);
+        this.sendNotification(Notifications.MAIN_SCENE_INITIALIZED, assets);
     }
 
     protected resize(): void {
