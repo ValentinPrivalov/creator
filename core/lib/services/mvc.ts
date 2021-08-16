@@ -46,21 +46,18 @@ export class Mvc {
     }
 
     public registerModel(id: string, implementation: any): void {
-        Log.info('Register model: ' + id);
         const model: AbstractModel = new implementation(id);
         model.onRegister();
         this.modelCollection.add(id, model);
     }
 
     public registerView(id: string, implementation: any): void {
-        Log.info('Register view: ' + id);
         const view: AbstractView = new implementation(id);
         view.onRegister();
         this.viewCollection.add(id, view);
     }
 
     public registerController(viewId: string, implementation: any): void {
-        Log.info('Register controller: ' + viewId);
         const controller: AbstractController = new implementation(viewId);
         controller.onRegister();
         controller.bindView(this.viewCollection.get(viewId))

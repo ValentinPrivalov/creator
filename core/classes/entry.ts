@@ -13,10 +13,12 @@ import {WindowEvents} from "../lib/services/window-events";
 import * as PIXI from "pixi.js";
 import {LoadingNames} from "./modules/loading_module/static/loading-names";
 import {LevelModule} from "./modules/level_module/level-module";
+import {StateManager} from "../lib/services/state-manager";
+import {States} from "../global/states";
 window.PIXI = PIXI; // pixiJS devtools dependence
 
 export class Entry {
-    private _engineVersion: string = '0.1.2';
+    private _engineVersion: string = '0.1.3';
     protected _gameVersion: string; // should be redefined in each game
 
     constructor() {
@@ -27,6 +29,7 @@ export class Entry {
         this.initServices();
         this.initModules();
         this.initGameConfigs();
+        this.initStates();
         this.startEngine();
     }
 
@@ -45,6 +48,7 @@ export class Entry {
         this.services.register(Names.Services.CONFIGS, Configs);
         this.services.register(Names.Services.SCENE_MANAGER, SceneManager);
         this.services.register(Names.Services.WINDOW_EVENTS, WindowEvents);
+        this.services.register(Names.Services.STATE_MANAGER, StateManager);
     }
 
     protected initModules(): void {
@@ -60,7 +64,8 @@ export class Entry {
         Log.info('Game version: ' + this._gameVersion);
         const configs: Configs = this.services.get(Names.Services.CONFIGS);
         document.title = configs.gameName;
-        this.mvc.sendNotification(Notifications.INIT_ENGINE);
+        const stateManager: StateManager = this.services.get(Names.Services.STATE_MANAGER);
+        stateManager.setState(States.LOADING);
     }
 
     protected initGameConfigs(): void {
@@ -68,6 +73,11 @@ export class Entry {
         configs.gameName = 'Abstract Game';
         configs.gameVersion = this._gameVersion;
         configs.addProperty(LoadingNames.ASSETS, LoadingNames.ASSETS_PATH, 'assets/');
+    }
+
+    protected initStates(): void {
+        const stateManager: StateManager = this.services.get(Names.Services.STATE_MANAGER);
+        stateManager.registerState(States.LOADING, {from: [States.INIT]});
     }
 
     protected addModule(id: string, module: any): void {

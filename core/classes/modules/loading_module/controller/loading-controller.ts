@@ -8,6 +8,7 @@ import {Collection} from "../../../../util/collection";
 import {IMapData} from "../static/loading-interfaces";
 import {Signals} from "../../../../global/signals";
 import {IEventData} from "../../../../lib/services/event-manager";
+import {States} from "../../../../global/states";
 
 export class LoadingController extends AbstractController {
     protected graphicsModel: GraphicsModel;
@@ -27,13 +28,18 @@ export class LoadingController extends AbstractController {
 
     registerNotificationListeners(): void {
         super.registerNotificationListeners();
-        this.addNotificationListener(Notifications.INIT_ENGINE, this.loadMaps.bind(this));
         this.addNotificationListener(Notifications.MAIN_SCENE_CREATED, this.loadAssets.bind(this));
     }
 
     registerSignalListeners() {
         super.registerSignalListeners();
         this.addSignalListener(Signals.ASSET_LOADED, this.resourceLoaded.bind(this));
+    }
+
+    protected onStateChanged(current: string, previous?: string): void {
+        if (current === States.LOADING) {
+            this.loadMaps();
+        }
     }
 
     protected loadMaps(): void {

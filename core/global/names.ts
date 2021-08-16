@@ -5,6 +5,7 @@ export module Names {
         static CONFIGS: string = 'CONFIGS';
         static SCENE_MANAGER: string = 'SCENE_MANAGER';
         static WINDOW_EVENTS: string = 'WINDOW_EVENTS';
+        static STATE_MANAGER: string = 'STATE_MANAGER';
     }
 
     export class Modules {
