@@ -39,6 +39,7 @@ export interface ITile {
     image: string;
     imageheight: number;
     imagewidth: number;
+    properties?: Array<ITiledProperty>;
 }
 
 export interface ITiledLayerObject {

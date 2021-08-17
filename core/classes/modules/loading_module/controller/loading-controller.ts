@@ -50,8 +50,10 @@ export class LoadingController extends AbstractController {
     }
 
     protected loadAssets(): void {
-        this.model.loadAssets().then((assets: Collection<IMapData>) => {
-            this.sendNotification(Notifications.ASSETS_LOADED, assets);
+        this.view.display.visible = true;
+        this.model.loadAssets().then(() => {
+            this.view.display.visible = false;
+            this.setState(States.MAIN_MENU);
         });
     }
 

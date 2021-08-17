@@ -1,7 +1,7 @@
 import {AbstractModel} from "../../../../lib/mvc/model";
 import {LoadingNames} from "../static/loading-names";
 import {Collection} from "../../../../util/collection";
-import {ISceneData, ITile, ITileSet} from "../../../../lib/tiled/tiled-interfaces";
+import {ISceneData, ITile, ITiledProperty, ITileSet} from "../../../../lib/tiled/tiled-interfaces";
 import {ILevelData, IMapData} from "../static/loading-interfaces";
 import {Loader, LoaderResource} from "pixi.js";
 import {Signals} from "../../../../global/signals";
@@ -10,6 +10,7 @@ export class LoadingModel extends AbstractModel {
     protected data: Collection<IMapData> = new Collection();
     protected loader: Loader;
     public loaderResourceIdSeparator: string = ':';
+    public priorityPropertyName: string = 'priority';
 
     onRegister(): void {
         super.onRegister();
@@ -66,11 +67,18 @@ export class LoadingModel extends AbstractModel {
 
         maps.forEach((map: IMapData, mapName: string) => {
             map.sceneData.tilesets.forEach((tileset: ITileSet) => {
-                tileset.tiles.forEach((tile: ITile) => {
-                    const id: string = mapName + this.loaderResourceIdSeparator + tile.id;
-                    const path: string = assetsPath + tile.image;
-                    this.loader.add(id, path);
-                });
+                tileset.tiles
+                    .sort((tile: ITile, nextTile: ITile) => {
+                        const getPriority = (tile: ITile) =>
+                            tile.properties?.find((property: ITiledProperty) =>
+                                property.name === this.priorityPropertyName).value ?? 0;
+                        return getPriority(nextTile) - getPriority(tile);
+                    })
+                    .forEach((tile: ITile) => {
+                        const id: string = mapName + this.loaderResourceIdSeparator + tile.id;
+                        const path: string = assetsPath + tile.image;
+                        this.loader.add(id, path);
+                    });
             });
         });
 
