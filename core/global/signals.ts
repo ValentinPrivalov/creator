@@ -1,4 +1,4 @@
-const _namespace: string = 'SIGNAL_';
+export const _namespace: string = 'SIGNAL_';
 
 export class Signals {
     static MAIN_SCENE_CREATED: string = _namespace + 'MAIN_SCENE_CREATED';
