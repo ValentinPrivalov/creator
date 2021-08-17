@@ -6,7 +6,7 @@ import {ILevelData} from "../../core/classes/modules/loading_module/static/loadi
 import {MenuModule} from "./modules/menu_module/menu-module";
 
 class TanksBattleground extends Entry {
-    protected _gameVersion: string = '0.0.5';
+    protected _gameVersion: string = '0.0.6';
 
     protected initModules() {
         super.initModules();

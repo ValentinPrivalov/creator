@@ -31,7 +31,7 @@
                         {
                          "draworder":"topdown",
                          "id":7,
-                         "name":"image",
+                         "name":"background",
                          "objects":[
                                 {
                                  "gid":4,
@@ -44,65 +44,6 @@
                                  "width":634.366506606409,
                                  "x":323.330885352917,
                                  "y":595.501427988576
-                                }, 
-                                {
-                                 "height":113.58629130967,
-                                 "id":2,
-                                 "name":"area",
-                                 "rotation":0,
-                                 "type":"",
-                                 "visible":true,
-                                 "width":212.484700122399,
-                                 "x":-42.2276621787026,
-                                 "y":415.177478580171
-                                }, 
-                                {
-                                 "height":0,
-                                 "id":3,
-                                 "name":"point",
-                                 "point":true,
-                                 "rotation":0,
-                                 "type":"",
-                                 "visible":true,
-                                 "width":0,
-                                 "x":716.768665850673,
-                                 "y":352.509179926561
-                                }, 
-                                {
-                                 "height":0,
-                                 "id":4,
-                                 "name":"polygon",
-                                 "polygon":[
-                                        {
-                                         "x":0,
-                                         "y":0
-                                        }, 
-                                        {
-                                         "x":59.7307221542228,
-                                         "y":308.44553243574
-                                        }, 
-                                        {
-                                         "x":186.046511627907,
-                                         "y":10.7711138310893
-                                        }],
-                                 "rotation":0,
-                                 "type":"",
-                                 "visible":true,
-                                 "width":0,
-                                 "x":702.692778457772,
-                                 "y":111.627906976744
-                                }, 
-                                {
-                                 "gid":5,
-                                 "height":58,
-                                 "id":8,
-                                 "name":"level_1",
-                                 "rotation":0,
-                                 "type":"",
-                                 "visible":true,
-                                 "width":332,
-                                 "x":468.666666666667,
-                                 "y":149
                                 }],
                          "opacity":1,
                          "properties":[
@@ -118,21 +59,54 @@
                         }, 
                         {
                          "draworder":"topdown",
+                         "id":13,
+                         "name":"title",
+                         "objects":[
+                                {
+                                 "gid":5,
+                                 "height":58,
+                                 "id":12,
+                                 "name":"level_1",
+                                 "rotation":0,
+                                 "type":"",
+                                 "visible":true,
+                                 "width":332,
+                                 "x":0,
+                                 "y":58
+                                }],
+                         "offsetx":470.666666666667,
+                         "offsety":92,
+                         "opacity":1,
+                         "properties":[
+                                {
+                                 "name":"type",
+                                 "type":"string",
+                                 "value":"blabla"
+                                }],
+                         "type":"objectgroup",
+                         "visible":true,
+                         "x":0,
+                         "y":0
+                        }, 
+                        {
+                         "draworder":"topdown",
                          "id":11,
-                         "name":"button",
+                         "name":"start-button",
                          "objects":[
                                 {
                                  "gid":1,
                                  "height":150,
                                  "id":9,
-                                 "name":"start-button",
+                                 "name":"idle",
                                  "rotation":0,
                                  "type":"",
                                  "visible":true,
                                  "width":150,
-                                 "x":567,
-                                 "y":554.333333333333
+                                 "x":0,
+                                 "y":150
                                 }],
+                         "offsetx":566.666666666667,
+                         "offsety":413.333333333333,
                          "opacity":1,
                          "type":"objectgroup",
                          "visible":true,
@@ -209,8 +183,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":13,
- "nextobjectid":10,
+ "nextlayerid":14,
+ "nextobjectid":13,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.7.1",
@@ -228,7 +202,7 @@
          "margin":0,
          "name":"assets",
          "spacing":0,
-         "tilecount":10,
+         "tilecount":14,
          "tileheight":780,
          "tiles":[
                 {
@@ -296,6 +270,30 @@
                          "type":"int",
                          "value":1
                         }]
+                }, 
+                {
+                 "id":11,
+                 "image":"images\/GUI\/Buttons\/BTNs_Active\/Ok_BTN.png",
+                 "imageheight":210,
+                 "imagewidth":210
+                }, 
+                {
+                 "id":12,
+                 "image":"images\/GUI\/Buttons\/BTNs_Active\/Close_BTN.png",
+                 "imageheight":210,
+                 "imagewidth":210
+                }, 
+                {
+                 "id":13,
+                 "image":"images\/GUI\/Buttons\/BTNs_Active\/Menu_BTN.png",
+                 "imageheight":210,
+                 "imagewidth":210
+                }, 
+                {
+                 "id":14,
+                 "image":"images\/GUI\/Buttons\/BTNs_Active\/Play_BTN.png",
+                 "imageheight":210,
+                 "imagewidth":210
                 }],
          "tilewidth":940
         }],
