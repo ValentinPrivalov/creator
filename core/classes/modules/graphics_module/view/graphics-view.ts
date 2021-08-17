@@ -50,7 +50,7 @@ export class GraphicsView extends AbstractView {
             width: sceneSize.width,
             height: sceneSize.height,
             autoDensity: true,
-            backgroundColor: 0xffffff
+            backgroundColor: 0x000000
         }
     }
 }

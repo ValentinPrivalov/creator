@@ -4,12 +4,14 @@ import {Services} from "../services";
 import {Names} from "../../global/names";
 import {Container, DisplayObject, Ticker} from "pixi.js";
 import {SceneManager} from "../services/scene-manager";
+import TweenMax from "gsap/gsap-core";
 
 export class AbstractView extends MvcEntity implements IAbstractView {
     public display: Container;
     protected eventManager: EventManager;
     protected sceneManager: SceneManager;
     protected ticker: Ticker;
+    protected transitionSettings: ITransitionSettings = {};
 
     constructor(name: string) {
         super(name);
@@ -24,6 +26,21 @@ export class AbstractView extends MvcEntity implements IAbstractView {
 
     onResize(): void {
 
+    }
+
+    public layerTransitionInStart(): void {
+        if (this.transitionSettings.fadeInTime) {
+            TweenMax.to(this.display, {alpha: 1});
+        }
+        this.showLayer();
+    }
+
+    public layerTransitionOutStart(): void {
+        if (this.transitionSettings.fadeOutTime) {
+            TweenMax.to(this.display, {alpha: 0, onComplete: () => this.hideLayer()});
+        } else {
+            this.hideLayer();
+        }
     }
 
     public showLayer(): void {
@@ -49,4 +66,9 @@ export interface IAbstractView extends IMvcEntity {
     raiseSignal(signalName: string, body: any): void;
 
     onResize(): void;
+}
+
+export interface ITransitionSettings {
+    fadeInTime?: number,
+    fadeOutTime?: number
 }

@@ -52,7 +52,7 @@ export class LoadingController extends AbstractController {
     protected loadAssets(): void {
         this.view.showLayer();
         this.model.loadAssets().then(() => {
-            this.view.hideLayer();
+            this.view.layerTransitionOutStart();
             this.sendNotification(Notifications.ASSETS_LOADED);
         });
     }
