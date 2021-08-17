@@ -37,13 +37,101 @@
                                  "gid":4,
                                  "height":526.389228886169,
                                  "id":1,
-                                 "name":"",
+                                 "name":"window",
                                  "rotation":0,
                                  "type":"",
                                  "visible":true,
                                  "width":634.366506606409,
-                                 "x":0,
-                                 "y":526
+                                 "x":323.330885352917,
+                                 "y":595.501427988576
+                                }, 
+                                {
+                                 "height":113.58629130967,
+                                 "id":2,
+                                 "name":"area",
+                                 "rotation":0,
+                                 "type":"",
+                                 "visible":true,
+                                 "width":212.484700122399,
+                                 "x":-42.2276621787026,
+                                 "y":415.177478580171
+                                }, 
+                                {
+                                 "height":0,
+                                 "id":3,
+                                 "name":"point",
+                                 "point":true,
+                                 "rotation":0,
+                                 "type":"",
+                                 "visible":true,
+                                 "width":0,
+                                 "x":716.768665850673,
+                                 "y":352.509179926561
+                                }, 
+                                {
+                                 "height":0,
+                                 "id":4,
+                                 "name":"polygon",
+                                 "polygon":[
+                                        {
+                                         "x":0,
+                                         "y":0
+                                        }, 
+                                        {
+                                         "x":59.7307221542228,
+                                         "y":308.44553243574
+                                        }, 
+                                        {
+                                         "x":186.046511627907,
+                                         "y":10.7711138310893
+                                        }],
+                                 "rotation":0,
+                                 "type":"",
+                                 "visible":true,
+                                 "width":0,
+                                 "x":702.692778457772,
+                                 "y":111.627906976744
+                                }, 
+                                {
+                                 "gid":5,
+                                 "height":58,
+                                 "id":8,
+                                 "name":"level_1",
+                                 "rotation":0,
+                                 "type":"",
+                                 "visible":true,
+                                 "width":332,
+                                 "x":468.666666666667,
+                                 "y":149
+                                }],
+                         "opacity":1,
+                         "properties":[
+                                {
+                                 "name":"type",
+                                 "type":"string",
+                                 "value":"blabla"
+                                }],
+                         "type":"objectgroup",
+                         "visible":true,
+                         "x":0,
+                         "y":0
+                        }, 
+                        {
+                         "draworder":"topdown",
+                         "id":11,
+                         "name":"button",
+                         "objects":[
+                                {
+                                 "gid":1,
+                                 "height":150,
+                                 "id":9,
+                                 "name":"start-button",
+                                 "rotation":0,
+                                 "type":"",
+                                 "visible":true,
+                                 "width":150,
+                                 "x":567,
+                                 "y":554.333333333333
                                 }],
                          "opacity":1,
                          "type":"objectgroup",
@@ -52,8 +140,6 @@
                          "y":0
                         }],
                  "name":"MAIN_MENU",
-                 "offsetx":100,
-                 "offsety":0,
                  "opacity":1,
                  "type":"group",
                  "visible":true,
@@ -62,11 +148,57 @@
                 }, 
                 {
                  "id":2,
-                 "layers":[],
+                 "layers":[
+                        {
+                         "draworder":"topdown",
+                         "id":9,
+                         "name":"background",
+                         "objects":[
+                                {
+                                 "gid":11,
+                                 "height":850,
+                                 "id":6,
+                                 "name":"background-image",
+                                 "rotation":0,
+                                 "type":"",
+                                 "visible":true,
+                                 "width":1280,
+                                 "x":0,
+                                 "y":850
+                                }],
+                         "opacity":1,
+                         "type":"objectgroup",
+                         "visible":true,
+                         "x":0,
+                         "y":0
+                        }, 
+                        {
+                         "draworder":"topdown",
+                         "id":10,
+                         "name":"progress",
+                         "objects":[
+                                {
+                                 "gid":6,
+                                 "height":20,
+                                 "id":7,
+                                 "name":"progress-bar",
+                                 "rotation":0,
+                                 "type":"",
+                                 "visible":true,
+                                 "width":1280,
+                                 "x":0,
+                                 "y":700
+                                }],
+                         "opacity":1,
+                         "type":"objectgroup",
+                         "visible":true,
+                         "x":0,
+                         "y":0
+                        }],
                  "name":"LOADING_SCREEN",
                  "opacity":1,
                  "type":"group",
-                 "visible":true,
+                 "visible":false,
                  "x":0,
                  "y":0
                 }],
@@ -77,8 +209,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":9,
- "nextobjectid":2,
+ "nextlayerid":13,
+ "nextobjectid":10,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.7.1",
@@ -96,7 +228,7 @@
          "margin":0,
          "name":"assets",
          "spacing":0,
-         "tilecount":9,
+         "tilecount":10,
          "tileheight":780,
          "tiles":[
                 {
@@ -152,6 +284,18 @@
                  "image":"images\/GUI\/Ship_Parts\/HP_Icon.png",
                  "imageheight":55,
                  "imagewidth":65
+                }, 
+                {
+                 "id":10,
+                 "image":"images\/loader.jpg",
+                 "imageheight":480,
+                 "imagewidth":720,
+                 "properties":[
+                        {
+                         "name":"priority",
+                         "type":"int",
+                         "value":1
+                        }]
                 }],
          "tilewidth":940
         }],

@@ -15,6 +15,7 @@ export class LevelController extends AbstractController {
     }
 
     protected onSceneCreated(): void {
+        this.view.showLayer();
         this.view.insertLevel(LevelController.LEVEL_1);
     }
 }

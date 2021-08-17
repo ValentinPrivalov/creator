@@ -26,6 +26,14 @@ export class AbstractView extends MvcEntity implements IAbstractView {
 
     }
 
+    public showLayer(): void {
+        this.display.visible = true;
+    }
+
+    public hideLayer(): void {
+        this.display.visible = false;
+    }
+
     protected findChildByName(name: string, container: Container = this.display): DisplayObject {
         let result: DisplayObject = null;
         container.children?.forEach((child: DisplayObject) => {

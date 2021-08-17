@@ -50,10 +50,10 @@ export class LoadingController extends AbstractController {
     }
 
     protected loadAssets(): void {
-        this.view.display.visible = true;
+        this.view.showLayer();
         this.model.loadAssets().then(() => {
-            this.view.display.visible = false;
-            this.setState(States.MAIN_MENU);
+            this.view.hideLayer();
+            this.sendNotification(Notifications.ASSETS_LOADED);
         });
     }
 

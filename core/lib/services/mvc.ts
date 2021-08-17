@@ -67,6 +67,7 @@ export class Mvc {
 
     public bindLayer(layer: Container): void {
         if (this.viewCollection.has(layer.name)) {
+            layer.visible = false;
             this.viewCollection.get(layer.name).display = layer;
         }
     }

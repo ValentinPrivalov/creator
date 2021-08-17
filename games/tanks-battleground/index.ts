@@ -3,9 +3,15 @@ import {Names} from "../../core/global/names";
 import {Configs} from "../../core/lib/services/configs";
 import {LoadingNames} from "../../core/classes/modules/loading_module/static/loading-names";
 import {ILevelData} from "../../core/classes/modules/loading_module/static/loading-interfaces";
+import {MenuModule} from "./modules/menu_module/menu-module";
 
 class TanksBattleground extends Entry {
-    protected _gameVersion: string = '0.0.4';
+    protected _gameVersion: string = '0.0.5';
+
+    protected initModules() {
+        super.initModules();
+        this.addModule(Names.Modules.MENU_MODULE, MenuModule);
+    }
 
     protected initGameConfigs(): void {
         super.initGameConfigs();
