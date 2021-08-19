@@ -28,16 +28,27 @@ export class AbstractView extends MvcEntity implements IAbstractView {
 
     }
 
-    public layerTransitionInStart(): void {
+    public layerTransitionInStart(callback?: Function): void {
         if (this.transitionSettings.fadeInTime) {
-            TweenMax.to(this.display, {alpha: 1});
+            TweenMax.to(this.display, {
+                alpha: 1,
+                onComplete: () => {
+                    callback?.();
+                }
+            });
+            callback?.();
         }
         this.showLayer();
     }
 
-    public layerTransitionOutStart(): void {
+    public layerTransitionOutStart(callback?: Function): void {
         if (this.transitionSettings.fadeOutTime) {
-            TweenMax.to(this.display, {alpha: 0, onComplete: () => this.hideLayer()});
+            TweenMax.to(this.display, {
+                alpha: 0, onComplete: () => {
+                    this.hideLayer();
+                    callback?.();
+                }
+            });
         } else {
             this.hideLayer();
         }
@@ -49,6 +60,16 @@ export class AbstractView extends MvcEntity implements IAbstractView {
 
     public hideLayer(): void {
         this.display.visible = false;
+    }
+
+    public enableInteractive(): void {
+        this.display.interactive = true;
+        this.display.interactiveChildren = true;
+    }
+
+    public disableInteractive(): void {
+        this.display.interactive = false;
+        this.display.interactiveChildren = false;
     }
 
     protected findChildByName(name: string, container: Container = this.display): DisplayObject {
