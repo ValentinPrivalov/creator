@@ -25,7 +25,6 @@ export class Mvc {
         } else {
             Log.info('Register module: ' + id);
             const module: AbstractModule = new implementation(id);
-            module.onRegister();
             this.modulesCollection.add(id, module);
         }
     }
@@ -36,9 +35,19 @@ export class Mvc {
         } else {
             Log.info('Replace module: ' + id);
             const module: AbstractModule = new implementation(id);
-            module.onRegister();
             this.modulesCollection.add(id, module);
         }
+    }
+
+    public start(): void {
+        this.modulesCollection.forEach((module: AbstractModule) => module.onRegister());
+        this.modelCollection.forEach((model: AbstractModel) => model.onRegister());
+        this.viewCollection.forEach((view: AbstractView) => view.onRegister());
+        this.controllerCollection.forEach((controller: AbstractController) => {
+            controller.bindView(this.viewCollection.get(controller.NAME))
+            controller.bindModel(this.modelCollection.get(controller.NAME));
+            controller.onRegister();
+        });
     }
 
     sendNotification(notificationName: string, body?: any): void {
@@ -47,21 +56,16 @@ export class Mvc {
 
     public registerModel(id: string, implementation: any): void {
         const model: AbstractModel = new implementation(id);
-        model.onRegister();
         this.modelCollection.add(id, model);
     }
 
     public registerView(id: string, implementation: any): void {
         const view: AbstractView = new implementation(id);
-        view.onRegister();
         this.viewCollection.add(id, view);
     }
 
     public registerController(viewId: string, implementation: any): void {
         const controller: AbstractController = new implementation(viewId);
-        controller.onRegister();
-        controller.bindView(this.viewCollection.get(viewId))
-        controller.bindModel(this.modelCollection.get(viewId));
         this.controllerCollection.add(viewId, controller);
     }
 

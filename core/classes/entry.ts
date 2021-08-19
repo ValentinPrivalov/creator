@@ -15,7 +15,7 @@ import {StateManager} from "../lib/services/state-manager";
 import {States} from "../global/states";
 
 export class Entry {
-    private _engineVersion: string = '0.1.11';
+    private _engineVersion: string = '0.1.12';
     protected _gameVersion: string; // should be redefined in each game
 
     constructor() {
@@ -27,6 +27,7 @@ export class Entry {
         this.initModules();
         this.initGameConfigs();
         this.initStates();
+        this.startMVC();
         this.startEngine();
     }
 
@@ -76,6 +77,10 @@ export class Entry {
         const stateManager: StateManager = this.services.get(Names.Services.STATE_MANAGER);
         stateManager.registerState(States.LOADING, {from: [States.INIT]});
         stateManager.registerState(States.MAIN_MENU, {from: [States.LOADING]});
+    }
+
+    protected startMVC(): void {
+        this.mvc.start();
     }
 
     protected addModule(id: string, module: any): void {
