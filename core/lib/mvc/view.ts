@@ -4,7 +4,7 @@ import {Services} from "../services";
 import {Names} from "../../global/names";
 import {Container, DisplayObject, Ticker} from "pixi.js";
 import {SceneManager} from "../services/scene-manager";
-import TweenMax from "gsap/gsap-core";
+import gsap from "gsap";
 
 export class AbstractView extends MvcEntity implements IAbstractView {
     public display: Container;
@@ -30,7 +30,7 @@ export class AbstractView extends MvcEntity implements IAbstractView {
 
     public layerTransitionInStart(callback?: Function): void {
         if (this.transitionSettings.fadeInTime) {
-            TweenMax.to(this.display, {
+            gsap.to(this.display, {
                 alpha: 1,
                 onComplete: () => {
                     callback?.();
@@ -43,7 +43,7 @@ export class AbstractView extends MvcEntity implements IAbstractView {
 
     public layerTransitionOutStart(callback?: Function): void {
         if (this.transitionSettings.fadeOutTime) {
-            TweenMax.to(this.display, {
+            gsap.to(this.display, {
                 alpha: 0, onComplete: () => {
                     this.hideLayer();
                     callback?.();

@@ -4,13 +4,18 @@ import {Configs} from "../../core/lib/services/configs";
 import {LoadingNames} from "../../core/classes/modules/loading_module/static/loading-names";
 import {ILevelData} from "../../core/classes/modules/loading_module/static/loading-interfaces";
 import {MenuModule} from "./modules/menu_module/menu-module";
+import {StateManager} from "../../core/lib/services/state-manager";
+import {TanksStates} from "./modules/global/tanks-states";
+import {States} from "../../core/global/states";
+import {TanksLevelModule} from "./modules/tanks_level_module/tanks-level-module";
 
 class TanksBattleground extends Entry {
-    protected _gameVersion: string = '0.0.6';
+    protected _gameVersion: string = '0.0.7';
 
     protected initModules() {
         super.initModules();
         this.addModule(Names.Modules.MENU_MODULE, MenuModule);
+        this.replaceModule(Names.Modules.LEVEL_MODULE, TanksLevelModule);
     }
 
     protected initGameConfigs(): void {
@@ -19,6 +24,12 @@ class TanksBattleground extends Entry {
         configs.gameName = 'Tanks Battleground';
         configs.addProperty(LoadingNames.ASSETS, LoadingNames.SCENE, 'scene.json');
         configs.addProperty(LoadingNames.ASSETS, LoadingNames.LEVELS, [{name: 'level_1', path: 'level.json'}] as Array<ILevelData>);
+    }
+
+    protected initStates() {
+        super.initStates();
+        const stateManager: StateManager = this.services.get(Names.Services.STATE_MANAGER);
+        stateManager.registerState(TanksStates.LEVEL, {from: [States.MAIN_MENU]});
     }
 }
 

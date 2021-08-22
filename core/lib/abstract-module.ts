@@ -31,6 +31,10 @@ export class AbstractModule extends MvcEntity implements IAbstractModule {
         this.mvc.registerView(id, view);
     }
 
+    replaceView(id: string, newClass: any) {
+        this.mvc.registerView(id, newClass);
+    }
+
     addController(viewId: string, controller: any): void {
         this.mvc.registerController(viewId, controller);
     }
@@ -52,8 +56,8 @@ export interface IAbstractModule extends IMvcEntity {
     //
     addView(id: string, view: IAbstractView): void;
 
-    //
-    // replaceView(identifier: string, newClass: any, type: number): void;
+    replaceView(id: string, newClass: any): void;
+
     //
     // deleteView(identifier: string, type: number): void;
     //

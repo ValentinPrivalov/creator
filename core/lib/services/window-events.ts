@@ -16,4 +16,10 @@ export class WindowEvents {
 
 export class WindowEventNames {
     static RESIZE: string = 'resize';
+    static MOUSE_WHEEL: string = 'mousewheel';
+}
+
+export interface IWindowMouseWheelEventData {
+    deltaX: number;
+    deltaY: number;
 }
