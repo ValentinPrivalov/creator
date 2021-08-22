@@ -7,15 +7,16 @@ import {MenuModule} from "./modules/menu_module/menu-module";
 import {StateManager} from "../../core/lib/services/state-manager";
 import {TanksStates} from "./modules/global/tanks-states";
 import {States} from "../../core/global/states";
+import {TanksModules} from "./modules/global/tanks-names";
 import {TanksLevelModule} from "./modules/tanks_level_module/tanks-level-module";
 
 class TanksBattleground extends Entry {
-    protected _gameVersion: string = '0.0.7';
+    protected _gameVersion: string = '0.0.8';
 
     protected initModules() {
         super.initModules();
-        this.addModule(Names.Modules.MENU_MODULE, MenuModule);
-        this.replaceModule(Names.Modules.LEVEL_MODULE, TanksLevelModule);
+        this.addModule(TanksModules.MENU_MODULE, MenuModule);
+        this.addModule(TanksModules.LEVEL_MODULE, TanksLevelModule);
     }
 
     protected initGameConfigs(): void {

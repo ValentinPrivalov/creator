@@ -1,14 +1,20 @@
-import {LevelView} from "../../../../../core/classes/modules/level_module/view/level-view";
 import {IWindowMouseWheelEventData, WindowEventNames} from "../../../../../core/lib/services/window-events";
 import {IZoomEdges} from "../global/tanks-level-interfaces";
 import gsap from "gsap";
+import {Container} from "pixi.js";
+import {AbstractView} from "../../../../../core/lib/mvc/view";
 
-export class TanksLevelView extends LevelView {
+export class TanksLevelView extends AbstractView {
     protected zoomTween: GSAPTween;
     protected zoomScaleStep: number = 1000;
     protected zoomEdges: IZoomEdges = {
         minScale: 0.3,
         maxScale: 1
+    }
+
+    public insertLevel(levelName: string): void {
+        const level: Container = this.sceneManager.get(levelName);
+        this.display.addChild(level);
     }
 
     public enableUI(): void {

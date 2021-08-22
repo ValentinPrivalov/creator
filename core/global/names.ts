@@ -12,8 +12,6 @@ export module Names {
         static GRAPHICS_MODULE: string = 'GRAPHICS_MODULE';
         static LOADING_MODULE: string = 'LOADING_MODULE';
         static LAYERS_MODULE: string = 'LAYERS_MODULE';
-        static MENU_MODULE: string = 'MENU_MODULE';
-        static LEVEL_MODULE: string = 'LEVEL_MODULE';
     }
 
     export class Views {
@@ -21,6 +19,5 @@ export module Names {
         static LOADING_SCREEN: string = 'LOADING_SCREEN';
         static SCENE: string = 'SCENE';
         static MAIN_MENU: string = 'MAIN_MENU';
-        static LEVEL: string = 'LEVEL';
     }
 }

@@ -10,12 +10,11 @@ import {LayersModule} from "./modules/layers_module/layers-module";
 import {SceneManager} from "../lib/services/scene-manager";
 import {WindowEvents} from "../lib/services/window-events";
 import {LoadingNames} from "./modules/loading_module/static/loading-names";
-import {LevelModule} from "./modules/level_module/level-module";
 import {StateManager} from "../lib/services/state-manager";
 import {States} from "../global/states";
 
 export class Entry {
-    private _engineVersion: string = '0.1.13';
+    private _engineVersion: string = '0.1.14';
     protected _gameVersion: string; // should be redefined in each game
 
     constructor() {
@@ -54,7 +53,6 @@ export class Entry {
         this.addModule(Names.Modules.GRAPHICS_MODULE, GraphicsModule);
         this.addModule(Names.Modules.LOADING_MODULE, LoadingModule);
         this.addModule(Names.Modules.LAYERS_MODULE, LayersModule);
-        this.addModule(Names.Modules.LEVEL_MODULE, LevelModule);
     }
 
     protected startEngine(): void {
