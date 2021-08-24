@@ -1,9 +1,9 @@
 import {AbstractView} from "../../../../lib/mvc/view";
-import {DisplayObject, LoaderResource, Sprite} from "pixi.js";
+import {DisplayObject, LoaderResource, Sprite, Graphics, utils} from "pixi.js";
 import {LayersNames} from "../static/layers-names";
 import {Signals} from "../../../../global/signals";
 import {ITiledLayer, ITiledLayerObject, ITiledProperty, ITileSet} from "../../../../lib/tiled/tiled-interfaces";
-import {TiledLayerNames} from "../../../../lib/tiled/tiled-names";
+import {TiledLayerNames, TiledProperties, TiledPropertyValues} from "../../../../lib/tiled/tiled-names";
 import {Collection} from "../../../../util/collection";
 import {IMapData} from "../../loading_module/static/loading-interfaces";
 import {ISceneSize} from "../../graphics_module/static/graphics-interfaces";
@@ -11,6 +11,7 @@ import {Layer} from "./layer";
 import {ImageObject} from "./layer-object";
 import {Names} from "../../../../global/names";
 import {LoadingModel} from "../../loading_module/model/loading-model";
+import {TiledUtils} from "../../../../util/tiled-utils";
 
 export class LayersView extends AbstractView {
     public createLayers(assets: Collection<IMapData>): void {
@@ -30,6 +31,7 @@ export class LayersView extends AbstractView {
         layer.alpha = tiledLayer.opacity;
         layer.visible = tiledLayer.visible;
         layer.position.set(tiledLayer.offsetx, tiledLayer.offsety);
+        layer.sortableChildren = true;
 
         tiledLayer.properties?.forEach((property: ITiledProperty) =>
             layer.properties[property.name] = property.value);
@@ -47,22 +49,24 @@ export class LayersView extends AbstractView {
                 break;
         }
 
+        layer.zIndex = TiledUtils.getPropertyValue(tiledLayer, TiledProperties.Z);
         parentLayer?.addChild(layer);
         return layer;
     }
 
     protected createObject(map: IMapData, obj: ITiledLayerObject, parentLayer: Layer): void {
+        const type: string = TiledUtils.getPropertyValue(obj, TiledProperties.TYPE);
+
         if (obj.gid) {
             this.createImageObject(map, obj, parentLayer);
-        }
-        if (obj.point) {
+        } else if (obj.point) {
 
-        }
-        if (obj.polygon) {
+        } else if (obj.polygon) {
 
-        }
-        if (obj.ellipse) {
+        } else if (obj.ellipse) {
 
+        } else if (type === TiledPropertyValues.GRAPHICS) {
+            this.createGraphicsObject(obj, parentLayer);
         }
     }
 
@@ -79,6 +83,18 @@ export class LayersView extends AbstractView {
         map.objects.push(image);
         parentLayer.addChild(image);
         return image;
+    }
+
+    protected createGraphicsObject(obj: ITiledLayerObject, parentLayer: Layer): void {
+        const color: string = TiledUtils.getPropertyValue(obj, TiledProperties.COLOR);
+        const graphics: Graphics = new Graphics();
+        graphics.name = obj.name;
+        graphics.position.set(obj.x, obj.y);
+        graphics.beginFill(utils.string2hex(color));
+        graphics.drawRect(0, 0, obj.width, obj.height);
+        graphics.endFill();
+
+        parentLayer.addChild(graphics);
     }
 
     protected createTileLayer(map: IMapData, tiledLayer: ITiledLayer, parentLayer: Layer): void {

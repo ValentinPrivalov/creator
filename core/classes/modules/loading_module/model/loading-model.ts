@@ -1,16 +1,17 @@
 import {AbstractModel} from "../../../../lib/mvc/model";
 import {LoadingNames} from "../static/loading-names";
 import {Collection} from "../../../../util/collection";
-import {ISceneData, ITile, ITiledProperty, ITileSet} from "../../../../lib/tiled/tiled-interfaces";
+import {ISceneData, ITile, ITileSet} from "../../../../lib/tiled/tiled-interfaces";
 import {ILevelData, IMapData} from "../static/loading-interfaces";
 import {Loader, LoaderResource} from "pixi.js";
 import {Signals} from "../../../../global/signals";
+import {TiledUtils} from "../../../../util/tiled-utils";
+import {TiledProperties} from "../../../../lib/tiled/tiled-names";
 
 export class LoadingModel extends AbstractModel {
     protected data: Collection<IMapData> = new Collection();
     protected loader: Loader;
     public loaderResourceIdSeparator: string = ':';
-    public priorityPropertyName: string = 'priority';
 
     onRegister(): void {
         super.onRegister();
@@ -63,29 +64,12 @@ export class LoadingModel extends AbstractModel {
     }
 
     protected loadMapsImages(maps: Collection<IMapData>): Promise<Collection<IMapData>> {
-        const assetsPath: string = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.ASSETS_PATH);
-
         maps.forEach((map: IMapData, mapName: string) => {
             map.sceneData.tilesets.forEach((tileset: ITileSet) => {
-                tileset.tiles
-                    .sort((tile: ITile, nextTile: ITile) => {
-                        const getPriority = (tile: ITile) =>
-                            tile.properties?.find((property: ITiledProperty) =>
-                                property.name === this.priorityPropertyName).value ?? 0;
-                        return getPriority(nextTile) - getPriority(tile);
-                    })
-                    .forEach((tile: ITile) => {
-                        const id: string = mapName + this.loaderResourceIdSeparator + tile.id;
-                        const path: string = assetsPath + tile.image;
-                        this.loader.add(id, path);
-                    });
+                this.addToLoader(tileset.tiles, mapName);
             });
         });
-
-        this.loader.onLoad.add((loader: Loader, resource: LoaderResource) => {
-            this.raiseSignal(Signals.ASSET_LOADED, resource);
-            this.raiseSignal(Signals.LOAD_PROGRESS, loader.progress);
-        })
+        this.loader.onLoad.add(this.onItemLoaded.bind(this));
 
         return new Promise(resolve => {
             this.loader.load((loader: Loader, resources: any) => {
@@ -97,5 +81,25 @@ export class LoadingModel extends AbstractModel {
                 resolve(maps);
             });
         });
+    }
+
+    protected addToLoader(tiles: Array<ITile>, mapName: string): void {
+        const assetsPath: string = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.ASSETS_PATH);
+
+        tiles
+            .sort((tile: ITile, nextTile: ITile) => {
+                const getPriority = (tile: ITile) => TiledUtils.getPropertyValue(tile, TiledProperties.PRIORITY) ?? 0;
+                return getPriority(nextTile) - getPriority(tile);
+            })
+            .forEach((tile: ITile) => {
+                const id: string = mapName + this.loaderResourceIdSeparator + tile.id;
+                const path: string = assetsPath + tile.image;
+                this.loader.add(id, path);
+            });
+    }
+
+    protected onItemLoaded(loader: Loader, resource: LoaderResource): void {
+        this.raiseSignal(Signals.ASSET_LOADED, resource);
+        this.raiseSignal(Signals.LOAD_PROGRESS, loader.progress);
     }
 }

@@ -1,4 +1,4 @@
-import {autoDetectRenderer, Renderer, Container} from "pixi.js";
+import {autoDetectRenderer, Renderer, Container, settings} from "pixi.js";
 import {AbstractView} from "../../../../lib/mvc/view";
 import {Signals} from "../../../../global/signals";
 import {ISceneSize} from "../static/graphics-interfaces";
@@ -23,6 +23,7 @@ export class GraphicsView extends AbstractView {
         this.sceneManager.stage = stage;
         this.resize();
         this.windowEvents.add(WindowEventNames.RESIZE, this.resize.bind(this));
+        this.setupSettings();
     }
 
     protected loop(renderer: Renderer, stage: Container): void {
@@ -52,5 +53,11 @@ export class GraphicsView extends AbstractView {
             autoDensity: true,
             backgroundColor: 0x000000
         }
+    }
+
+    protected setupSettings(): void {
+        settings.SORTABLE_CHILDREN = true;
+        settings.RESOLUTION = window.devicePixelRatio;
+        settings.ROUND_PIXELS = true;
     }
 }

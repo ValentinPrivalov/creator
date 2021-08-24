@@ -38,6 +38,12 @@
                          "offsetx":1170.66666666667,
                          "offsety":13.3333333333334,
                          "opacity":1,
+                         "properties":[
+                                {
+                                 "name":"z",
+                                 "type":"int",
+                                 "value":100
+                                }],
                          "type":"objectgroup",
                          "visible":true,
                          "x":0,
@@ -71,12 +77,39 @@
                                  "y":595.501427988576
                                 }],
                          "opacity":1,
-                         "properties":[
+                         "type":"objectgroup",
+                         "visible":true,
+                         "x":0,
+                         "y":0
+                        }, 
+                        {
+                         "draworder":"topdown",
+                         "id":15,
+                         "name":"shadow",
+                         "objects":[
                                 {
-                                 "name":"type",
-                                 "type":"string",
-                                 "value":"blabla"
+                                 "height":720,
+                                 "id":16,
+                                 "name":"shadow",
+                                 "properties":[
+                                        {
+                                         "name":"color",
+                                         "type":"string",
+                                         "value":"#000000"
+                                        }, 
+                                        {
+                                         "name":"type",
+                                         "type":"string",
+                                         "value":"graphics"
+                                        }],
+                                 "rotation":0,
+                                 "type":"",
+                                 "visible":true,
+                                 "width":1280,
+                                 "x":0,
+                                 "y":0
                                 }],
+                         "opacity":0.3,
                          "type":"objectgroup",
                          "visible":true,
                          "x":0,
@@ -102,12 +135,6 @@
                          "offsetx":470.666666666667,
                          "offsety":92,
                          "opacity":1,
-                         "properties":[
-                                {
-                                 "name":"type",
-                                 "type":"string",
-                                 "value":"blabla"
-                                }],
                          "type":"objectgroup",
                          "visible":true,
                          "x":0,
@@ -208,8 +235,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":15,
- "nextobjectid":15,
+ "nextlayerid":16,
+ "nextobjectid":17,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.7.1",

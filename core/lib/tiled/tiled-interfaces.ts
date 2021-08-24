@@ -1,27 +1,28 @@
 import {TiledLayerNames} from "./tiled-names";
 import {Point} from "pixi.js";
 
-export interface ITiledLayer {
+export interface ITiledEntity {
+    width: number;
+    height: number;
+    properties?: Array<ITiledProperty>;
+}
+
+export interface ITiledLayer extends ITiledEntity {
     id: number;
     name: string;
     opacity: number;
     visible: boolean;
     x: number;
     y: number;
-    width: number;
-    height: number;
     offsetx: number;
     offsety: number;
     type: TiledLayerNames;
     data?: Array<number>;
     layers?: Array<ITiledLayer>;
     objects?: Array<ITiledLayerObject>;
-    properties?: Array<{ name: string, value: string }>;
 }
 
-export interface ISceneData {
-    width: number;
-    height: number;
+export interface ISceneData extends ITiledEntity {
     tilewidth: number;
     tileheight: number;
     layers: Array<ITiledLayer>;
@@ -34,19 +35,16 @@ export interface ITileSet {
     tileheight: number;
 }
 
-export interface ITile {
+export interface ITile extends ITiledEntity {
     id: number;
     image: string;
     imageheight: number;
     imagewidth: number;
-    properties?: Array<ITiledProperty>;
 }
 
-export interface ITiledLayerObject {
+export interface ITiledLayerObject extends ITiledEntity {
     x: number;
     y: number;
-    width: number;
-    height: number;
     rotation: number;
     visible: boolean;
     name: string;
