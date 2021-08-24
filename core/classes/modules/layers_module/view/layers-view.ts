@@ -2,7 +2,7 @@ import {AbstractView} from "../../../../lib/mvc/view";
 import {DisplayObject, LoaderResource, Sprite, Graphics, utils} from "pixi.js";
 import {LayersNames} from "../static/layers-names";
 import {Signals} from "../../../../global/signals";
-import {ITiledLayer, ITiledLayerObject, ITiledProperty, ITileSet} from "../../../../lib/tiled/tiled-interfaces";
+import {ITile, ITiledLayer, ITiledLayerObject, ITiledProperty, ITileSet} from "../../../../lib/tiled/tiled-interfaces";
 import {TiledLayerNames, TiledProperties, TiledPropertyValues} from "../../../../lib/tiled/tiled-names";
 import {Collection} from "../../../../util/collection";
 import {IMapData} from "../../loading_module/static/loading-interfaces";
@@ -98,6 +98,7 @@ export class LayersView extends AbstractView {
     }
 
     protected createTileLayer(map: IMapData, tiledLayer: ITiledLayer, parentLayer: Layer): void {
+        const tileSet: ITileSet = map.sceneData.tilesets[0];
         const tileWidth = map.sceneData.tilewidth;
         const tileHeight = map.sceneData.tileheight;
         const sceneSize: ISceneSize = {
@@ -107,13 +108,13 @@ export class LayersView extends AbstractView {
 
         tiledLayer.data.forEach((gid: number, index: number) => {
             if (gid !== 0) { // skip empty tile
-                const tileSet: ITileSet = map.sceneData.tilesets[0];
+                const tile: ITile = tileSet.tiles.find((tile: ITile) => tile.id === gid);
                 const imageObj: ITiledLayerObject = {
                     gid: gid,
                     x: (tileWidth * index) % sceneSize.width,
                     y: Math.floor(index / tiledLayer.width) * tileHeight,
-                    width: tileSet.tilewidth,
-                    height: tileSet.tileheight,
+                    width: tile.imagewidth,
+                    height: tile.imageheight,
                     rotation: 0,
                     visible: true,
                     name: gid.toString()
