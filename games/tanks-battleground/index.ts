@@ -11,7 +11,7 @@ import {TanksModules} from "./modules/global/tanks-names";
 import {TanksLevelModule} from "./modules/tanks_level_module/tanks-level-module";
 
 class TanksBattleground extends Entry {
-    protected _gameVersion: string = '0.0.12';
+    protected _gameVersion: string = '0.1.0';
 
     protected initModules() {
         super.initModules();
@@ -30,7 +30,8 @@ class TanksBattleground extends Entry {
     protected initStates() {
         super.initStates();
         const stateManager: StateManager = this.services.get(Names.Services.STATE_MANAGER);
-        stateManager.registerState(TanksStates.LEVEL, {from: [States.MAIN_MENU]});
+        stateManager.registerState(TanksStates.LEVEL, {from: [States.MAIN_MENU, TanksStates.PAUSE_GAME]});
+        stateManager.registerState(TanksStates.PAUSE_GAME, {from: [TanksStates.LEVEL]});
     }
 }
 

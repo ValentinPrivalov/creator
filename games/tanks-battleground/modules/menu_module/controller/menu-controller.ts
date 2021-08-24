@@ -13,6 +13,7 @@ export class MenuController extends AbstractController {
     registerNotificationListeners(): void {
         super.registerNotificationListeners();
         this.addNotificationListener(Notifications.ASSETS_LOADED, this.onAssetsLoaded.bind(this));
+        this.addNotificationListener(TanksStates.PAUSE_GAME, this.gamePaused.bind(this));
     }
 
     registerSignalListeners(): void {
@@ -21,15 +22,19 @@ export class MenuController extends AbstractController {
     }
 
     protected onAssetsLoaded(): void {
-        this.view.showLayer();
-        this.view.enableUI();
+        this.view.layerTransitionInStart();
+        this.view.enableInteractive();
         this.setState(States.MAIN_MENU);
+    }
+
+    protected gamePaused(): void {
+        this.view.layerTransitionInStart();
+        this.view.enableInteractive();
     }
 
     protected closeMenu(): void {
         this.view.disableInteractive();
-        this.view.layerTransitionOutStart(() => {
-            this.setState(TanksStates.LEVEL);
-        });
+        this.view.layerTransitionOutStart();
+        this.setState(TanksStates.LEVEL)
     }
 }

@@ -29,32 +29,42 @@
                          "y":0
                         }, 
                         {
-                         "draworder":"topdown",
-                         "id":14,
-                         "name":"menu-button",
-                         "objects":[
+                         "id":17,
+                         "layers":[
                                 {
-                                 "gid":7,
-                                 "height":100,
+                                 "draworder":"topdown",
                                  "id":14,
-                                 "name":"",
-                                 "rotation":0,
-                                 "type":"",
+                                 "name":"menu-button",
+                                 "objects":[
+                                        {
+                                         "gid":7,
+                                         "height":100,
+                                         "id":14,
+                                         "name":"",
+                                         "rotation":0,
+                                         "type":"",
+                                         "visible":true,
+                                         "width":100,
+                                         "x":0,
+                                         "y":100
+                                        }],
+                                 "offsetx":1170.66666666667,
+                                 "offsety":13.3333333333334,
+                                 "opacity":1,
+                                 "properties":[
+                                        {
+                                         "name":"z",
+                                         "type":"int",
+                                         "value":100
+                                        }],
+                                 "type":"objectgroup",
                                  "visible":true,
-                                 "width":100,
                                  "x":0,
-                                 "y":100
+                                 "y":0
                                 }],
-                         "offsetx":1170.66666666667,
-                         "offsety":13.3333333333334,
+                         "name":"INTERFACE",
                          "opacity":1,
-                         "properties":[
-                                {
-                                 "name":"z",
-                                 "type":"int",
-                                 "value":100
-                                }],
-                         "type":"objectgroup",
+                         "type":"group",
                          "visible":true,
                          "x":0,
                          "y":0
@@ -247,7 +257,7 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":17,
+ "nextlayerid":18,
  "nextobjectid":17,
  "orientation":"orthogonal",
  "renderorder":"right-down",
