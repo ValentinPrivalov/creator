@@ -5,9 +5,10 @@ import {Names} from "../../global/names";
 import {Container, DisplayObject, Ticker} from "pixi.js";
 import {SceneManager} from "../services/scene-manager";
 import gsap from "gsap";
+import {Layer} from "../pixi/layer";
 
 export class AbstractView extends MvcEntity implements IAbstractView {
-    public display: Container;
+    public display: Layer;
     protected eventManager: EventManager;
     protected sceneManager: SceneManager;
     protected ticker: Ticker;
@@ -25,7 +26,9 @@ export class AbstractView extends MvcEntity implements IAbstractView {
     }
 
     onResize(): void {
+    }
 
+    public onCreated(): void {
     }
 
     public layerTransitionInStart(callback?: Function): void {
@@ -36,6 +39,7 @@ export class AbstractView extends MvcEntity implements IAbstractView {
                     callback?.();
                 }
             });
+        } else {
             callback?.();
         }
         this.showLayer();
@@ -44,7 +48,8 @@ export class AbstractView extends MvcEntity implements IAbstractView {
     public layerTransitionOutStart(callback?: Function): void {
         if (this.transitionSettings.fadeOutTime) {
             gsap.to(this.display, {
-                alpha: 0, onComplete: () => {
+                alpha: 0,
+                onComplete: () => {
                     this.hideLayer();
                     callback?.();
                 }

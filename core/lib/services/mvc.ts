@@ -5,9 +5,9 @@ import {AbstractController} from "../mvc/controller";
 import {AbstractModel} from "../mvc/model";
 import {AbstractView} from "../mvc/view";
 import {Collection} from "../../util/collection";
-import {Container} from "pixi.js";
 import {EventManager} from "./event-manager";
 import {AbstractModule} from "../mvc/module";
+import {Layer} from "../pixi/layer";
 
 export class Mvc {
     private modulesCollection: Collection<AbstractModule> = new Collection();
@@ -51,6 +51,7 @@ export class Mvc {
     }
 
     sendNotification(notificationName: string, body?: any): void {
+        Log.log('Notification: ' + notificationName);
         this.eventManager.raise({name: notificationName, body});
     }
 
@@ -69,10 +70,11 @@ export class Mvc {
         this.controllerCollection.add(viewId, controller);
     }
 
-    public bindLayer(layer: Container): void {
+    public bindLayer(layer: Layer): void {
         if (this.viewCollection.has(layer.name)) {
             layer.visible = false;
             this.viewCollection.get(layer.name).display = layer;
+            this.viewCollection.get(layer.name).onCreated();
         }
     }
 

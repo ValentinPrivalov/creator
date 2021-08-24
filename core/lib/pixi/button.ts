@@ -1,8 +1,9 @@
-import {Container} from "pixi.js";
 import {ImageObject} from "./layer-object";
+import {Layer} from "./layer";
+import {Log} from "../../util/log";
 
 export class Button {
-    private _button: Container;
+    private _button: Layer;
     private views: IButtonViews = {
         idle: null,
         active: null,
@@ -10,14 +11,18 @@ export class Button {
         pressed: null
     };
 
-    constructor(group: Container) {
+    constructor(group: Layer) {
+        if (!group) {
+            Log.warn(`Can't create button without layer`);
+            return;
+        }
         this._button = group;
         this.initializeStates(group);
     }
 
-    protected initializeStates(group: Container): void {
+    protected initializeStates(group: Layer): void {
         this._button.buttonMode = true;
-        this._button.interactive = true;
+        this._button.interactive = false;
     }
 
     set enable(state: boolean) {

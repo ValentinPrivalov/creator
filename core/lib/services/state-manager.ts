@@ -4,7 +4,6 @@ import {Log} from "../../util/log";
 import {Mvc} from "./mvc";
 import {Names} from "../../global/names";
 import {Services} from "../services";
-import {Notifications} from "../../global/notifications";
 
 export class StateManager {
     private _states: Collection<IStateParams> = new Collection();
@@ -31,7 +30,6 @@ export class StateManager {
             const previous: string = this._currentState;
             this._currentState = id;
             this.mvc.sendNotification(id, {current: id, previous} as IStateFlow);
-            this.mvc.sendNotification(Notifications.STATE_CHANGED, {current: id, previous} as IStateFlow);
         } else {
             Log.warn(`Restricted state change (from: ${this._currentState} to: ${id})`);
 

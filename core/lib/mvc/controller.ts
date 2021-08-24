@@ -2,10 +2,10 @@ import {AbstractView, IAbstractView} from "./view";
 import {IMvcEntity, MvcEntity} from "./mvc-entity";
 import {Services} from "../services";
 import {Names} from "../../global/names";
-import {EventManager, IEventData} from "../services/event-manager";
+import {EventManager} from "../services/event-manager";
 import {AbstractModel, IAbstractModel} from "./model";
 import {Notifications} from "../../global/notifications";
-import {IStateFlow, StateManager} from "../services/state-manager";
+import {StateManager} from "../services/state-manager";
 
 export class AbstractController extends MvcEntity implements IAbstractController {
     protected _view: IAbstractView;
@@ -44,15 +44,10 @@ export class AbstractController extends MvcEntity implements IAbstractController
     }
 
     registerNotificationListeners(): void {
-        this.addNotificationListener(Notifications.STATE_CHANGED, this.newStateReceived.bind(this));
         this.addNotificationListener(Notifications.RESIZE, this.onResize.bind(this));
     }
 
     registerSignalListeners(): void {
-    }
-
-    raiseNotification(notificationName: string, body?: any): void {
-        this.eventManager.raise({name: notificationName, body} as IEventData);
     }
 
     addNotificationListener(notificationName: string, listener: any): void {
@@ -71,14 +66,6 @@ export class AbstractController extends MvcEntity implements IAbstractController
         this.stateManager.setState(state);
     }
 
-    private newStateReceived(notification: IEventData): void {
-        const stateFlow: IStateFlow = notification.body;
-        this.onStateChanged(stateFlow.current, stateFlow.previous);
-    }
-
-    protected onStateChanged(current: string, previous?: string): void {
-    }
-
     protected onResize(): void {
         this.view.onResize();
     }
@@ -90,8 +77,6 @@ export interface IAbstractController extends IMvcEntity {
     bindView(viewComponent: IAbstractView): void;
 
     bindModel(modelComponent: IAbstractModel): void;
-
-    raiseNotification(notificationName: string, body?: any): void;
 
     addNotificationListener(notificationName: string, listener: any): void;
 

@@ -3,9 +3,10 @@ import {Notifications} from "../../../../global/notifications";
 import {IEventData} from "../../../../lib/services/event-manager";
 import {LayersView} from "../view/layers-view";
 import {Signals} from "../../../../global/signals";
-import {Container, LoaderResource} from "pixi.js";
+import {LoaderResource} from "pixi.js";
 import {Collection} from "../../../../util/collection";
 import {IMapData} from "../../loading_module/static/loading-interfaces";
+import {Layer} from "../../../../lib/pixi/layer";
 
 export class LayersController extends AbstractController {
     get view(): LayersView {
@@ -35,7 +36,7 @@ export class LayersController extends AbstractController {
     }
 
     protected onLayerCreated(notification: IEventData): void {
-        this.mvc.bindLayer(notification.body as Container);
+        this.mvc.bindLayer(notification.body as Layer);
     }
 
     protected onSceneCreated(): void {

@@ -9,8 +9,10 @@ export class WindowEvents {
     }
 
     public remove(eventName: string): void {
-        this._handlers.remove(eventName);
-        window.removeEventListener(eventName, this._handlers.get(eventName));
+        if (this._handlers.has(eventName)) {
+            window.removeEventListener(eventName, this._handlers.get(eventName));
+            this._handlers.remove(eventName);
+        }
     }
 }
 
