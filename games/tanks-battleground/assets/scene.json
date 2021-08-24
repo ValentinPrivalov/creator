@@ -74,8 +74,10 @@
                                  "visible":true,
                                  "width":634.366506606409,
                                  "x":323.330885352917,
-                                 "y":595.501427988576
+                                 "y":526.39
                                 }],
+                         "offsetx":5.33333333333326,
+                         "offsety":66.6666666666667,
                          "opacity":1,
                          "type":"objectgroup",
                          "visible":true,

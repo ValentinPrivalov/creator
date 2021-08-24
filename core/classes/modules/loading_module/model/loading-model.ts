@@ -5,7 +5,7 @@ import {ISceneData, ITile, ITileSet} from "../../../../lib/tiled/tiled-interface
 import {ILevelData, IMapData} from "../static/loading-interfaces";
 import {Loader, LoaderResource} from "pixi.js";
 import {Signals} from "../../../../global/signals";
-import {TiledUtils} from "../../../../util/tiled-utils";
+import {TiledUtils} from "../../../../lib/tiled/tiled-utils";
 import {TiledProperties} from "../../../../lib/tiled/tiled-names";
 
 export class LoadingModel extends AbstractModel {

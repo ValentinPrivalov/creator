@@ -11,7 +11,7 @@ import {Layer} from "./layer";
 import {ImageObject} from "./layer-object";
 import {Names} from "../../../../global/names";
 import {LoadingModel} from "../../loading_module/model/loading-model";
-import {TiledUtils} from "../../../../util/tiled-utils";
+import {TiledUtils} from "../../../../lib/tiled/tiled-utils";
 
 export class LayersView extends AbstractView {
     public createLayers(assets: Collection<IMapData>): void {
@@ -77,7 +77,7 @@ export class LayersView extends AbstractView {
         image.width = obj.width;
         image.height = obj.height;
         image.position.set(obj.x, obj.y - obj.height);
-        image.rotation = obj.rotation; // todo check
+        image.angle = obj.rotation;
         image.visible = obj.visible;
 
         map.objects.push(image);
