@@ -1,4 +1,4 @@
-import {AbstractModule} from "../../../../core/lib/abstract-module";
+import {AbstractModule} from "../../../../core/lib/mvc/module";
 import {Names} from "../../../../core/global/names";
 import {MenuController} from "./controller/menu-controller";
 import {MenuView} from "./view/menu-view";

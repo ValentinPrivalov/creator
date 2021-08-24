@@ -1,4 +1,4 @@
-import {AbstractModule} from "../../../lib/abstract-module";
+import {AbstractModule} from "../../../lib/mvc/module";
 import {LayersController} from "./controller/layers-controller";
 import {LayersView} from "./view/layers-view";
 import {Names} from "../../../global/names";

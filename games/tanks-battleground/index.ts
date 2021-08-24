@@ -11,7 +11,7 @@ import {TanksModules} from "./modules/global/tanks-names";
 import {TanksLevelModule} from "./modules/tanks_level_module/tanks-level-module";
 
 class TanksBattleground extends Entry {
-    protected _gameVersion: string = '0.0.11';
+    protected _gameVersion: string = '0.0.12';
 
     protected initModules() {
         super.initModules();

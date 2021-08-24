@@ -7,8 +7,8 @@ import {TiledLayerNames, TiledProperties, TiledPropertyValues} from "../../../..
 import {Collection} from "../../../../util/collection";
 import {IMapData} from "../../loading_module/static/loading-interfaces";
 import {ISceneSize} from "../../graphics_module/static/graphics-interfaces";
-import {Layer} from "./layer";
-import {ImageObject} from "./layer-object";
+import {Layer} from "../../../../lib/pixi/layer";
+import {ImageObject} from "../../../../lib/pixi/layer-object";
 import {Names} from "../../../../global/names";
 import {LoadingModel} from "../../loading_module/model/loading-model";
 import {TiledUtils} from "../../../../lib/tiled/tiled-utils";

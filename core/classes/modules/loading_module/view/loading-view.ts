@@ -1,5 +1,5 @@
 import {AbstractView, ITransitionSettings} from "../../../../lib/mvc/view";
-import {ImageObject} from "../../layers_module/view/layer-object";
+import {ImageObject} from "../../../../lib/pixi/layer-object";
 
 export class LoadingView extends AbstractView {
     protected static PROGRESS_BAR: string = 'progress-bar';

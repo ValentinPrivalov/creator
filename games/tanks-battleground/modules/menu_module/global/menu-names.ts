@@ -1,3 +1,3 @@
 export class MenuNames {
-    static startButtonName: string = 'start-button';
+    static START_BUTTON: string = 'start-button';
 }

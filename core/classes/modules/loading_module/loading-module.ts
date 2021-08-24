@@ -1,4 +1,4 @@
-import {AbstractModule} from "../../../lib/abstract-module";
+import {AbstractModule} from "../../../lib/mvc/module";
 import {LoadingController} from "./controller/loading-controller";
 import {Names} from "../../../global/names";
 import {LoadingView} from "./view/loading-view";

@@ -1,4 +1,4 @@
-import {AbstractModule} from "../../../lib/abstract-module";
+import {AbstractModule} from "../../../lib/mvc/module";
 import {GraphicsView} from "./view/graphics-view";
 import {Names} from "../../../global/names";
 import {GraphicsController} from "./controller/graphics-controller";

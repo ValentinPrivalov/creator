@@ -7,7 +7,7 @@ import {AbstractView} from "../mvc/view";
 import {Collection} from "../../util/collection";
 import {Container} from "pixi.js";
 import {EventManager} from "./event-manager";
-import {AbstractModule} from "../abstract-module";
+import {AbstractModule} from "../mvc/module";
 
 export class Mvc {
     private modulesCollection: Collection<AbstractModule> = new Collection();

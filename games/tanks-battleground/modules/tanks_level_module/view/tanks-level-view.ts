@@ -1,10 +1,12 @@
 import {IWindowMouseWheelEventData, WindowEventNames} from "../../../../../core/lib/services/window-events";
 import {IZoomEdges} from "../global/tanks-level-interfaces";
 import gsap from "gsap";
-import {Container} from "pixi.js";
 import {AbstractView} from "../../../../../core/lib/mvc/view";
+import {TanksLevelNames} from "../global/tanks-level-names";
+import {Layer} from "../../../../../core/lib/pixi/layer";
 
 export class TanksLevelView extends AbstractView {
+    protected map: Layer;
     protected zoomTween: GSAPTween;
     protected zoomScaleStep: number = 1000;
     protected zoomEdges: IZoomEdges = {
@@ -13,8 +15,8 @@ export class TanksLevelView extends AbstractView {
     }
 
     public insertLevel(levelName: string): void {
-        const level: Container = this.sceneManager.get(levelName);
-        this.display.addChild(level);
+        this.map = this.findChildByName(TanksLevelNames.MAP, this.display) as Layer;
+        this.map.addChild(this.sceneManager.get(levelName) as Layer);
     }
 
     public enableUI(): void {
@@ -23,7 +25,7 @@ export class TanksLevelView extends AbstractView {
 
     protected onZoom(data: IWindowMouseWheelEventData): void {
         const scaleValue: number = data.deltaY / this.zoomScaleStep;
-        const currentScale: number = this.display.scale.x;
+        const currentScale: number = this.map.scale.x;
         const newScaleValue: number = currentScale - scaleValue;
 
         if (newScaleValue >= this.zoomEdges.maxScale) {
@@ -37,7 +39,7 @@ export class TanksLevelView extends AbstractView {
 
     protected startZoom(scale: number): void {
         this.zoomTween?.kill();
-        this.zoomTween = gsap.to(this.display.scale, {
+        this.zoomTween = gsap.to(this.map.scale, {
             duration: 0.3,
             x: scale,
             y: scale,

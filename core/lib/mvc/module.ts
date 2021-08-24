@@ -1,7 +1,7 @@
-import {IAbstractController} from "./mvc/controller";
-import {IAbstractModel} from "./mvc/model";
-import {IAbstractView} from "./mvc/view";
-import {IMvcEntity, MvcEntity} from "./mvc/mvc-entity";
+import {IAbstractController} from "./controller";
+import {IAbstractModel} from "./model";
+import {IAbstractView} from "./view";
+import {IMvcEntity, MvcEntity} from "./mvc-entity";
 
 export class AbstractModule extends MvcEntity implements IAbstractModule {
     onRegister(): void {

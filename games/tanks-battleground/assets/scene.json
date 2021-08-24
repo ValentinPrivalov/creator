@@ -19,6 +19,16 @@
                  "id":5,
                  "layers":[
                         {
+                         "id":16,
+                         "layers":[],
+                         "name":"MAP",
+                         "opacity":1,
+                         "type":"group",
+                         "visible":true,
+                         "x":0,
+                         "y":0
+                        }, 
+                        {
                          "draworder":"topdown",
                          "id":14,
                          "name":"menu-button",
@@ -237,7 +247,7 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":16,
+ "nextlayerid":17,
  "nextobjectid":17,
  "orientation":"orthogonal",
  "renderorder":"right-down",

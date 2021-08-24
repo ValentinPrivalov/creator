@@ -75,7 +75,9 @@ export class AbstractView extends MvcEntity implements IAbstractView {
     protected findChildByName(name: string, container: Container = this.display): DisplayObject {
         let result: DisplayObject = null;
         container.children?.forEach((child: DisplayObject) => {
-            result = child.name === name ? child : this.findChildByName(name, child as Container);
+            if (!result) {
+                result = child.name === name ? child : this.findChildByName(name, child as Container);
+            }
         });
         return result;
     }
