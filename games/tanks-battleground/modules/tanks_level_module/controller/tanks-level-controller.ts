@@ -1,8 +1,7 @@
 import {TanksLevelView} from "../view/tanks-level-view";
 import {TanksStates} from "../../global/tanks-states";
-import {TanksLevelModel} from "../model/tanks-level-model";
+import {ITanksLevelData, TanksLevelModel} from "../model/tanks-level-model";
 import {Notifications} from "../../../../../core/global/notifications";
-import {TanksLevelNames} from "../global/tanks-level-names";
 import {AbstractController} from "../../../../../core/lib/mvc/controller";
 
 export class TanksLevelController extends AbstractController {
@@ -16,18 +15,17 @@ export class TanksLevelController extends AbstractController {
 
     registerNotificationListeners(): void {
         super.registerNotificationListeners();
+        this.addNotificationListener(TanksStates.LEVEL, this.initLevel.bind(this));
         this.addNotificationListener(Notifications.ASSETS_LOADED, this.onSceneCreated.bind(this));
     }
 
     protected onSceneCreated(): void {
+        const levelData: ITanksLevelData = this.model.getData();
         this.view.showLayer();
-        this.view.insertLevel(TanksLevelNames.LEVEL_1);
+        this.view.insertLevel(levelData.currentLevel);
     }
 
-    protected onStateChanged(current: string, previous?: string) {
-        super.onStateChanged(current, previous);
-        if (current === TanksStates.LEVEL) {
-            this.view.enableUI();
-        }
+    protected initLevel(): void {
+        this.view.enableUI();
     }
 }

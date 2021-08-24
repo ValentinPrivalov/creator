@@ -30,6 +30,7 @@ export class StateManager {
             Log.info(`State: ${id} (from ${this._currentState})`)
             const previous: string = this._currentState;
             this._currentState = id;
+            this.mvc.sendNotification(id, {current: id, previous} as IStateFlow);
             this.mvc.sendNotification(Notifications.STATE_CHANGED, {current: id, previous} as IStateFlow);
         } else {
             Log.warn(`Restricted state change (from: ${this._currentState} to: ${id})`);

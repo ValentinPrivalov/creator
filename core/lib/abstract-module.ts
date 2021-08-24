@@ -31,7 +31,7 @@ export class AbstractModule extends MvcEntity implements IAbstractModule {
         this.mvc.registerView(id, view);
     }
 
-    replaceView(id: string, newClass: any) {
+    replaceView(id: string, newClass: any): void {
         this.mvc.registerView(id, newClass);
     }
 

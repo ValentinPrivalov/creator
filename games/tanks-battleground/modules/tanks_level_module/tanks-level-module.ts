@@ -5,7 +5,7 @@ import {AbstractModule} from "../../../../core/lib/abstract-module";
 import {TanksViews} from "../global/tanks-names";
 
 export class TanksLevelModule extends AbstractModule {
-    registerModels() {
+    registerModels(): void {
         super.registerModels();
         this.addModel(TanksViews.LEVEL, TanksLevelModel);
     }

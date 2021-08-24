@@ -28,19 +28,14 @@ export class LoadingController extends AbstractController {
 
     registerNotificationListeners(): void {
         super.registerNotificationListeners();
+        this.addNotificationListener(States.LOADING, this.loadMaps.bind(this));
         this.addNotificationListener(Notifications.MAIN_SCENE_CREATED, this.loadAssets.bind(this));
     }
 
-    registerSignalListeners() {
+    registerSignalListeners(): void {
         super.registerSignalListeners();
         this.addSignalListener(Signals.ASSET_LOADED, this.onAssetLoaded.bind(this));
         this.addSignalListener(Signals.LOAD_PROGRESS, this.onLoadProgress.bind(this));
-    }
-
-    protected onStateChanged(current: string, previous?: string): void {
-        if (current === States.LOADING) {
-            this.loadMaps();
-        }
     }
 
     protected loadMaps(): void {

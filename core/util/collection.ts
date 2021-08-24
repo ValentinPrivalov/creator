@@ -28,7 +28,7 @@ export class Collection<T> implements ICollection {
         return this._items;
     }
 
-    forEach(func: (item: T, id: string) => void) {
+    forEach(func: (item: T, id: string) => void): void {
         for (const id in this._items) {
             if (this._items.hasOwnProperty(id)) {
                 const item = this._items[id];

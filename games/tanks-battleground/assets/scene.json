@@ -17,7 +17,32 @@
          "layers":[
                 {
                  "id":5,
-                 "layers":[],
+                 "layers":[
+                        {
+                         "draworder":"topdown",
+                         "id":14,
+                         "name":"menu-button",
+                         "objects":[
+                                {
+                                 "gid":7,
+                                 "height":100,
+                                 "id":14,
+                                 "name":"",
+                                 "rotation":0,
+                                 "type":"",
+                                 "visible":true,
+                                 "width":100,
+                                 "x":0,
+                                 "y":100
+                                }],
+                         "offsetx":1170.66666666667,
+                         "offsety":13.3333333333334,
+                         "opacity":1,
+                         "type":"objectgroup",
+                         "visible":true,
+                         "x":0,
+                         "y":0
+                        }],
                  "name":"LEVEL",
                  "opacity":1,
                  "type":"group",
@@ -183,8 +208,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":14,
- "nextobjectid":13,
+ "nextlayerid":15,
+ "nextobjectid":15,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.7.1",
