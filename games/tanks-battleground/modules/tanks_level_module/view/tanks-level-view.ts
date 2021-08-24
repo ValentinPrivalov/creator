@@ -7,6 +7,10 @@ import {Layer} from "../../../../../core/lib/pixi/layer";
 import {Button} from "../../../../../core/lib/pixi/button";
 import {PointerEvents} from "../../../../../core/global/pointer-events";
 import {TanksLevelSignals} from "../global/tanks-level-signals";
+import {InteractionEvent, Point} from "pixi.js";
+import {Names} from "../../../../../core/global/names";
+import {GraphicsModel} from "../../../../../core/classes/modules/graphics_module/model/graphics-model";
+import {ISceneSize} from "../../../../../core/classes/modules/graphics_module/static/graphics-interfaces";
 
 export class TanksLevelView extends AbstractView {
     protected map: Layer;
@@ -18,10 +22,18 @@ export class TanksLevelView extends AbstractView {
         minScale: 0.3,
         maxScale: 1
     }
+    protected dragging: boolean = false;
+    protected pointerPos: Point = null;
+    protected beforeDragMapPos: Point = null;
 
     public onCreated(): void {
         super.onCreated();
         this.map = this.findChildByName(TanksLevelNames.MAP, this.display) as Layer;
+        this.map.interactive = true;
+        this.map.on(PointerEvents.DOWN, this.startDrag.bind(this));
+        this.map.on(PointerEvents.MOVE, this.onDrag.bind(this));
+        this.map.on(PointerEvents.UP, this.endDrag.bind(this));
+        this.map.on(PointerEvents.OUT, this.endDrag.bind(this));
         this.interface = this.findChildByName(TanksLevelNames.INTERFACE, this.display) as Layer;
         this.menuButton = new Button(this.findChildByName(TanksLevelNames.MENU_BUTTON, this.display) as Layer);
         this.menuButton.on(PointerEvents.DOWN, () => {
@@ -86,5 +98,35 @@ export class TanksLevelView extends AbstractView {
             x: scale,
             y: scale,
         });
+    }
+
+    protected startDrag(event: InteractionEvent): void {
+        this.dragging = true;
+        this.pointerPos = new Point(event.data.global.x, event.data.global.y);
+        this.beforeDragMapPos = new Point(this.map.position.x, this.map.position.y);
+    }
+
+    protected onDrag(event: InteractionEvent): void {
+        if (this.dragging) {
+            const graphicsModel: GraphicsModel = this.getModel(Names.Views.MAIN_SCENE)
+            const sceneSize: ISceneSize = graphicsModel.getData();
+            const offsetX = this.pointerPos.x - event.data.global.x;
+            const offsetY = this.pointerPos.y - event.data.global.y;
+            const posX = this.beforeDragMapPos.x - offsetX;
+            const posY = this.beforeDragMapPos.y - offsetY;
+
+            if (posX < sceneSize.width / 2 && (this.map.width + posX) > sceneSize.width / 2) {
+                this.map.position.x = posX;
+            }
+            if (posY < sceneSize.height / 2 && (this.map.height + posY) > sceneSize.height / 2) {
+                this.map.position.y = posY;
+            }
+        }
+    }
+
+    protected endDrag(): void {
+        this.dragging = false;
+        this.pointerPos = null;
+        this.beforeDragMapPos = null;
     }
 }
