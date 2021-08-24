@@ -26,13 +26,21 @@ export class TanksLevelView extends AbstractView {
         const currentScale: number = this.display.scale.x;
         const newScaleValue: number = currentScale - scaleValue;
 
-        if (newScaleValue > this.zoomEdges.minScale && newScaleValue < this.zoomEdges.maxScale) {
-            this.zoomTween?.kill();
-            this.zoomTween = gsap.to(this.display.scale, {
-                duration: 0.3,
-                x: newScaleValue,
-                y: newScaleValue,
-            })
+        if (newScaleValue >= this.zoomEdges.maxScale) {
+            this.startZoom(this.zoomEdges.maxScale);
+        } else if (newScaleValue <= this.zoomEdges.minScale) {
+            this.startZoom(this.zoomEdges.minScale);
+        } else {
+            this.startZoom(newScaleValue);
         }
+    }
+
+    protected startZoom(scale: number): void {
+        this.zoomTween?.kill();
+        this.zoomTween = gsap.to(this.display.scale, {
+            duration: 0.3,
+            x: scale,
+            y: scale,
+        });
     }
 }
