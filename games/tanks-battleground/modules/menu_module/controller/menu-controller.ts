@@ -35,6 +35,6 @@ export class MenuController extends AbstractController {
     protected closeMenu(): void {
         this.view.disableInteractive();
         this.view.layerTransitionOutStart();
-        this.setState(TanksStates.LEVEL)
+        this.setState(TanksStates.LEVEL);
     }
 }

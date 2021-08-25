@@ -29,6 +29,7 @@ export class TanksLevelController extends AbstractController {
         const levelData: ITanksLevelData = this.model.getData();
         this.view.layerTransitionInStart();
         this.view.insertLevel(levelData.currentLevel);
+        this.view.setupLevel();
     }
 
     protected initLevel(): void {

@@ -11,31 +11,36 @@ import {InteractionEvent, Point} from "pixi.js";
 import {Names} from "../../../../../core/global/names";
 import {GraphicsModel} from "../../../../../core/classes/modules/graphics_module/model/graphics-model";
 import {ISceneSize} from "../../../../../core/classes/modules/graphics_module/static/graphics-interfaces";
+import {ITiledPoint} from "../../../../../core/lib/tiled/tiled-interfaces";
 
 export class TanksLevelView extends AbstractView {
     protected map: Layer;
     protected interface: Layer;
     protected menuButton: Button;
+    protected spawnPoint: ITiledPoint;
     protected zoomTween: GSAPTween;
     protected zoomScaleStep: number = 1000;
     protected zoomEdges: IZoomEdges = {
         minScale: 0.3,
         maxScale: 1
     }
+    protected initialZoom = 0.5;
     protected dragging: boolean = false;
     protected pointerPos: Point = null;
     protected beforeDragMapPos: Point = null;
+    protected sceneSize: ISceneSize;
 
     public onCreated(): void {
         super.onCreated();
-        this.map = this.findChildByName(TanksLevelNames.MAP, this.display) as Layer;
+        this.sceneSize = (this.getModel(Names.Views.MAIN_SCENE) as GraphicsModel).getData();
+        this.map = this.findChildByName(TanksLevelNames.MAP) as Layer;
         this.map.interactive = true;
         this.map.on(PointerEvents.DOWN, this.startDrag.bind(this));
         this.map.on(PointerEvents.MOVE, this.onDrag.bind(this));
         this.map.on(PointerEvents.UP, this.endDrag.bind(this));
         this.map.on(PointerEvents.OUT, this.endDrag.bind(this));
-        this.interface = this.findChildByName(TanksLevelNames.INTERFACE, this.display) as Layer;
-        this.menuButton = new Button(this.findChildByName(TanksLevelNames.MENU_BUTTON, this.display) as Layer);
+        this.interface = this.findChildByName(TanksLevelNames.INTERFACE) as Layer;
+        this.menuButton = new Button(this.findChildByName(TanksLevelNames.MENU_BUTTON) as Layer);
         this.menuButton.on(PointerEvents.DOWN, () => {
             this.raiseSignal(TanksLevelSignals.PAUSE_GAME);
         });
@@ -44,6 +49,14 @@ export class TanksLevelView extends AbstractView {
     public insertLevel(levelName: string): void {
         this.interface.visible = false;
         this.map.addChild(this.sceneManager.get(levelName) as Layer);
+    }
+
+    public setupLevel(): void {
+        const spawn: Layer = this.findChildByName(TanksLevelNames.SPAWN) as Layer;
+        this.spawnPoint = spawn.properties[TanksLevelNames.SPAWN_POINT];
+        this.moveSceneTo(this.spawnPoint.x, this.spawnPoint.y);
+        this.map.scale.set(this.initialZoom);
+        this.map.position.set(this.sceneSize.width / 2, this.sceneSize.height / 2);
     }
 
     public enableInteractive(): void {
@@ -100,27 +113,35 @@ export class TanksLevelView extends AbstractView {
         });
     }
 
+    protected moveSceneTo(x: number, y: number): void {
+        const leftBound: number = this.getMapBounds(TanksLevelNames.LEFT_BOUND);
+        const topBound: number = this.getMapBounds(TanksLevelNames.TOP_BOUND);
+        const rightBound: number = this.getMapBounds(TanksLevelNames.RIGHT_BOUND);
+        const bottomBound: number = this.getMapBounds(TanksLevelNames.BOTTOM_BOUND);
+
+        const pointX: number = x < leftBound ? leftBound :
+            x > rightBound ? rightBound :
+                x;
+        const pointY: number = y < topBound ? topBound :
+            y > bottomBound ? bottomBound :
+                y;
+
+        this.map.pivot.set(pointX, pointY);
+    }
+
     protected startDrag(event: InteractionEvent): void {
         this.dragging = true;
         this.pointerPos = new Point(event.data.global.x, event.data.global.y);
-        this.beforeDragMapPos = new Point(this.map.position.x, this.map.position.y);
+        this.beforeDragMapPos = new Point(this.map.pivot.x, this.map.pivot.y);
     }
 
     protected onDrag(event: InteractionEvent): void {
         if (this.dragging) {
-            const graphicsModel: GraphicsModel = this.getModel(Names.Views.MAIN_SCENE)
-            const sceneSize: ISceneSize = graphicsModel.getData();
-            const offsetX = this.pointerPos.x - event.data.global.x;
-            const offsetY = this.pointerPos.y - event.data.global.y;
-            const posX = this.beforeDragMapPos.x - offsetX;
-            const posY = this.beforeDragMapPos.y - offsetY;
-
-            if (posX < sceneSize.width / 2 && (this.map.width + posX) > sceneSize.width / 2) {
-                this.map.position.x = posX;
-            }
-            if (posY < sceneSize.height / 2 && (this.map.height + posY) > sceneSize.height / 2) {
-                this.map.position.y = posY;
-            }
+            const offsetX: number = (event.data.global.x - this.pointerPos.x) / this.map.scale.x;
+            const offsetY: number = (event.data.global.y - this.pointerPos.y) / this.map.scale.y;
+            const x: number = this.beforeDragMapPos.x - offsetX;
+            const y: number = this.beforeDragMapPos.y - offsetY;
+            this.moveSceneTo(x, y);
         }
     }
 
@@ -128,5 +149,25 @@ export class TanksLevelView extends AbstractView {
         this.dragging = false;
         this.pointerPos = null;
         this.beforeDragMapPos = null;
+    }
+
+    protected getMapBounds(bound: string): number {
+        let value: number = 0;
+        switch (bound) {
+            case TanksLevelNames.LEFT_BOUND:
+                value = 0;
+                break;
+            case TanksLevelNames.TOP_BOUND:
+                value = 0;
+                break;
+            case TanksLevelNames.RIGHT_BOUND:
+                value = this.map.width / this.map.scale.x;
+                break;
+            case TanksLevelNames.BOTTOM_BOUND:
+                value = this.map.height / this.map.scale.y;
+                break;
+        }
+
+        return value;
     }
 }
