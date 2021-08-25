@@ -4,12 +4,12 @@ import {Point} from "pixi.js";
 export interface ITiledEntity {
     width: number;
     height: number;
+    name: string;
     properties?: Array<ITiledProperty>;
 }
 
 export interface ITiledLayer extends ITiledEntity {
     id: number;
-    name: string;
     opacity: number;
     visible: boolean;
     x: number;
@@ -47,15 +47,27 @@ export interface ITiledLayerObject extends ITiledEntity {
     y: number;
     rotation: number;
     visible: boolean;
-    name: string;
     gid?: number;
     point?: boolean;
     polygon?: Array<Point>;
     ellipse?: boolean;
 }
 
+export interface ITiledPoint extends ITiledEntity {
+    x: number;
+    y: number;
+    point: boolean;
+}
+
 export interface ITiledProperty {
     name: string;
     type: string;
     value: any;
+}
+
+export interface ITransformedParams {
+    gid: number;
+    scaleX: number;
+    scaleY: number;
+    rotation: number;
 }

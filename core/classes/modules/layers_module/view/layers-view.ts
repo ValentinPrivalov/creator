@@ -2,7 +2,14 @@ import {AbstractView} from "../../../../lib/mvc/view";
 import {DisplayObject, LoaderResource, Sprite, Graphics, utils} from "pixi.js";
 import {LayersNames} from "../static/layers-names";
 import {Signals} from "../../../../global/signals";
-import {ITile, ITiledLayer, ITiledLayerObject, ITiledProperty, ITileSet} from "../../../../lib/tiled/tiled-interfaces";
+import {
+    ITransformedParams,
+    ITile,
+    ITiledLayer,
+    ITiledLayerObject,
+    ITiledProperty,
+    ITileSet
+} from "../../../../lib/tiled/tiled-interfaces";
 import {TiledLayerNames, TiledProperties, TiledPropertyValues} from "../../../../lib/tiled/tiled-names";
 import {Collection} from "../../../../util/collection";
 import {IMapData} from "../../loading_module/static/loading-interfaces";
@@ -60,7 +67,7 @@ export class LayersView extends AbstractView {
         if (obj.gid) {
             this.createImageObject(map, obj, parentLayer);
         } else if (obj.point) {
-
+            parentLayer.properties[obj.name] = obj;
         } else if (obj.polygon) {
 
         } else if (obj.ellipse) {
@@ -108,9 +115,12 @@ export class LayersView extends AbstractView {
 
         tiledLayer.data.forEach((gid: number, index: number) => {
             if (gid !== 0) { // skip empty tile
+                const transformedParams: ITransformedParams = TiledUtils.checkTransformedGID(gid, tileSet.tiles);
+                gid = transformedParams.gid;
+
                 const tile: ITile = tileSet.tiles.find((tile: ITile) => tile.id === gid);
                 const imageObj: ITiledLayerObject = {
-                    gid: gid,
+                    gid,
                     x: (tileWidth * index) % sceneSize.width,
                     y: Math.floor(index / tiledLayer.width) * tileHeight,
                     width: tile.imagewidth,
@@ -120,7 +130,11 @@ export class LayersView extends AbstractView {
                     name: gid.toString()
                 };
 
-                this.createImageObject(map, imageObj, parentLayer);
+                const image: Sprite = this.createImageObject(map, imageObj, parentLayer);
+                image.pivot.x = tileWidth;
+                image.pivot.y = tileHeight;
+                image.angle = transformedParams.rotation;
+                image.scale.set(transformedParams.scaleX, transformedParams.scaleY);
             }
         });
     }
