@@ -48,7 +48,7 @@ export class LoadingController extends AbstractController {
         this.view.showLayer();
         this.model.loadAssets().then(() => {
             this.view.layerTransitionOutStart();
-            this.sendNotification(Notifications.ASSETS_LOADED);
+            this.setState(States.MAIN_MENU);
         });
     }
 

@@ -14,7 +14,7 @@ import {StateManager} from "../lib/services/state-manager";
 import {States} from "../global/states";
 
 export class Entry {
-    private _engineVersion: string = '0.1.21';
+    private _engineVersion: string = '0.1.22';
     protected _gameVersion: string; // should be redefined in each game
 
     constructor() {

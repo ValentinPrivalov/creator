@@ -15,13 +15,13 @@ export class MenuView extends AbstractView {
     public onCreated(): void {
         super.onCreated();
         this.startButton = new Button(this.findChildByName(MenuNames.START_BUTTON) as Layer);
+        this.startButton.on(PointerEvents.DOWN, () => {
+            this.raiseSignal(MenuSignals.START_PRESSED);
+        });
     }
 
     public enableInteractive(): void {
         super.enableInteractive();
         this.startButton.enable = true;
-        this.startButton.on(PointerEvents.DOWN, () => {
-            this.raiseSignal(MenuSignals.START_PRESSED);
-        });
     }
 }
