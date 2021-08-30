@@ -67,6 +67,8 @@ export interface ITiledProperty {
 
 export interface ITransformedParams {
     gid: number;
+    offsetX: number;
+    offsetY: number;
     scaleX: number;
     scaleY: number;
     rotation: number;

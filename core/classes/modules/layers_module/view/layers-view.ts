@@ -115,10 +115,10 @@ export class LayersView extends AbstractView {
 
         tiledLayer.data.forEach((gid: number, index: number) => {
             if (gid !== 0) { // skip empty tile
-                const transformedParams: ITransformedParams = TiledUtils.checkTransformedGID(gid, tileSet.tiles);
+                const transformedParams: ITransformedParams = TiledUtils.getTransformedData(gid, tileSet.tiles);
                 gid = transformedParams.gid;
 
-                const tile: ITile = tileSet.tiles.find((tile: ITile) => tile.id === gid);
+                const tile: ITile = tileSet.tiles.find((tile: ITile) => tile.id === gid - 1);
                 const imageObj: ITiledLayerObject = {
                     gid,
                     x: (tileWidth * index) % sceneSize.width,
@@ -131,8 +131,8 @@ export class LayersView extends AbstractView {
                 };
 
                 const image: Sprite = this.createImageObject(map, imageObj, parentLayer);
-                image.pivot.x = tileWidth;
-                image.pivot.y = tileHeight;
+                image.position.x += transformedParams.offsetX;
+                image.position.y += transformedParams.offsetY;
                 image.angle = transformedParams.rotation;
                 image.scale.set(transformedParams.scaleX, transformedParams.scaleY);
             }
