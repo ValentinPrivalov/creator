@@ -1,13 +1,12 @@
-import {IMvcEntity, MvcEntity} from "./mvc-entity";
+import {MvcEntity} from "./mvc-entity";
 import {EventManager} from "../services/event-manager";
-import {Services} from "../services";
 import {Names} from "../../global/names";
 import {Container, DisplayObject, Ticker} from "pixi.js";
 import {SceneManager} from "../services/scene-manager";
 import gsap from "gsap";
 import {Layer} from "../pixi/layer";
 
-export class AbstractView extends MvcEntity implements IAbstractView {
+export class AbstractView extends MvcEntity {
     public display: Layer;
     protected eventManager: EventManager;
     protected sceneManager: SceneManager;
@@ -16,16 +15,16 @@ export class AbstractView extends MvcEntity implements IAbstractView {
 
     constructor(name: string) {
         super(name);
-        this.eventManager = Services.instance().get(Names.Services.EVENT_MANAGER) as EventManager;
-        this.sceneManager = Services.instance().get(Names.Services.SCENE_MANAGER) as SceneManager;
+        this.eventManager = this.services.get(Names.Services.EVENT_MANAGER) as EventManager;
+        this.sceneManager = this.services.get(Names.Services.SCENE_MANAGER) as SceneManager;
         this.ticker = Ticker.shared;
     }
 
-    raiseSignal(signalName: string, body?: any): void {
+    protected raiseSignal(signalName: string, body?: any): void {
         this.eventManager.raise({name: signalName, body});
     }
 
-    onResize(): void {
+    public onResize(): void {
     }
 
     public onCreated(): void {
@@ -86,14 +85,6 @@ export class AbstractView extends MvcEntity implements IAbstractView {
         });
         return result;
     }
-}
-
-export interface IAbstractView extends IMvcEntity {
-    display: Container;
-
-    raiseSignal(signalName: string, body: any): void;
-
-    onResize(): void;
 }
 
 export interface ITransitionSettings {

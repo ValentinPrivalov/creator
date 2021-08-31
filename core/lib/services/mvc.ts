@@ -8,9 +8,11 @@ import {Collection} from "../../util/collection";
 import {EventManager} from "./event-manager";
 import {AbstractModule} from "../mvc/module";
 import {Layer} from "../pixi/layer";
+import {AbstractCommand} from "../mvc/command";
 
 export class Mvc {
     private modulesCollection: Collection<AbstractModule> = new Collection();
+    private commandCollection: Collection<AbstractCommand> = new Collection();
     private controllerCollection: Collection<AbstractController> = new Collection();
     private viewCollection: Collection<AbstractView> = new Collection();
     private modelCollection: Collection<AbstractModel> = new Collection();
@@ -19,7 +21,7 @@ export class Mvc {
         return Services.instance().get(Names.Services.EVENT_MANAGER) as EventManager;
     }
 
-    registerModule(id: string, implementation: any): void {
+    public registerModule(id: string, implementation: any): void {
         if (this.modulesCollection.has(id)) {
             Log.warn('Module already registered: ' + id);
         } else {
@@ -29,7 +31,7 @@ export class Mvc {
         }
     }
 
-    replaceModule(id: string, implementation: any): void {
+    public replaceModule(id: string, implementation: any): void {
         if (!this.modulesCollection.has(id)) {
             Log.warn('Module not found for replacement: ' + id);
         } else {
@@ -50,9 +52,15 @@ export class Mvc {
         });
     }
 
-    sendNotification(notificationName: string, body?: any): void {
+    public sendNotification(notificationName: string, body?: any): void {
         Log.log('Notification: ' + notificationName);
         this.eventManager.raise({name: notificationName, body});
+    }
+
+    public registerCommand(id: string, implementation: any): void {
+        const command: AbstractCommand = new implementation(id);
+        this.commandCollection.add(id, command);
+        this.eventManager.addEventListener(id, command.execute.bind(this));
     }
 
     public registerModel(id: string, implementation: any): void {

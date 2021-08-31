@@ -1,6 +1,7 @@
 import {AbstractController} from "./controller";
+import {IEventData} from "../services/event-manager";
 
 export class AbstractCommand extends AbstractController {
-    execute() {
+    public execute(notification: IEventData) {
     }
 }

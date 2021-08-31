@@ -1,4 +1,4 @@
-import {IWindowMouseWheelEventData, WindowEventNames} from "../../../../../core/lib/services/window-events";
+import {IWindowMouseWheelEventData} from "../../../../../core/classes/modules/setup_module/static/setup-interfaces";
 import {IZoomEdges} from "../global/tanks-level-interfaces";
 import gsap from "gsap";
 import {AbstractView} from "../../../../../core/lib/mvc/view";
@@ -63,7 +63,6 @@ export class TanksLevelView extends AbstractView {
     public enableInteractive(): void {
         super.enableInteractive();
         this.menuButton.enable = true;
-        this.windowEvents.add(WindowEventNames.MOUSE_WHEEL, this.onZoom.bind(this));
     }
 
     public showInterface(): void {
@@ -88,10 +87,9 @@ export class TanksLevelView extends AbstractView {
     public disableInteractive() {
         super.disableInteractive();
         this.menuButton.enable = false;
-        this.windowEvents.remove(WindowEventNames.MOUSE_WHEEL);
     }
 
-    protected onZoom(data: IWindowMouseWheelEventData): void {
+    public onZoom(data: IWindowMouseWheelEventData): void {
         const scaleValue: number = data.deltaY / this.zoomScaleStep;
         const currentScale: number = this.map.scale.x;
         const newScaleValue: number = currentScale - scaleValue;

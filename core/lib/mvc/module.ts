@@ -20,8 +20,8 @@ export class AbstractModule extends MvcEntity {
     protected registerControllers(): void {
     }
 
-    protected addCommand(): void {
-
+    protected addCommand(id: string, command: any): void {
+        this.mvc.registerCommand(id, command);
     }
 
     protected addModel(id: string, model: any): void {

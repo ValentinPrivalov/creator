@@ -8,13 +8,13 @@ import {EventManager} from "../lib/services/event-manager";
 import {Configs} from "../lib/services/configs";
 import {LayersModule} from "./modules/layers_module/layers-module";
 import {SceneManager} from "../lib/services/scene-manager";
-import {WindowEvents} from "../lib/services/window-events";
 import {LoadingNames} from "./modules/loading_module/static/loading-names";
 import {StateManager} from "../lib/services/state-manager";
 import {States} from "../global/states";
+import {SetupModule} from "./modules/setup_module/setup-module";
 
 export class Entry {
-    private _engineVersion: string = '0.1.24';
+    private _engineVersion: string = '0.1.25';
     protected _gameVersion: string; // should be redefined in each game
 
     constructor() {
@@ -44,7 +44,6 @@ export class Entry {
         this.services.register(Names.Services.EVENT_MANAGER, EventManager);
         this.services.register(Names.Services.CONFIGS, Configs);
         this.services.register(Names.Services.SCENE_MANAGER, SceneManager);
-        this.services.register(Names.Services.WINDOW_EVENTS, WindowEvents);
         this.services.register(Names.Services.STATE_MANAGER, StateManager);
     }
 
@@ -53,6 +52,7 @@ export class Entry {
         this.addModule(Names.Modules.GRAPHICS_MODULE, GraphicsModule);
         this.addModule(Names.Modules.LOADING_MODULE, LoadingModule);
         this.addModule(Names.Modules.LAYERS_MODULE, LayersModule);
+        this.addModule(Names.Modules.SETUP_MODULE, SetupModule);
     }
 
     protected startEngine(): void {

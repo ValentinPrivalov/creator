@@ -1,13 +1,20 @@
-export class Collection<T> implements ICollection {
+export class Collection<T> {
     protected _items: ICollectionItem<T> = {};
+    protected _itemId: number = 0;
 
     constructor(items?: ICollectionItem<T>) {
         this._items = items ?? {};
     }
 
-    add(id: string, implementation: T): T {
+    add(id: string, implementation: T): void {
         this._items[id] = implementation;
-        return this._items[id];
+    }
+
+    push(implementation: T): void {
+        while (this.has(this._itemId.toString())) {
+            this._itemId++;
+        }
+        this._items[this._itemId] = implementation;
     }
 
     get(id: string): T {
@@ -36,20 +43,6 @@ export class Collection<T> implements ICollection {
             }
         }
     }
-}
-
-export interface ICollection {
-    add(id: string, item: any, isConstructor: boolean): any;
-
-    get(id: string): any;
-
-    remove(id: string): void;
-
-    has(id: string): boolean;
-
-    getAll(): any;
-
-    forEach(func: Function): void;
 }
 
 export interface ICollectionItem<T> {

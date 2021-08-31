@@ -4,4 +4,5 @@ export class Notifications {
     static SCENES_LOADED: string = 'SCENES_LOADED';
     static ASSET_LOADED: string = 'ASSET_LOADED';
     static RESIZE: string = 'RESIZE';
+    static REGISTER_WINDOW_EVENT: string = 'REGISTER_WINDOW_EVENT';
 }

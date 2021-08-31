@@ -1,15 +1,14 @@
-import {AbstractView, IAbstractView} from "./view";
+import {AbstractView} from "./view";
 import {MvcEntity} from "./mvc-entity";
-import {Services} from "../services";
 import {Names} from "../../global/names";
 import {EventManager} from "../services/event-manager";
-import {AbstractModel, IAbstractModel} from "./model";
+import {AbstractModel} from "./model";
 import {Notifications} from "../../global/notifications";
 import {StateManager} from "../services/state-manager";
 
 export class AbstractController extends MvcEntity {
-    protected _view: IAbstractView;
-    protected _model: IAbstractModel;
+    protected _view: AbstractView;
+    protected _model: AbstractModel;
     protected eventManager: EventManager;
     protected stateManager: StateManager;
 
@@ -23,15 +22,15 @@ export class AbstractController extends MvcEntity {
 
     constructor(name: string) {
         super(name);
-        this.eventManager = Services.instance().get(Names.Services.EVENT_MANAGER) as EventManager;
-        this.stateManager = Services.instance().get(Names.Services.STATE_MANAGER) as StateManager;
+        this.eventManager = this.services.get(Names.Services.EVENT_MANAGER) as EventManager;
+        this.stateManager = this.services.get(Names.Services.STATE_MANAGER) as StateManager;
     }
 
-    public bindView(viewComponent: IAbstractView): void {
+    public bindView(viewComponent: AbstractView): void {
         this._view = viewComponent;
     }
 
-    public bindModel(modelComponent: IAbstractModel): void {
+    public bindModel(modelComponent: AbstractModel): void {
         this._model = modelComponent;
     }
 

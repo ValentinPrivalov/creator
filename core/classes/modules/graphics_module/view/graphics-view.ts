@@ -4,7 +4,6 @@ import {Signals} from "../../../../global/signals";
 import {ISceneSize} from "../static/graphics-interfaces";
 import {Names} from "../../../../global/names";
 import {GraphicsModel} from "../model/graphics-model";
-import {WindowEventNames} from "../../../../lib/services/window-events";
 
 export class GraphicsView extends AbstractView {
     static viewID: string = 'game';
@@ -21,16 +20,15 @@ export class GraphicsView extends AbstractView {
         this.ticker.add(() => this.loop(renderer, stage));
         this.sceneManager.renderer = renderer;
         this.sceneManager.stage = stage;
-        this.resize();
-        this.windowEvents.add(WindowEventNames.RESIZE, this.resize.bind(this));
         this.setupSettings();
+        this.resize();
     }
 
     protected loop(renderer: Renderer, stage: Container): void {
         renderer.render(stage);
     }
 
-    protected resize(): void {
+    public resize(): void {
         const {innerWidth, innerHeight} = window;
         const graphicsModel: GraphicsModel = this.getModel(Names.Views.MAIN_SCENE);
         const sceneSize: ISceneSize = graphicsModel.getData();

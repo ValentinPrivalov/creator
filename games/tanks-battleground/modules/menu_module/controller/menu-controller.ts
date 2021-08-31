@@ -3,10 +3,25 @@ import {States} from "../../../../../core/global/states";
 import {MenuView} from "../view/menu-view";
 import {MenuSignals} from "../global/menu-signals";
 import {TanksStates} from "../../global/tanks-states";
+import {Notifications} from "../../../../../core/global/notifications";
+import {IWindowEventData} from "../../../../../core/classes/modules/setup_module/static/setup-interfaces";
+import {KeyboardMap} from "../../../../../core/classes/modules/setup_module/static/keyboard-map";
+import {WindowEventNames} from "../../../../../core/classes/modules/setup_module/static/window-event-names";
 
 export class MenuController extends AbstractController {
     get view(): MenuView {
         return this._view as MenuView;
+    }
+
+    public onRegister() {
+        super.onRegister();
+        const windowEvent: IWindowEventData = {
+            eventName: WindowEventNames.KEY_DOWN,
+            data: [KeyboardMap.SPACE],
+            handler: this.closeMenu.bind(this),
+            states: [States.MAIN_MENU, TanksStates.PAUSE_GAME]
+        };
+        this.sendNotification(Notifications.REGISTER_WINDOW_EVENT, windowEvent);
     }
 
     protected registerNotificationListeners(): void {
