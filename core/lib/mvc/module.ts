@@ -1,70 +1,42 @@
-import {IAbstractController} from "./controller";
-import {IAbstractModel} from "./model";
-import {IAbstractView} from "./view";
-import {IMvcEntity, MvcEntity} from "./mvc-entity";
+import {MvcEntity} from "./mvc-entity";
 
-export class AbstractModule extends MvcEntity implements IAbstractModule {
-    onRegister(): void {
+export class AbstractModule extends MvcEntity {
+    public onRegister(): void {
         this.registerCommands();
         this.registerModels();
         this.registerViews();
         this.registerControllers();
     }
 
-    registerCommands(): void {
+    protected registerCommands(): void {
     }
 
-    registerModels(): void {
+    protected registerModels(): void {
     }
 
-    registerViews(): void {
+    protected registerViews(): void {
     }
 
-    registerControllers(): void {
+    protected registerControllers(): void {
     }
 
-    addModel(id: string, model: any): void {
+    protected addCommand(): void {
+
+    }
+
+    protected addModel(id: string, model: any): void {
         this.mvc.registerModel(id, model);
     }
 
-    addView(id: string, view: any): void {
+    protected addView(id: string, view: any): void {
         this.mvc.registerView(id, view);
     }
 
-    replaceView(id: string, newClass: any): void {
+    protected replaceView(id: string, newClass: any): void {
         this.mvc.registerView(id, newClass);
     }
 
-    addController(viewId: string, controller: any): void {
+    protected addController(viewId: string, controller: any): void {
         this.mvc.registerController(viewId, controller);
     }
-}
-
-export interface IAbstractModule extends IMvcEntity {
-    // addCommand(commandName: string, command: IController): void;
-    //
-    // deleteCommand(commandName: string): void;
-    //
-    // replaceCommand(commandName: string, command: any): void;
-    //
-    addModel(id: string, model: IAbstractModel): void;
-
-    //
-    // deleteProxy(proxyName: string): void;
-    //
-    // replaceProxy(proxyName: string, proxy: any): void;
-    //
-    addView(id: string, view: IAbstractView): void;
-
-    replaceView(id: string, newClass: any): void;
-
-    //
-    // deleteView(identifier: string, type: number): void;
-    //
-    addController(viewId: string, controller: IAbstractController): void;
-
-    //
-    // replaceController(identifierView: string, newClass: any, type: number): void;
-    //
-    // deleteController(identifier: string, type: number): void;
 }

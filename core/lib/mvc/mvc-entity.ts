@@ -19,7 +19,7 @@ export class MvcEntity implements IMvcEntity {
         this.windowEvents = Services.instance().get(Names.Services.WINDOW_EVENTS);
     }
 
-    onRegister(): void {
+    public onRegister(): void {
     }
 
     protected getModel(id: string): any {

@@ -7,17 +7,17 @@ import * as PIXI from "pixi.js";
 window.PIXI = PIXI; // pixiJS devtools dependence
 
 export class GraphicsModule extends AbstractModule {
-    registerModels(): void {
+    protected registerModels(): void {
         super.registerModels();
         this.addModel(Names.Views.MAIN_SCENE, GraphicsModel);
     }
 
-    registerViews(): void {
+    protected registerViews(): void {
         super.registerViews();
         this.addView(Names.Views.MAIN_SCENE, GraphicsView);
     }
 
-    registerControllers(): void {
+    protected registerControllers(): void {
         super.registerControllers();
         this.addController(Names.Views.MAIN_SCENE, GraphicsController);
     }

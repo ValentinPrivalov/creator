@@ -26,13 +26,13 @@ export class LoadingController extends AbstractController {
         this.graphicsModel = this.getModel(Names.Views.MAIN_SCENE) as GraphicsModel;
     }
 
-    registerNotificationListeners(): void {
+    protected registerNotificationListeners(): void {
         super.registerNotificationListeners();
         this.addNotificationListener(States.LOADING, this.loadMaps.bind(this));
         this.addNotificationListener(Notifications.MAIN_SCENE_CREATED, this.loadAssets.bind(this));
     }
 
-    registerSignalListeners(): void {
+    protected registerSignalListeners(): void {
         super.registerSignalListeners();
         this.addSignalListener(Signals.ASSET_LOADED, this.onAssetLoaded.bind(this));
         this.addSignalListener(Signals.LOAD_PROGRESS, this.onLoadProgress.bind(this));

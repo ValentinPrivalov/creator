@@ -5,17 +5,17 @@ import {AbstractModule} from "../../../../core/lib/mvc/module";
 import {TanksViews} from "../global/tanks-names";
 
 export class TanksLevelModule extends AbstractModule {
-    registerModels(): void {
+    protected registerModels(): void {
         super.registerModels();
         this.addModel(TanksViews.LEVEL, TanksLevelModel);
     }
 
-    registerViews(): void {
+    protected registerViews(): void {
         super.registerViews();
         this.replaceView(TanksViews.LEVEL, TanksLevelView);
     }
 
-    registerControllers(): void {
+    protected registerControllers(): void {
         super.registerControllers();
         this.addController(TanksViews.LEVEL, TanksLevelController);
     }

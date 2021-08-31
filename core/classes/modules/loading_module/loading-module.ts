@@ -5,17 +5,17 @@ import {LoadingView} from "./view/loading-view";
 import {LoadingModel} from "./model/loading-model";
 
 export class LoadingModule extends AbstractModule {
-    registerModels(): void {
+    protected registerModels(): void {
         super.registerModels();
         this.addModel(Names.Views.LOADING_SCREEN, LoadingModel);
     }
 
-    registerViews(): void {
+    protected registerViews(): void {
         super.registerViews();
         this.addView(Names.Views.LOADING_SCREEN, LoadingView);
     }
 
-    registerControllers(): void {
+    protected registerControllers(): void {
         super.registerControllers();
         this.addController(Names.Views.LOADING_SCREEN, LoadingController);
     }

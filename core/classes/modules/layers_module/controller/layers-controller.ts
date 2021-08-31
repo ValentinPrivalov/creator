@@ -13,13 +13,13 @@ export class LayersController extends AbstractController {
         return this._view as LayersView;
     }
 
-    registerNotificationListeners(): void {
+    protected registerNotificationListeners(): void {
         super.registerNotificationListeners();
         this.addNotificationListener(Notifications.MAIN_SCENE_INITIALIZED, this.onMainSceneInitialized.bind(this));
         this.addNotificationListener(Notifications.ASSET_LOADED, this.onAssetLoaded.bind(this));
     }
 
-    registerSignalListeners(): void {
+    protected registerSignalListeners(): void {
         super.registerSignalListeners();
         this.addSignalListener(Signals.MAIN_SCENE_CREATED, this.onSceneCreated.bind(this));
         this.addSignalListener(Signals.LAYER_CREATED, this.onLayerCreated.bind(this));

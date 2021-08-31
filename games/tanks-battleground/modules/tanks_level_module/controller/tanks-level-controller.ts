@@ -14,13 +14,13 @@ export class TanksLevelController extends AbstractController {
         return this._model as TanksLevelModel;
     }
 
-    registerNotificationListeners(): void {
+    protected registerNotificationListeners(): void {
         super.registerNotificationListeners();
         this.addNotificationListener(States.MAIN_MENU, this.showLevel.bind(this));
         this.addNotificationListener(TanksStates.LEVEL, this.initLevel.bind(this));
     }
 
-    registerSignalListeners(): void {
+    protected registerSignalListeners(): void {
         super.registerSignalListeners();
         this.addSignalListener(TanksLevelSignals.PAUSE_GAME, this.stopLevel.bind(this));
     }

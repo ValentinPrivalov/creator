@@ -1,5 +1,5 @@
 import {AbstractView, IAbstractView} from "./view";
-import {IMvcEntity, MvcEntity} from "./mvc-entity";
+import {MvcEntity} from "./mvc-entity";
 import {Services} from "../services";
 import {Names} from "../../global/names";
 import {EventManager} from "../services/event-manager";
@@ -7,7 +7,7 @@ import {AbstractModel, IAbstractModel} from "./model";
 import {Notifications} from "../../global/notifications";
 import {StateManager} from "../services/state-manager";
 
-export class AbstractController extends MvcEntity implements IAbstractController {
+export class AbstractController extends MvcEntity {
     protected _view: IAbstractView;
     protected _model: IAbstractModel;
     protected eventManager: EventManager;
@@ -27,38 +27,35 @@ export class AbstractController extends MvcEntity implements IAbstractController
         this.stateManager = Services.instance().get(Names.Services.STATE_MANAGER) as StateManager;
     }
 
-    execute(): void {
-    }
-
-    bindView(viewComponent: IAbstractView): void {
+    public bindView(viewComponent: IAbstractView): void {
         this._view = viewComponent;
     }
 
-    bindModel(modelComponent: IAbstractModel): void {
+    public bindModel(modelComponent: IAbstractModel): void {
         this._model = modelComponent;
     }
 
-    onRegister(): void {
+    public onRegister(): void {
         this.registerNotificationListeners();
         this.registerSignalListeners();
     }
 
-    registerNotificationListeners(): void {
+    protected registerNotificationListeners(): void {
         this.addNotificationListener(Notifications.RESIZE, this.onResize.bind(this));
     }
 
-    registerSignalListeners(): void {
+    protected registerSignalListeners(): void {
     }
 
-    addNotificationListener(notificationName: string, listener: any): void {
+    protected addNotificationListener(notificationName: string, listener: any): void {
         this.eventManager.addEventListener(notificationName, listener);
     }
 
-    sendNotification(notificationName: string, body?: any): void {
+    protected sendNotification(notificationName: string, body?: any): void {
         this.mvc.sendNotification(notificationName, body);
     }
 
-    addSignalListener(signalName: string, listener: any): void {
+    protected addSignalListener(signalName: string, listener: any): void {
         this.eventManager.addEventListener(signalName, listener);
     }
 
@@ -69,18 +66,4 @@ export class AbstractController extends MvcEntity implements IAbstractController
     protected onResize(): void {
         this.view.onResize();
     }
-}
-
-export interface IAbstractController extends IMvcEntity {
-    execute(): void;
-
-    bindView(viewComponent: IAbstractView): void;
-
-    bindModel(modelComponent: IAbstractModel): void;
-
-    addNotificationListener(notificationName: string, listener: any): void;
-
-    sendNotification(notificationName: string, body?: any): void;
-
-    addSignalListener(signalName: string, listener: any): void;
 }

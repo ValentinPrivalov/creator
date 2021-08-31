@@ -13,7 +13,7 @@ export class LoadingModel extends AbstractModel {
     protected loader: Loader;
     public loaderResourceIdSeparator: string = ':';
 
-    onRegister(): void {
+    public onRegister(): void {
         super.onRegister();
         this.loader = Loader.shared;
     }

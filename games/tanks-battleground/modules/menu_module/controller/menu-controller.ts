@@ -9,13 +9,13 @@ export class MenuController extends AbstractController {
         return this._view as MenuView;
     }
 
-    registerNotificationListeners(): void {
+    protected registerNotificationListeners(): void {
         super.registerNotificationListeners();
         this.addNotificationListener(States.MAIN_MENU, this.showMenu.bind(this));
         this.addNotificationListener(TanksStates.PAUSE_GAME, this.gamePaused.bind(this));
     }
 
-    registerSignalListeners(): void {
+    protected registerSignalListeners(): void {
         super.registerSignalListeners();
         this.addSignalListener(MenuSignals.START_PRESSED, this.closeMenu.bind(this));
     }
