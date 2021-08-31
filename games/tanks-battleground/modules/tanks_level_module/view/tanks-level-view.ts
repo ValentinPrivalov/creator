@@ -19,7 +19,7 @@ export class TanksLevelView extends AbstractView {
     protected menuButton: Button;
     protected spawnPoint: ITiledPoint;
     protected zoomTween: GSAPTween;
-    protected zoomScaleStep: number = 1000;
+    protected zoomScaleStep: number = 2000;
     protected zoomEdges: IZoomEdges = {
         minScale: 0.3,
         maxScale: 1
@@ -34,16 +34,17 @@ export class TanksLevelView extends AbstractView {
         super.onCreated();
         this.sceneSize = (this.getModel(Names.Views.MAIN_SCENE) as GraphicsModel).getData();
         this.map = this.findChildByName(TanksLevelNames.MAP) as Layer;
-        this.map.interactive = true;
-        this.map.on(PointerEvents.DOWN, this.startDrag.bind(this));
-        this.map.on(PointerEvents.MOVE, this.onDrag.bind(this));
-        this.map.on(PointerEvents.UP, this.endDrag.bind(this));
-        this.map.on(PointerEvents.OUT, this.endDrag.bind(this));
         this.interface = this.findChildByName(TanksLevelNames.INTERFACE) as Layer;
         this.menuButton = new Button(this.findChildByName(TanksLevelNames.MENU_BUTTON) as Layer);
         this.menuButton.on(PointerEvents.DOWN, () => {
             this.raiseSignal(TanksLevelSignals.PAUSE_GAME);
         });
+
+        this.display.interactive = true;
+        this.display.on(PointerEvents.DOWN, this.startDrag.bind(this));
+        this.display.on(PointerEvents.MOVE, this.onDrag.bind(this));
+        this.display.on(PointerEvents.UP, this.endDrag.bind(this));
+        this.display.on(PointerEvents.OUT, this.endDrag.bind(this));
     }
 
     public insertLevel(levelName: string): void {
@@ -55,7 +56,7 @@ export class TanksLevelView extends AbstractView {
         const spawn: Layer = this.findChildByName(TanksLevelNames.SPAWN) as Layer;
         this.spawnPoint = spawn.properties[TanksLevelNames.SPAWN_POINT];
         this.moveSceneTo(this.spawnPoint.x, this.spawnPoint.y);
-        this.map.scale.set(this.initialZoom);
+        this.startZoom(this.initialZoom);
         this.map.position.set(this.sceneSize.width / 2, this.sceneSize.height / 2);
     }
 

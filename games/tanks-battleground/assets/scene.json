@@ -21,7 +21,7 @@
                         {
                          "id":16,
                          "layers":[],
-                         "name":"MAP",
+                         "name":"map",
                          "opacity":1,
                          "type":"group",
                          "visible":true,
@@ -62,7 +62,7 @@
                                  "x":0,
                                  "y":0
                                 }],
-                         "name":"INTERFACE",
+                         "name":"interface",
                          "opacity":1,
                          "type":"group",
                          "visible":true,
@@ -257,8 +257,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":18,
- "nextobjectid":17,
+ "nextlayerid":22,
+ "nextobjectid":18,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.7.1",

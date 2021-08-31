@@ -1,7 +1,7 @@
 export class TanksLevelNames {
     static LEVEL_1: string = 'LEVEL_1';
-    static MAP: string = 'MAP';
-    static INTERFACE: string = 'INTERFACE';
+    static MAP: string = 'map';
+    static INTERFACE: string = 'interface';
     static MENU_BUTTON: string = 'menu-button';
     static SPAWN: string = 'spawn';
     static SPAWN_POINT: string = 'spawn-point';
