@@ -3,8 +3,10 @@ export class KeyboardMap {
     static DIGIT_9: number = 57;
     static DIGIT_0_NUM: number = 96;
     static DIGIT_9_NUM: number = 105;
+    static A: number = 65;
     static B: number = 66;
     static C: number = 67;
+    static D: number = 68;
     static E: number = 69;
     static H: number = 72;
     static L: number = 76;
@@ -13,6 +15,7 @@ export class KeyboardMap {
     static S: number = 83;
     static T: number = 84;
     static V: number = 86;
+    static W: number = 87;
     static SPACE: number = 32;
     static BACK_SPACE: number = 8;
     static ESCAPE: number = 27;

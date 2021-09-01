@@ -6,12 +6,7 @@ export interface IWindowEventData {
     allStates?: boolean;
 }
 
-export interface IWindowMouseWheelEventData {
-    deltaX: number;
-    deltaY: number;
-}
-
-export interface IKeyboardEvent {
+export interface IKeyboardEvent extends KeyboardEvent {
     keyCode: number;
     key: string;
     code: string;

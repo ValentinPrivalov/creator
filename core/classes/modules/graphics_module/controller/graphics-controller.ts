@@ -23,12 +23,11 @@ export class GraphicsController extends AbstractController {
 
     public onRegister() {
         super.onRegister();
-        const windowEvent: IWindowEventData = {
+        this.sendNotification(Notifications.REGISTER_WINDOW_EVENT, {
             eventName: WindowEventNames.RESIZE,
             handler: this.onWindowResized.bind(this),
             allStates: true
-        };
-        this.sendNotification(Notifications.REGISTER_WINDOW_EVENT, windowEvent);
+        } as IWindowEventData);
     }
 
     protected registerNotificationListeners(): void {

@@ -28,6 +28,10 @@ export class AbstractView extends MvcEntity {
     }
 
     public onCreated(): void {
+        this.ticker.add(this.onUpdate.bind(this));
+    }
+
+    protected onUpdate(): void {
     }
 
     public layerTransitionInStart(callback?: Function): void {
