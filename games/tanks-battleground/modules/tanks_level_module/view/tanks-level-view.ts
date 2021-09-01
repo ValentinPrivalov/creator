@@ -1,5 +1,5 @@
-import {IWindowMouseWheelEventData} from "../../../../../core/classes/modules/setup_module/static/setup-interfaces";
-import {IZoomEdges} from "../global/tanks-level-interfaces";
+import {IKeyboardEvent} from "../../../../../core/classes/modules/setup_module/static/setup-interfaces";
+import {IVelocity, IZoomEdges} from "../global/tanks-level-interfaces";
 import gsap from "gsap";
 import {AbstractView} from "../../../../../core/lib/mvc/view";
 import {TanksLevelNames} from "../global/tanks-level-names";
@@ -12,6 +12,7 @@ import {Names} from "../../../../../core/global/names";
 import {GraphicsModel} from "../../../../../core/classes/modules/graphics_module/model/graphics-model";
 import {ISceneSize} from "../../../../../core/classes/modules/graphics_module/static/graphics-interfaces";
 import {ITiledPoint} from "../../../../../core/lib/tiled/tiled-interfaces";
+import {KeyboardMap} from "../../../../../core/classes/modules/setup_module/static/keyboard-map";
 
 export class TanksLevelView extends AbstractView {
     protected map: Layer;
@@ -23,12 +24,13 @@ export class TanksLevelView extends AbstractView {
     protected zoomEdges: IZoomEdges = {
         minScale: 0.3,
         maxScale: 1
-    }
+    };
     protected initialZoom = 0.5;
     protected dragging: boolean = false;
     protected pointerPos: Point = null;
     protected beforeDragMapPos: Point = null;
     protected sceneSize: ISceneSize;
+    protected mapVelocity: IVelocity = {vx: 0, vy: 0, speed: 7};
 
     public onCreated(): void {
         super.onCreated();
@@ -87,9 +89,11 @@ export class TanksLevelView extends AbstractView {
     public disableInteractive() {
         super.disableInteractive();
         this.menuButton.enable = false;
+        this.mapVelocity.vx = 0;
+        this.mapVelocity.vy = 0;
     }
 
-    public onZoom(data: IWindowMouseWheelEventData): void {
+    public onZoom(data: WheelEvent): void {
         const scaleValue: number = data.deltaY / this.zoomScaleStep;
         const currentScale: number = this.map.scale.x;
         const newScaleValue: number = currentScale - scaleValue;
@@ -168,5 +172,29 @@ export class TanksLevelView extends AbstractView {
         }
 
         return value;
+    }
+
+    protected onUpdate() {
+        super.onUpdate();
+        const x: number = this.map.pivot.x + this.mapVelocity.vx;
+        const y: number = this.map.pivot.y + this.mapVelocity.vy;
+        this.moveSceneTo(x, y);
+    }
+
+    public moveSceneByKeyboard(data: IKeyboardEvent, stop: boolean = false): void {
+        switch (data.keyCode) {
+            case KeyboardMap.W:
+                this.mapVelocity.vy = stop ? 0 : -this.mapVelocity.speed;
+                break;
+            case KeyboardMap.A:
+                this.mapVelocity.vx = stop ? 0 : -this.mapVelocity.speed;
+                break;
+            case KeyboardMap.S:
+                this.mapVelocity.vy = stop ? 0 : this.mapVelocity.speed;
+                break;
+            case KeyboardMap.D:
+                this.mapVelocity.vx = stop ? 0 : this.mapVelocity.speed;
+                break;
+        }
     }
 }

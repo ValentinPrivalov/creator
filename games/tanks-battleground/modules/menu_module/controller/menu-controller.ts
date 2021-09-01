@@ -15,13 +15,12 @@ export class MenuController extends AbstractController {
 
     public onRegister() {
         super.onRegister();
-        const windowEvent: IWindowEventData = {
+        this.sendNotification(Notifications.REGISTER_WINDOW_EVENT, {
             eventName: WindowEventNames.KEY_DOWN,
-            data: [KeyboardMap.SPACE],
+            data: [KeyboardMap.SPACE, KeyboardMap.ENTER],
             handler: this.closeMenu.bind(this),
             states: [States.MAIN_MENU, TanksStates.PAUSE_GAME]
-        };
-        this.sendNotification(Notifications.REGISTER_WINDOW_EVENT, windowEvent);
+        } as IWindowEventData);
     }
 
     protected registerNotificationListeners(): void {
