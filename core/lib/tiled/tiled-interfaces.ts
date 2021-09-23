@@ -27,6 +27,7 @@ export interface ISceneData extends ITiledEntity {
     tileheight: number;
     layers: Array<ITiledLayer>;
     tilesets: Array<ITileSet>;
+    spines?: Array<string>;
 }
 
 export interface ITileSet {

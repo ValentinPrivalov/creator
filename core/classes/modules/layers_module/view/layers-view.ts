@@ -19,6 +19,7 @@ import {ImageObject} from "../../../../lib/pixi/layer-object";
 import {Names} from "../../../../global/names";
 import {LoadingModel} from "../../loading_module/model/loading-model";
 import {TiledUtils} from "../../../../lib/tiled/tiled-utils";
+import {Log} from "../../../../util/log";
 
 export class LayersView extends AbstractView {
     public createLayers(assets: Collection<IMapData>): void {
@@ -64,7 +65,11 @@ export class LayersView extends AbstractView {
     protected createObject(map: IMapData, obj: ITiledLayerObject, parentLayer: Layer): void {
         const type: string = TiledUtils.getPropertyValue(obj, TiledProperties.TYPE);
 
-        if (obj.gid) {
+        if (type === TiledPropertyValues.GRAPHICS) {
+            this.createGraphicsObject(obj, parentLayer);
+        } else if (type === TiledPropertyValues.SPINE) {
+            this.createSpineObject(map, obj);
+        } else if (obj.gid) {
             this.createImageObject(map, obj, parentLayer);
         } else if (obj.point) {
             parentLayer.properties[obj.name] = obj;
@@ -72,8 +77,8 @@ export class LayersView extends AbstractView {
 
         } else if (obj.ellipse) {
 
-        } else if (type === TiledPropertyValues.GRAPHICS) {
-            this.createGraphicsObject(obj, parentLayer);
+        } else {
+            Log.warn(`Can't recognize object: ${JSON.stringify(obj)}`);
         }
     }
 
@@ -102,6 +107,14 @@ export class LayersView extends AbstractView {
         graphics.endFill();
 
         parentLayer.addChild(graphics);
+    }
+
+    protected createSpineObject(map: IMapData, obj: ITiledLayerObject): void {
+        const spineName: string = TiledUtils.getPropertyValue(obj, TiledProperties.ATLAS);
+        if (!map.sceneData.spines) {
+            map.sceneData.spines = [];
+        }
+        map.sceneData.spines.push(spineName);
     }
 
     protected createTileLayer(map: IMapData, tiledLayer: ITiledLayer, parentLayer: Layer): void {
@@ -141,11 +154,11 @@ export class LayersView extends AbstractView {
 
     public updateObjects(resource: LoaderResource): void {
         const loadingModel: LoadingModel = this.getModel(Names.Views.LOADING_SCREEN);
-        const [mapName, id] = resource.name.split(loadingModel.loaderResourceIdSeparator);
+        const [mapName, id]: string[] = resource.name.split(loadingModel.loaderResourceIdSeparator);
         loadingModel
             .getData()
             .get(mapName)
-            .objects
+            ?.objects
             .forEach((object: DisplayObject) => {
                 if ((object['gid'] - 1).toString() === id) {
                     object['texture'] = resource.texture;

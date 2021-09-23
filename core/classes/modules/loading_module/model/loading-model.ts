@@ -1,3 +1,4 @@
+import 'pixi-spine';
 import {AbstractModel} from "../../../../lib/mvc/model";
 import {LoadingNames} from "../static/loading-names";
 import {Collection} from "../../../../util/collection";
@@ -11,6 +12,7 @@ import {TiledProperties} from "../../../../lib/tiled/tiled-names";
 export class LoadingModel extends AbstractModel {
     protected data: Collection<IMapData> = new Collection();
     protected loader: Loader;
+    protected spineDirectory: string = 'spine/';
     public loaderResourceIdSeparator: string = ':';
 
     public onRegister(): void {
@@ -26,9 +28,13 @@ export class LoadingModel extends AbstractModel {
     }
 
     public async loadAssets(): Promise<Collection<IMapData>> {
-        await this.loadMapsImages(this.getData());
+        this.addToLoadMapsImages(this.getData());
+        this.addToLoadMapsSpines(this.getData());
+        this.loader.onLoad.add(this.onItemLoaded.bind(this));
 
-        return Promise.resolve(this.getData());
+        return new Promise(resolve => {
+            this.loader.load(() => resolve(this.getData()));
+        });
     }
 
     protected async loadScene(): Promise<IMapData> {
@@ -56,46 +62,35 @@ export class LoadingModel extends AbstractModel {
     protected async loadMap(path: string): Promise<IMapData> {
         const response: Response = await fetch(path);
         const sceneData: ISceneData = await response.json();
-        return {
-            sceneData,
-            images: new Collection<LoaderResource>(),
-            objects: []
-        } as IMapData;
+        return {sceneData, objects: []} as IMapData;
     }
 
-    protected loadMapsImages(maps: Collection<IMapData>): Promise<Collection<IMapData>> {
+    protected addToLoadMapsImages(maps: Collection<IMapData>): void {
+        const assetsPath: string = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.ASSETS_PATH);
         maps.forEach((map: IMapData, mapName: string) => {
             map.sceneData.tilesets.forEach((tileset: ITileSet) => {
-                this.addToLoader(tileset.tiles, mapName);
-            });
-        });
-        this.loader.onLoad.add(this.onItemLoaded.bind(this));
-
-        return new Promise(resolve => {
-            this.loader.load((loader: Loader, resources: any) => {
-                new Collection<LoaderResource>(resources).forEach((item: LoaderResource, resourceId: string) => {
-                    const [mapName, id] = resourceId.split(this.loaderResourceIdSeparator);
-                    const map: IMapData = maps.get(mapName);
-                    map.images.add(id, item);
-                });
-                resolve(maps);
+                tileset.tiles
+                    .sort((tile: ITile, nextTile: ITile) => {
+                        const getPriority = (tile: ITile) => TiledUtils.getPropertyValue(tile, TiledProperties.PRIORITY) ?? 0;
+                        return getPriority(nextTile) - getPriority(tile);
+                    })
+                    .forEach((tile: ITile) => {
+                        const id: string = mapName + this.loaderResourceIdSeparator + tile.id;
+                        const path: string = assetsPath + tile.image;
+                        this.loader.add(id, path);
+                    });
             });
         });
     }
 
-    protected addToLoader(tiles: Array<ITile>, mapName: string): void {
+    protected addToLoadMapsSpines(maps: Collection<IMapData>): void {
         const assetsPath: string = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.ASSETS_PATH);
-
-        tiles
-            .sort((tile: ITile, nextTile: ITile) => {
-                const getPriority = (tile: ITile) => TiledUtils.getPropertyValue(tile, TiledProperties.PRIORITY) ?? 0;
-                return getPriority(nextTile) - getPriority(tile);
-            })
-            .forEach((tile: ITile) => {
-                const id: string = mapName + this.loaderResourceIdSeparator + tile.id;
-                const path: string = assetsPath + tile.image;
-                this.loader.add(id, path);
+        maps.forEach((map: IMapData) => {
+            map.sceneData.spines?.forEach((spineName: string) => {
+                const path: string = assetsPath + this.spineDirectory + spineName + '.json';
+                this.loader.add(spineName, path);
             });
+        });
     }
 
     protected onItemLoaded(loader: Loader, resource: LoaderResource): void {

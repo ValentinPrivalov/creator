@@ -9,9 +9,11 @@ export class TiledProperties {
     static PRIORITY: string = 'priority';
     static Z: string = 'z';
     static COLOR: string = 'color';
+    static ATLAS: string = 'atlas';
 }
 
 export class TiledPropertyValues {
     static GRAPHICS: string = 'graphics';
+    static SPINE: string = 'spine';
 }
 

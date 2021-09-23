@@ -9,6 +9,5 @@ export interface ILevelData {
 
 export interface IMapData {
     sceneData: ISceneData;
-    images: Collection<LoaderResource>;
     objects: Array<DisplayObject>;
 }
