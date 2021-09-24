@@ -14,7 +14,7 @@ import {States} from "../global/states";
 import {SetupModule} from "./modules/setup_module/setup-module";
 
 export class Entry {
-    private _engineVersion: string = '0.1.27';
+    private _engineVersion: string = '0.1.28';
     protected _gameVersion: string; // should be redefined in each game
 
     constructor() {

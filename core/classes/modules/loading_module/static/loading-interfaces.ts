@@ -1,8 +1,7 @@
 import {ISceneData} from "../../../../lib/tiled/tiled-interfaces";
-import {Collection} from "../../../../util/collection";
-import {LoaderResource, DisplayObject} from "pixi.js";
+import {DisplayObject} from "pixi.js";
 
-export interface ILevelData {
+export interface IMapPath {
     name: string;
     path: string;
 }

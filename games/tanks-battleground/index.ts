@@ -2,7 +2,7 @@ import {Entry} from "../../core/classes/entry";
 import {Names} from "../../core/global/names";
 import {Configs} from "../../core/lib/services/configs";
 import {LoadingNames} from "../../core/classes/modules/loading_module/static/loading-names";
-import {ILevelData} from "../../core/classes/modules/loading_module/static/loading-interfaces";
+import {IMapPath} from "../../core/classes/modules/loading_module/static/loading-interfaces";
 import {MenuModule} from "./modules/menu_module/menu-module";
 import {StateManager} from "../../core/lib/services/state-manager";
 import {TanksStates} from "./modules/global/tanks-states";
@@ -24,7 +24,7 @@ class TanksBattleground extends Entry {
         const configs: Configs = this.services.get(Names.Services.CONFIGS);
         configs.gameName = 'Tanks Battleground';
         configs.addProperty(LoadingNames.ASSETS, LoadingNames.SCENE, 'scene.json');
-        configs.addProperty(LoadingNames.ASSETS, LoadingNames.LEVELS, [{name: 'level_1', path: 'level.json'}] as Array<ILevelData>);
+        configs.addProperty(LoadingNames.ASSETS, LoadingNames.LEVELS, [{name: 'level_1', path: 'level.json'}] as Array<IMapPath>);
     }
 
     protected initStates() {

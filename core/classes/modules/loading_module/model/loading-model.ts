@@ -3,7 +3,7 @@ import {AbstractModel} from "../../../../lib/mvc/model";
 import {LoadingNames} from "../static/loading-names";
 import {Collection} from "../../../../util/collection";
 import {ISceneData, ITile, ITileSet} from "../../../../lib/tiled/tiled-interfaces";
-import {ILevelData, IMapData} from "../static/loading-interfaces";
+import {IMapPath, IMapData} from "../static/loading-interfaces";
 import {Loader, LoaderResource} from "pixi.js";
 import {Signals} from "../../../../global/signals";
 import {TiledUtils} from "../../../../lib/tiled/tiled-utils";
@@ -21,10 +21,16 @@ export class LoadingModel extends AbstractModel {
     }
 
     public async loadMaps(): Promise<Collection<IMapData>> {
-        await this.loadScene();
-        await this.loadLevels();
+        const assetsPath: string = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.ASSETS_PATH);
+        const mapsPath: Array<IMapPath> = this.getMaps();
+        const promises: Array<Promise<IMapData>> = await mapsPath.map(async (mapPath: IMapPath) => {
+            const mapData: IMapData = await this.loadMap(assetsPath + mapPath.path);
+            this.data.add(mapPath.name, mapData);
+            return mapData;
+        });
 
-        return Promise.resolve(this.getData());
+        await Promise.all(promises);
+        return this.data;
     }
 
     public async loadAssets(): Promise<Collection<IMapData>> {
@@ -37,26 +43,14 @@ export class LoadingModel extends AbstractModel {
         });
     }
 
-    protected async loadScene(): Promise<IMapData> {
-        const assetsPath: string = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.ASSETS_PATH);
-        const fileName: string = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.SCENE);
+    protected getMaps(): Array<IMapPath> {
+        const mapsPath: Array<IMapPath> = [];
+        const scene: string = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.SCENE);
+        const levels: Array<IMapPath> = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.LEVELS);
+        mapsPath.push({name: LoadingNames.SCENE, path: scene} as IMapPath);
+        mapsPath.push(...levels);
 
-        const mapData: IMapData = await this.loadMap(assetsPath + fileName);
-        this.data.add(LoadingNames.SCENE, mapData);
-        return mapData;
-    }
-
-    protected async loadLevels(): Promise<Array<IMapData>> {
-        const assetsPath: string = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.ASSETS_PATH);
-        const levels: Array<ILevelData> = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.LEVELS);
-
-        const promises: Array<Promise<IMapData>> = await levels.map(async (levelData: ILevelData) => {
-            const mapData: IMapData = await this.loadMap(assetsPath + levelData.path);
-            this.data.add(levelData.name, mapData);
-            return mapData;
-        });
-
-        return Promise.all(promises);
+        return mapsPath;
     }
 
     protected async loadMap(path: string): Promise<IMapData> {
