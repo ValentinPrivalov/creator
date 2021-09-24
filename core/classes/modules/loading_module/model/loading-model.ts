@@ -23,10 +23,8 @@ export class LoadingModel extends AbstractModel {
     public async loadMaps(): Promise<Collection<IMapData>> {
         const assetsPath: string = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.ASSETS_PATH);
         const mapsPath: Array<IMapPath> = this.getMaps();
-        const promises: Array<Promise<IMapData>> = await mapsPath.map(async (mapPath: IMapPath) => {
-            const mapData: IMapData = await this.loadMap(assetsPath + mapPath.path);
-            this.data.add(mapPath.name, mapData);
-            return mapData;
+        const promises: Array<Promise<IMapData>> = mapsPath.map((mapPath: IMapPath) => {
+            return this.loadMap(mapPath.name, assetsPath + mapPath.path);
         });
 
         await Promise.all(promises);
@@ -53,10 +51,12 @@ export class LoadingModel extends AbstractModel {
         return mapsPath;
     }
 
-    protected async loadMap(path: string): Promise<IMapData> {
+    protected async loadMap(mapName: string, path: string): Promise<IMapData> {
         const response: Response = await fetch(path);
         const sceneData: ISceneData = await response.json();
-        return {sceneData, objects: []} as IMapData;
+        const mapData: IMapData = {sceneData, objects: []};
+        this.data.add(mapName, mapData);
+        return mapData;
     }
 
     protected addToLoadMapsImages(maps: Collection<IMapData>): void {
