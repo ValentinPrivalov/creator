@@ -12,19 +12,20 @@ import {TiledProperties} from "../../../../lib/tiled/tiled-names";
 export class LoadingModel extends AbstractModel {
     protected data: Collection<IMapData> = new Collection();
     protected loader: Loader;
+    protected assetsPath: string;
     protected spineDirectory: string = 'spine/';
     public loaderResourceIdSeparator: string = ':';
 
     public onRegister(): void {
         super.onRegister();
         this.loader = Loader.shared;
+        this.assetsPath = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.ASSETS_PATH);
     }
 
     public async loadMaps(): Promise<Collection<IMapData>> {
-        const assetsPath: string = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.ASSETS_PATH);
         const mapsPath: Array<IMapPath> = this.getMaps();
         const promises: Array<Promise<IMapData>> = mapsPath.map((mapPath: IMapPath) => {
-            return this.loadMap(mapPath.name, assetsPath + mapPath.path);
+            return this.loadMap(mapPath.name, this.assetsPath + mapPath.path);
         });
 
         await Promise.all(promises);
@@ -60,7 +61,6 @@ export class LoadingModel extends AbstractModel {
     }
 
     protected addToLoadMapsImages(maps: Collection<IMapData>): void {
-        const assetsPath: string = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.ASSETS_PATH);
         maps.forEach((map: IMapData, mapName: string) => {
             map.sceneData.tilesets.forEach((tileset: ITileSet) => {
                 tileset.tiles
@@ -70,7 +70,7 @@ export class LoadingModel extends AbstractModel {
                     })
                     .forEach((tile: ITile) => {
                         const id: string = mapName + this.loaderResourceIdSeparator + tile.id;
-                        const path: string = assetsPath + tile.image;
+                        const path: string = this.assetsPath + tile.image;
                         this.loader.add(id, path);
                     });
             });
@@ -78,10 +78,9 @@ export class LoadingModel extends AbstractModel {
     }
 
     protected addToLoadMapsSpines(maps: Collection<IMapData>): void {
-        const assetsPath: string = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.ASSETS_PATH);
         maps.forEach((map: IMapData) => {
             map.sceneData.spines?.forEach((spineName: string) => {
-                const path: string = assetsPath + this.spineDirectory + spineName + '.json';
+                const path: string = this.assetsPath + this.spineDirectory + spineName + '.json';
                 this.loader.add(spineName, path);
             });
         });
@@ -90,5 +89,9 @@ export class LoadingModel extends AbstractModel {
     protected onItemLoaded(loader: Loader, resource: LoaderResource): void {
         this.raiseSignal(Signals.ASSET_LOADED, resource);
         this.raiseSignal(Signals.LOAD_PROGRESS, loader.progress);
+    }
+
+    public getSpine(id: string): LoaderResource {
+        return this.loader.resources[id];
     }
 }

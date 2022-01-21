@@ -16,8 +16,6 @@ import {IMapData} from "../../loading_module/static/loading-interfaces";
 import {ISceneSize} from "../../graphics_module/static/graphics-interfaces";
 import {Layer} from "../../../../lib/pixi/layer";
 import {ImageObject} from "../../../../lib/pixi/layer-object";
-import {Names} from "../../../../global/names";
-import {LoadingModel} from "../../loading_module/model/loading-model";
 import {TiledUtils} from "../../../../lib/tiled/tiled-utils";
 import {Log} from "../../../../util/log";
 
@@ -153,9 +151,8 @@ export class LayersView extends AbstractView {
     }
 
     public updateObjects(resource: LoaderResource): void {
-        const loadingModel: LoadingModel = this.getModel(Names.Views.LOADING_SCREEN);
-        const [mapName, id]: string[] = resource.name.split(loadingModel.loaderResourceIdSeparator);
-        loadingModel
+        const [mapName, id]: string[] = resource.name.split(this.loadingModel.loaderResourceIdSeparator);
+        this.loadingModel
             .getData()
             .get(mapName)
             ?.objects

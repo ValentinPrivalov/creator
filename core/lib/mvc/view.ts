@@ -5,12 +5,14 @@ import {Container, DisplayObject, Ticker} from "pixi.js";
 import {SceneManager} from "../services/scene-manager";
 import gsap from "gsap";
 import {Layer} from "../pixi/layer";
+import {LoadingModel} from "../../classes/modules/loading_module/model/loading-model";
 
 export class AbstractView extends MvcEntity {
     public display: Layer;
     protected eventManager: EventManager;
     protected sceneManager: SceneManager;
     protected ticker: Ticker;
+    protected loadingModel: LoadingModel;
     protected transitionSettings: ITransitionSettings = {};
 
     constructor(name: string) {
@@ -18,6 +20,7 @@ export class AbstractView extends MvcEntity {
         this.eventManager = this.services.get(Names.Services.EVENT_MANAGER) as EventManager;
         this.sceneManager = this.services.get(Names.Services.SCENE_MANAGER) as SceneManager;
         this.ticker = Ticker.shared;
+        this.loadingModel = this.getModel(Names.Views.LOADING_SCREEN);
     }
 
     protected raiseSignal(signalName: string, body?: any): void {
