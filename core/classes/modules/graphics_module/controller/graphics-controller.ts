@@ -41,11 +41,11 @@ export class GraphicsController extends AbstractController {
     }
 
     protected onScenesLoaded(notification: IEventData): void {
-        const assets: Collection<IMapData> = notification.body;
-        const sceneData: ISceneData = assets.get(LoadingNames.SCENE).sceneData;
+        const maps: Collection<IMapData> = notification.body;
+        const sceneData: ISceneData = maps.get(LoadingNames.SCENE).sceneData;
         const sceneSize: ISceneSize = this.model.setSceneSize(sceneData);
         this.view.create(sceneSize);
-        this.sendNotification(Notifications.MAIN_SCENE_INITIALIZED, assets);
+        this.sendNotification(Notifications.MAIN_SCENE_INITIALIZED, maps);
     }
 
     protected onWindowResized(): void {

@@ -11,7 +11,7 @@ function exportConfig() {
     return {
         entry: './index.ts',
         output: {
-            filename: 'js/main.js',
+            filename: 'src/main.js',
             path: path.resolve(rootPath, 'games-build', gameName)
         },
         devtool: 'eval-cheap-source-map',
@@ -27,7 +27,7 @@ function exportConfig() {
             new CleanWebpackPlugin(),
             new CopyWebpackPlugin({
                 patterns: [
-                    {from: path.resolve(buildToolDir, 'template/styles.css'), to: 'css/styles.css'},
+                    {from: path.resolve(buildToolDir, 'template/styles.css'), to: 'src/css/styles.css'},
                     {from: path.resolve(rootPath, 'games', gameName, 'assets'), to: 'assets/'}
                 ]
             }),

@@ -26,8 +26,8 @@ export class LayersController extends AbstractController {
     }
 
     protected onMainSceneInitialized(notification: IEventData): void {
-        const assets: Collection<IMapData> = notification.body;
-        this.view.createLayers(assets);
+        const maps: Collection<IMapData> = notification.body;
+        this.view.createLayers(maps);
     }
 
     protected onAssetLoaded(notification: IEventData): void {

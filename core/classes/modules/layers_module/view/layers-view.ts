@@ -20,8 +20,8 @@ import {TiledUtils} from "../../../../lib/tiled/tiled-utils";
 import {Log} from "../../../../util/log";
 
 export class LayersView extends AbstractView {
-    public createLayers(assets: Collection<IMapData>): void {
-        assets.forEach((map: IMapData) => {
+    public createLayers(maps: Collection<IMapData>): void {
+        maps.forEach((map: IMapData) => {
             map.sceneData.layers.forEach((tiledLayer: ITiledLayer) => {
                 const rootLayer: Layer = this.createLayer(map, tiledLayer);
                 this.sceneManager.add(rootLayer);
