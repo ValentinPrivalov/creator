@@ -6,13 +6,13 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 function exportConfig() {
     const gameName = require(path.resolve(arguments['1']['env']['manifest'])).name;
     const rootPath = './../../';
-    const buildToolDir = path.resolve(rootPath, 'core/build-tool/');
+    const buildToolDir = path.resolve(rootPath, 'creator/core/build-tool/');
 
     return {
         entry: './index.ts',
         output: {
             filename: 'src/main.js',
-            path: path.resolve(rootPath, 'games-build', gameName)
+            path: path.resolve(rootPath, 'games', gameName, 'build')
         },
         devtool: 'eval-cheap-source-map',
         resolve: {

@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "gsap": "^3.7.1",
-    "pixi-spine": "^3.0.13",
+    "pixi-spine": "2.0.5",
     "pixi.js-legacy": "^5.3.10"
   }
 }

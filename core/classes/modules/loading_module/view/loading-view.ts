@@ -8,7 +8,7 @@ export class LoadingView extends AbstractView {
         fadeOutTime: 0.5
     }
 
-    public showProgress(progress): void {
+    public showProgress(progress: number): void {
         const progressBar: ImageObject = this.findChildByName(LoadingView.PROGRESS_BAR) as ImageObject;
         progressBar.width = this.progressBarFullWidth / 100 * progress;
     }
