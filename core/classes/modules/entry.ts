@@ -1,20 +1,20 @@
-import { Log } from '../util/log';
-import { Names } from '../global/names';
-import { IServices, Services } from '../lib/services';
-import { Mvc } from '../lib/services/mvc';
-import { GraphicsModule } from './modules/graphics_module/graphics-module';
-import { LoadingModule } from './modules/loading_module/loading-module';
-import { EventManager } from '../lib/services/event-manager';
-import { Configs } from '../lib/services/configs';
-import { LayersModule } from './modules/layers_module/layers-module';
-import { SceneManager } from '../lib/services/scene-manager';
-import { LoadingNames } from './modules/loading_module/static/loading-names';
-import { StateManager } from '../lib/services/state-manager';
-import { States } from '../global/states';
-import { SetupModule } from './modules/setup_module/setup-module';
+import { Log } from '../../util/log';
+import { Names } from '../../global/names';
+import { IServices, Services } from '../../lib/services';
+import { Mvc } from '../../lib/services/mvc';
+import { GraphicsModule } from './graphics_module/graphics-module';
+import { LoadingModule } from './loading_module/loading-module';
+import { EventManager } from '../../lib/services/event-manager';
+import { Configs } from '../../lib/services/configs';
+import { LayersModule } from './layers_module/layers-module';
+import { SceneManager } from '../../lib/services/scene-manager';
+import { LoadingNames } from './loading_module/static/loading-names';
+import { StateManager } from '../../lib/services/state-manager';
+import { States } from '../../global/states';
+import { SetupModule } from './setup_module/setup-module';
 
 export class Entry {
-    private _engineVersion: string = '0.2.0';
+    private _engineVersion: string = '0.2.1';
     protected _gameVersion: string; // should be redefined in each game
 
     constructor() {
