@@ -1,14 +1,14 @@
-import {Log} from "../../util/log";
-import {Services} from "../services";
-import {Names} from "../../global/names";
-import {AbstractController} from "../mvc/controller";
-import {AbstractModel} from "../mvc/model";
-import {AbstractView} from "../mvc/view";
-import {Collection} from "../../util/collection";
-import {EventManager} from "./event-manager";
-import {AbstractModule} from "../mvc/module";
-import {Layer} from "../pixi/layer";
-import {AbstractCommand} from "../mvc/command";
+import { Log } from '../../util/log';
+import { Services } from '../services';
+import { Names } from '../../global/names';
+import { AbstractController } from '../mvc/controller';
+import { AbstractModel } from '../mvc/model';
+import { AbstractView } from '../mvc/view';
+import { Collection } from '../../util/collection';
+import { EventManager } from './event-manager';
+import { AbstractModule } from '../mvc/module';
+import { Layer } from '../pixi/layer';
+import { AbstractCommand } from '../mvc/command';
 
 export class Mvc {
     private modulesCollection: Collection<AbstractModule> = new Collection();
@@ -17,7 +17,7 @@ export class Mvc {
     private viewCollection: Collection<AbstractView> = new Collection();
     private modelCollection: Collection<AbstractModel> = new Collection();
 
-    get eventManager(): EventManager {
+    protected get eventManager(): EventManager {
         return Services.instance().get(Names.Services.EVENT_MANAGER) as EventManager;
     }
 
@@ -46,7 +46,7 @@ export class Mvc {
         this.modelCollection.forEach((model: AbstractModel) => model.onRegister());
         this.viewCollection.forEach((view: AbstractView) => view.onRegister());
         this.controllerCollection.forEach((controller: AbstractController) => {
-            controller.bindView(this.viewCollection.get(controller.NAME))
+            controller.bindView(this.viewCollection.get(controller.NAME));
             controller.bindModel(this.modelCollection.get(controller.NAME));
             controller.onRegister();
         });
@@ -54,7 +54,7 @@ export class Mvc {
 
     public sendNotification(notificationName: string, body?: any): void {
         Log.log('Notification: ' + notificationName);
-        this.eventManager.raise({name: notificationName, body});
+        this.eventManager.raise({ name: notificationName, body });
     }
 
     public registerCommand(id: string, implementation: any): void {

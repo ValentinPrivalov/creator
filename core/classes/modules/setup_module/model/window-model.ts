@@ -1,15 +1,15 @@
-import {Collection} from "../../../../util/collection";
-import {AbstractModel} from "../../../../lib/mvc/model";
-import {WindowEventNames} from "../static/window-event-names";
-import {IKeyboardEvent, IWindowEventData} from "../static/setup-interfaces";
-import {Names} from "../../../../global/names";
-import {StateManager} from "../../../../lib/services/state-manager";
+import { Collection } from '../../../../util/collection';
+import { AbstractModel } from '../../../../lib/mvc/model';
+import { WindowEventNames } from '../static/window-event-names';
+import { IKeyboardEvent, IWindowEventData } from '../static/setup-interfaces';
+import { Names } from '../../../../global/names';
+import { StateManager } from '../../../../lib/services/state-manager';
 
 export class WindowModel extends AbstractModel {
     private _handlers: Collection<IWindowEventData> = new Collection();
     protected stateManager: StateManager;
 
-    public onRegister() {
+    public onRegister(): void {
         super.onRegister();
         this.stateManager = this.services.get(Names.Services.STATE_MANAGER) as StateManager;
         window.addEventListener(WindowEventNames.RESIZE, this.onResize.bind(this));
@@ -33,9 +33,7 @@ export class WindowModel extends AbstractModel {
 
         this._handlers.forEach((item: IWindowEventData) => {
             if (item.eventName === event.type && (item.allStates || item.states.includes(currentState))) {
-                handler ?
-                    handler(item, event) :
-                    item.handler(event);
+                handler ? handler(item, event) : item.handler(event);
             }
         });
     }

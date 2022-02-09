@@ -1,15 +1,15 @@
-import {AbstractController} from "../../../../lib/mvc/controller";
-import {Notifications} from "../../../../global/notifications";
-import {IEventData} from "../../../../lib/services/event-manager";
-import {LayersView} from "../view/layers-view";
-import {Signals} from "../../../../global/signals";
-import {LoaderResource} from "pixi.js";
-import {Collection} from "../../../../util/collection";
-import {IMapData} from "../../loading_module/static/loading-interfaces";
-import {Layer} from "../../../../lib/pixi/layer";
+import { AbstractController } from '../../../../lib/mvc/controller';
+import { Notifications } from '../../../../global/notifications';
+import { IEventData } from '../../../../lib/services/event-manager';
+import { LayersView } from '../view/layers-view';
+import { Signals } from '../../../../global/signals';
+import { LoaderResource } from 'pixi.js';
+import { Collection } from '../../../../util/collection';
+import { IMapData } from '../../loading_module/static/loading-interfaces';
+import { Layer } from '../../../../lib/pixi/layer';
 
 export class LayersController extends AbstractController {
-    get view(): LayersView {
+    protected get view(): LayersView {
         return this._view as LayersView;
     }
 

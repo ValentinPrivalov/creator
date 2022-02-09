@@ -1,12 +1,11 @@
-import {ITransformedParams, ITile, ITiledEntity, ITiledProperty} from "./tiled-interfaces";
+import { ITransformedParams, ITile, ITiledEntity, ITiledProperty } from './tiled-interfaces';
 
 export class TiledUtils {
-    static getPropertyValue(obj: ITiledEntity, name: string): any {
-        return obj.properties?.find((property: ITiledProperty) =>
-            property.name === name)?.value;
+    public static getPropertyValue(obj: ITiledEntity, name: string): any {
+        return obj.properties?.find((property: ITiledProperty) => property.name === name)?.value;
     }
 
-    static getTransformedData(gid: number, tiles: Array<ITile>): ITransformedParams {
+    public static getTransformedData(gid: number, tiles: Array<ITile>): ITransformedParams {
         const FLIPPED_HORIZONTALLY_FLAG: number = 0x80000000;
         const FLIPPED_HORIZONTALLY_ROTATED_INCREASE_FLAG: number = 0x20000000;
         const FLIPPED_HORIZONTALLY_ROTATED_DECREASE_FLAG: number = 0xe0000000;
@@ -73,6 +72,6 @@ export class TiledUtils {
             }
         }
 
-        return {gid, offsetX, offsetY, scaleX, scaleY, rotation} as ITransformedParams;
+        return { gid, offsetX, offsetY, scaleX, scaleY, rotation } as ITransformedParams;
     }
 }

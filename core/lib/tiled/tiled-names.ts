@@ -1,19 +1,18 @@
 export class TiledLayerNames {
-    static GROUP: string = 'group';
-    static OBJECT_GROUP: string = 'objectgroup';
-    static TILE_LAYER: string = 'tilelayer';
+    public static GROUP: string = 'group';
+    public static OBJECT_GROUP: string = 'objectgroup';
+    public static TILE_LAYER: string = 'tilelayer';
 }
 
 export class TiledProperties {
-    static TYPE: string = 'type';
-    static PRIORITY: string = 'priority';
-    static Z: string = 'z';
-    static COLOR: string = 'color';
-    static ATLAS: string = 'atlas';
+    public static TYPE: string = 'type';
+    public static PRIORITY: string = 'priority';
+    public static Z: string = 'z';
+    public static COLOR: string = 'color';
+    public static ATLAS: string = 'atlas';
 }
 
 export class TiledPropertyValues {
-    static GRAPHICS: string = 'graphics';
-    static SPINE: string = 'spine';
+    public static GRAPHICS: string = 'graphics';
+    public static SPINE: string = 'spine';
 }
-

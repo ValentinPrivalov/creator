@@ -1,11 +1,11 @@
-import {MvcEntity} from "./mvc-entity";
-import {EventManager} from "../services/event-manager";
-import {Names} from "../../global/names";
-import {Container, DisplayObject, Ticker} from "pixi.js";
-import {SceneManager} from "../services/scene-manager";
-import gsap from "gsap";
-import {Layer} from "../pixi/layer";
-import {LoadingModel} from "../../classes/modules/loading_module/model/loading-model";
+import { MvcEntity } from './mvc-entity';
+import { EventManager } from '../services/event-manager';
+import { Names } from '../../global/names';
+import { Container, DisplayObject, Ticker } from 'pixi.js';
+import { SceneManager } from '../services/scene-manager';
+import gsap from 'gsap';
+import { Layer } from '../pixi/layer';
+import { LoadingModel } from '../../classes/modules/loading_module/model/loading-model';
 
 export class AbstractView extends MvcEntity {
     public display: Layer;
@@ -24,18 +24,16 @@ export class AbstractView extends MvcEntity {
     }
 
     protected raiseSignal(signalName: string, body?: any): void {
-        this.eventManager.raise({name: signalName, body});
+        this.eventManager.raise({ name: signalName, body });
     }
 
-    public onResize(): void {
-    }
+    public onResize(): void {}
 
     public onCreated(): void {
         this.ticker.add(this.onUpdate.bind(this));
     }
 
-    protected onUpdate(): void {
-    }
+    protected onUpdate(): void {}
 
     public layerTransitionInStart(callback?: Function): void {
         if (this.transitionSettings.fadeInTime) {
@@ -95,6 +93,6 @@ export class AbstractView extends MvcEntity {
 }
 
 export interface ITransitionSettings {
-    fadeInTime?: number,
-    fadeOutTime?: number
+    fadeInTime?: number;
+    fadeOutTime?: number;
 }

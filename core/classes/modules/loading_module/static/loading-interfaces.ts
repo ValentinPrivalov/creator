@@ -1,5 +1,5 @@
-import {ISceneData} from "../../../../lib/tiled/tiled-interfaces";
-import {DisplayObject} from "pixi.js";
+import { ISceneData } from '../../../../lib/tiled/tiled-interfaces';
+import { DisplayObject } from 'pixi.js';
 
 export interface IMapPath {
     name: string;

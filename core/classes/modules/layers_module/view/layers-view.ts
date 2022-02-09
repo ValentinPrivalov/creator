@@ -1,23 +1,16 @@
-import {AbstractView} from "../../../../lib/mvc/view";
-import {DisplayObject, LoaderResource, Sprite, Graphics, utils} from "pixi.js";
-import {LayersNames} from "../static/layers-names";
-import {Signals} from "../../../../global/signals";
-import {
-    ITransformedParams,
-    ITile,
-    ITiledLayer,
-    ITiledLayerObject,
-    ITiledProperty,
-    ITileSet
-} from "../../../../lib/tiled/tiled-interfaces";
-import {TiledLayerNames, TiledProperties, TiledPropertyValues} from "../../../../lib/tiled/tiled-names";
-import {Collection} from "../../../../util/collection";
-import {IMapData} from "../../loading_module/static/loading-interfaces";
-import {ISceneSize} from "../../graphics_module/static/graphics-interfaces";
-import {Layer} from "../../../../lib/pixi/layer";
-import {ImageObject} from "../../../../lib/pixi/layer-object";
-import {TiledUtils} from "../../../../lib/tiled/tiled-utils";
-import {Log} from "../../../../util/log";
+import { AbstractView } from '../../../../lib/mvc/view';
+import { DisplayObject, LoaderResource, Sprite, Graphics, utils } from 'pixi.js';
+import { LayersNames } from '../static/layers-names';
+import { Signals } from '../../../../global/signals';
+import { ITransformedParams, ITile, ITiledLayer, ITiledLayerObject, ITiledProperty, ITileSet } from '../../../../lib/tiled/tiled-interfaces';
+import { TiledLayerNames, TiledProperties, TiledPropertyValues } from '../../../../lib/tiled/tiled-names';
+import { Collection } from '../../../../util/collection';
+import { IMapData } from '../../loading_module/static/loading-interfaces';
+import { ISceneSize } from '../../graphics_module/static/graphics-interfaces';
+import { Layer } from '../../../../lib/pixi/layer';
+import { ImageObject } from '../../../../lib/pixi/layer-object';
+import { TiledUtils } from '../../../../lib/tiled/tiled-utils';
+import { Log } from '../../../../util/log';
 
 export class LayersView extends AbstractView {
     public createLayers(maps: Collection<IMapData>): void {
@@ -39,12 +32,9 @@ export class LayersView extends AbstractView {
         layer.position.set(tiledLayer.offsetx, tiledLayer.offsety);
         layer.sortableChildren = true;
 
-        tiledLayer.properties?.forEach((property: ITiledProperty) =>
-            layer.properties[property.name] = property.value);
-        tiledLayer.layers?.forEach((childLayer: ITiledLayer) =>
-            this.createLayer(map, childLayer, layer));
-        tiledLayer.objects?.map((obj: ITiledLayerObject) =>
-            this.createObject(map, obj, layer));
+        tiledLayer.properties?.forEach((property: ITiledProperty) => (layer.properties[property.name] = property.value));
+        tiledLayer.layers?.forEach((childLayer: ITiledLayer) => this.createLayer(map, childLayer, layer));
+        tiledLayer.objects?.map((obj: ITiledLayerObject) => this.createObject(map, obj, layer));
 
         switch (tiledLayer.type) {
             case TiledLayerNames.GROUP:
@@ -72,9 +62,9 @@ export class LayersView extends AbstractView {
         } else if (obj.point) {
             parentLayer.properties[obj.name] = obj;
         } else if (obj.polygon) {
-
+            // TODO
         } else if (obj.ellipse) {
-
+            // TODO
         } else {
             Log.warn(`Can't recognize object: ${JSON.stringify(obj)}`);
         }
@@ -121,11 +111,12 @@ export class LayersView extends AbstractView {
         const tileHeight = map.sceneData.tileheight;
         const sceneSize: ISceneSize = {
             width: tileWidth * tiledLayer.width,
-            height: tileHeight * tiledLayer.height,
-        }
+            height: tileHeight * tiledLayer.height
+        };
 
         tiledLayer.data.forEach((gid: number, index: number) => {
-            if (gid !== 0) { // skip empty tile
+            // skip empty tile
+            if (gid !== 0) {
                 const transformedParams: ITransformedParams = TiledUtils.getTransformedData(gid, tileSet.tiles);
                 gid = transformedParams.gid;
 
@@ -155,8 +146,7 @@ export class LayersView extends AbstractView {
         this.loadingModel
             .getData()
             .get(mapName)
-            ?.objects
-            .forEach((object: DisplayObject) => {
+            ?.objects.forEach((object: DisplayObject) => {
                 if ((object['gid'] - 1).toString() === id) {
                     object['texture'] = resource.texture;
                 }

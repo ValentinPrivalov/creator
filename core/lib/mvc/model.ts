@@ -1,6 +1,6 @@
-import {MvcEntity} from "./mvc-entity";
-import {EventManager} from "../services/event-manager";
-import {Names} from "../../global/names";
+import { MvcEntity } from './mvc-entity';
+import { EventManager } from '../services/event-manager';
+import { Names } from '../../global/names';
 
 export class AbstractModel extends MvcEntity {
     protected data: any;
@@ -12,7 +12,7 @@ export class AbstractModel extends MvcEntity {
     }
 
     protected raiseSignal(signalName: string, body?: any): void {
-        this.eventManager.raise({name: signalName, body});
+        this.eventManager.raise({ name: signalName, body });
     }
 
     public setData(data: any): any {

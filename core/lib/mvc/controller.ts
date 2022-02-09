@@ -1,10 +1,10 @@
-import {AbstractView} from "./view";
-import {MvcEntity} from "./mvc-entity";
-import {Names} from "../../global/names";
-import {EventManager} from "../services/event-manager";
-import {AbstractModel} from "./model";
-import {Notifications} from "../../global/notifications";
-import {StateManager} from "../services/state-manager";
+import { AbstractView } from './view';
+import { MvcEntity } from './mvc-entity';
+import { Names } from '../../global/names';
+import { EventManager } from '../services/event-manager';
+import { AbstractModel } from './model';
+import { Notifications } from '../../global/notifications';
+import { StateManager } from '../services/state-manager';
 
 export class AbstractController extends MvcEntity {
     protected _view: AbstractView;
@@ -12,11 +12,11 @@ export class AbstractController extends MvcEntity {
     protected eventManager: EventManager;
     protected stateManager: StateManager;
 
-    get view(): AbstractView {
+    protected get view(): AbstractView {
         return this._view as AbstractView;
     }
 
-    get model(): AbstractModel {
+    protected get model(): AbstractModel {
         return this._model as AbstractModel;
     }
 
@@ -43,8 +43,7 @@ export class AbstractController extends MvcEntity {
         this.addNotificationListener(Notifications.RESIZE, this.onResize.bind(this));
     }
 
-    protected registerSignalListeners(): void {
-    }
+    protected registerSignalListeners(): void {}
 
     protected addNotificationListener(notificationName: string, listener: any): void {
         this.eventManager.addEventListener(notificationName, listener);

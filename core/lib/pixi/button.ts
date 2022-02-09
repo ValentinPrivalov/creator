@@ -1,6 +1,6 @@
-import {ImageObject} from "./layer-object";
-import {Layer} from "./layer";
-import {Log} from "../../util/log";
+import { ImageObject } from './layer-object';
+import { Layer } from './layer';
+import { Log } from '../../util/log';
 
 export class Button {
     private _button: Layer;
@@ -25,7 +25,7 @@ export class Button {
         this._button.interactive = false;
     }
 
-    set enable(state: boolean) {
+    public set enable(state: boolean) {
         this._button.interactive = state;
     }
 
@@ -35,8 +35,8 @@ export class Button {
 }
 
 export interface IButtonViews {
-    idle: ImageObject,
-    active: ImageObject,
-    disabled: ImageObject,
-    pressed: ImageObject
+    idle: ImageObject;
+    active: ImageObject;
+    disabled: ImageObject;
+    pressed: ImageObject;
 }

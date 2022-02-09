@@ -1,4 +1,4 @@
-import {MvcEntity} from "./mvc-entity";
+import { MvcEntity } from './mvc-entity';
 
 export class AbstractModule extends MvcEntity {
     public onRegister(): void {
@@ -8,17 +8,13 @@ export class AbstractModule extends MvcEntity {
         this.registerControllers();
     }
 
-    protected registerCommands(): void {
-    }
+    protected registerCommands(): void {}
 
-    protected registerModels(): void {
-    }
+    protected registerModels(): void {}
 
-    protected registerViews(): void {
-    }
+    protected registerViews(): void {}
 
-    protected registerControllers(): void {
-    }
+    protected registerControllers(): void {}
 
     protected addCommand(id: string, command: any): void {
         this.mvc.registerCommand(id, command);

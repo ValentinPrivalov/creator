@@ -1,15 +1,15 @@
-import {Collection} from "../../util/collection";
-import {States} from "../../global/states";
-import {Log} from "../../util/log";
-import {Mvc} from "./mvc";
-import {Names} from "../../global/names";
-import {Services} from "../services";
+import { Collection } from '../../util/collection';
+import { States } from '../../global/states';
+import { Log } from '../../util/log';
+import { Mvc } from './mvc';
+import { Names } from '../../global/names';
+import { Services } from '../services';
 
 export class StateManager {
     private _states: Collection<IStateParams> = new Collection();
     private _currentState: string = States.INIT;
 
-    get mvc(): Mvc {
+    protected get mvc(): Mvc {
         return Services.instance().get(Names.Services.MVC) as Mvc;
     }
 
@@ -26,13 +26,12 @@ export class StateManager {
         }
 
         if (stateParams.from.includes(this._currentState)) {
-            Log.info(`State: ${id} (from ${this._currentState})`)
+            Log.info(`State: ${id} (from ${this._currentState})`);
             const previous: string = this._currentState;
             this._currentState = id;
-            this.mvc.sendNotification(id, {current: id, previous} as IStateFlow);
+            this.mvc.sendNotification(id, { current: id, previous } as IStateFlow);
         } else {
             Log.warn(`Restricted state change (from: ${this._currentState} to: ${id})`);
-
         }
     }
 

@@ -1,27 +1,27 @@
-import {AbstractController} from "../../../../lib/mvc/controller";
-import {Notifications} from "../../../../global/notifications";
-import {Signals} from "../../../../global/signals";
-import {GraphicsView} from "../view/graphics-view";
-import {GraphicsModel} from "../model/graphics-model";
-import {ISceneSize} from "../static/graphics-interfaces";
-import {IEventData} from "../../../../lib/services/event-manager";
-import {Collection} from "../../../../util/collection";
-import {LoadingNames} from "../../loading_module/static/loading-names";
-import {ISceneData} from "../../../../lib/tiled/tiled-interfaces";
-import {IMapData} from "../../loading_module/static/loading-interfaces";
-import {IWindowEventData} from "../../setup_module/static/setup-interfaces";
-import {WindowEventNames} from "../../setup_module/static/window-event-names";
+import { AbstractController } from '../../../../lib/mvc/controller';
+import { Notifications } from '../../../../global/notifications';
+import { Signals } from '../../../../global/signals';
+import { GraphicsView } from '../view/graphics-view';
+import { GraphicsModel } from '../model/graphics-model';
+import { ISceneSize } from '../static/graphics-interfaces';
+import { IEventData } from '../../../../lib/services/event-manager';
+import { Collection } from '../../../../util/collection';
+import { LoadingNames } from '../../loading_module/static/loading-names';
+import { ISceneData } from '../../../../lib/tiled/tiled-interfaces';
+import { IMapData } from '../../loading_module/static/loading-interfaces';
+import { IWindowEventData } from '../../setup_module/static/setup-interfaces';
+import { WindowEventNames } from '../../setup_module/static/window-event-names';
 
 export class GraphicsController extends AbstractController {
-    get view(): GraphicsView {
+    protected get view(): GraphicsView {
         return this._view as GraphicsView;
     }
 
-    get model(): GraphicsModel {
+    protected get model(): GraphicsModel {
         return this._model as GraphicsModel;
     }
 
-    public onRegister() {
+    public onRegister(): void {
         super.onRegister();
         this.sendNotification(Notifications.REGISTER_WINDOW_EVENT, {
             eventName: WindowEventNames.RESIZE,

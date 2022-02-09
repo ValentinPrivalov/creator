@@ -1,5 +1,5 @@
-import {TiledLayerNames} from "./tiled-names";
-import {Point} from "pixi.js";
+import { TiledLayerNames } from './tiled-names';
+import { Point } from 'pixi.js';
 
 export interface ITiledEntity {
     width: number;

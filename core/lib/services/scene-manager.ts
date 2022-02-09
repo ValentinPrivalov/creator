@@ -1,16 +1,16 @@
-import {AbstractRenderer, Container} from "pixi.js";
-import {Collection} from "../../util/collection";
+import { AbstractRenderer, Container } from 'pixi.js';
+import { Collection } from '../../util/collection';
 
 export class SceneManager {
     private sceneCollection: Collection<Container> = new Collection();
     public renderer: AbstractRenderer;
     public stage: Container;
 
-    add(scene: Container): void {
+    public add(scene: Container): void {
         this.sceneCollection.add(scene.name, scene);
     }
 
-    get(name: string): Container {
+    public get(name: string): Container {
         return this.sceneCollection.get(name);
     }
 }

@@ -1,13 +1,13 @@
-import {autoDetectRenderer, Renderer, Container, settings} from "pixi.js";
-import {AbstractView} from "../../../../lib/mvc/view";
-import {Signals} from "../../../../global/signals";
-import {ISceneSize} from "../static/graphics-interfaces";
-import {Names} from "../../../../global/names";
-import {GraphicsModel} from "../model/graphics-model";
+import { autoDetectRenderer, Renderer, Container, settings } from 'pixi.js';
+import { AbstractView } from '../../../../lib/mvc/view';
+import { Signals } from '../../../../global/signals';
+import { ISceneSize } from '../static/graphics-interfaces';
+import { Names } from '../../../../global/names';
+import { GraphicsModel } from '../model/graphics-model';
 
 export class GraphicsView extends AbstractView {
-    static viewID: string = 'game';
-    static containerID: string = 'gameFrame';
+    protected static viewID: string = 'game';
+    protected static containerID: string = 'gameFrame';
 
     public create(sceneSize: ISceneSize): void {
         const renderer: Renderer = autoDetectRenderer(GraphicsView.getRendererOptions(sceneSize));
@@ -29,15 +29,13 @@ export class GraphicsView extends AbstractView {
     }
 
     public resize(): void {
-        const {innerWidth, innerHeight} = window;
+        const { innerWidth, innerHeight } = window;
         const graphicsModel: GraphicsModel = this.getModel(Names.Views.MAIN_SCENE);
         const sceneSize: ISceneSize = graphicsModel.getData();
 
         const ratio: number = sceneSize.width / sceneSize.height;
         const windowRatio: number = innerWidth / innerHeight;
-        const scale: number = windowRatio < ratio ?
-            innerWidth / sceneSize.width :
-            innerHeight / sceneSize.height;
+        const scale: number = windowRatio < ratio ? innerWidth / sceneSize.width : innerHeight / sceneSize.height;
 
         this.sceneManager.renderer.resize(sceneSize.width * scale, sceneSize.height * scale);
         this.sceneManager.stage.scale.set(scale);
@@ -50,7 +48,7 @@ export class GraphicsView extends AbstractView {
             height: sceneSize.height,
             autoDensity: true,
             backgroundColor: 0x000000
-        }
+        };
     }
 
     protected setupSettings(): void {

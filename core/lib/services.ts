@@ -1,11 +1,11 @@
-import {Log} from "../util/log";
-import {Collection} from "../util/collection";
+import { Log } from '../util/log';
+import { Collection } from '../util/collection';
 
 export class Services implements IServices {
     private static _instance: IServices;
     private registryCollection: Collection<Object> = new Collection();
 
-    static instance(): IServices {
+    public static instance(): IServices {
         if (!this._instance) {
             this._instance = new Services();
         }

@@ -1,8 +1,8 @@
-import {AbstractModule} from "../../../lib/mvc/module";
-import {LoadingController} from "./controller/loading-controller";
-import {Names} from "../../../global/names";
-import {LoadingView} from "./view/loading-view";
-import {LoadingModel} from "./model/loading-model";
+import { AbstractModule } from '../../../lib/mvc/module';
+import { LoadingController } from './controller/loading-controller';
+import { Names } from '../../../global/names';
+import { LoadingView } from './view/loading-view';
+import { LoadingModel } from './model/loading-model';
 
 export class LoadingModule extends AbstractModule {
     protected registerModels(): void {

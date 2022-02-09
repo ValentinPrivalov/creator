@@ -1,13 +1,13 @@
 import 'pixi-spine';
-import {AbstractModel} from "../../../../lib/mvc/model";
-import {LoadingNames} from "../static/loading-names";
-import {Collection} from "../../../../util/collection";
-import {ISceneData, ITile, ITileSet} from "../../../../lib/tiled/tiled-interfaces";
-import {IMapPath, IMapData} from "../static/loading-interfaces";
-import {Loader, LoaderResource} from "pixi.js";
-import {Signals} from "../../../../global/signals";
-import {TiledUtils} from "../../../../lib/tiled/tiled-utils";
-import {TiledProperties} from "../../../../lib/tiled/tiled-names";
+import { AbstractModel } from '../../../../lib/mvc/model';
+import { LoadingNames } from '../static/loading-names';
+import { Collection } from '../../../../util/collection';
+import { ISceneData, ITile, ITileSet } from '../../../../lib/tiled/tiled-interfaces';
+import { IMapPath, IMapData } from '../static/loading-interfaces';
+import { Loader, LoaderResource } from 'pixi.js';
+import { Signals } from '../../../../global/signals';
+import { TiledUtils } from '../../../../lib/tiled/tiled-utils';
+import { TiledProperties } from '../../../../lib/tiled/tiled-names';
 
 export class LoadingModel extends AbstractModel {
     protected data: Collection<IMapData> = new Collection();
@@ -46,7 +46,7 @@ export class LoadingModel extends AbstractModel {
         const mapsPath: Array<IMapPath> = [];
         const scene: string = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.SCENE);
         const levels: Array<IMapPath> = this.configs.getProperty(LoadingNames.ASSETS, LoadingNames.LEVELS);
-        mapsPath.push({name: LoadingNames.SCENE, path: scene} as IMapPath);
+        mapsPath.push({ name: LoadingNames.SCENE, path: scene } as IMapPath);
         mapsPath.push(...levels);
 
         return mapsPath;
@@ -55,7 +55,7 @@ export class LoadingModel extends AbstractModel {
     protected async loadMap(mapName: string, path: string): Promise<IMapData> {
         const response: Response = await fetch(path);
         const sceneData: ISceneData = await response.json();
-        const mapData: IMapData = {sceneData, objects: []};
+        const mapData: IMapData = { sceneData, objects: [] };
         this.data.add(mapName, mapData);
         return mapData;
     }
@@ -65,7 +65,7 @@ export class LoadingModel extends AbstractModel {
             map.sceneData.tilesets.forEach((tileset: ITileSet) => {
                 tileset.tiles
                     .sort((tile: ITile, nextTile: ITile) => {
-                        const getPriority = (tile: ITile) => TiledUtils.getPropertyValue(tile, TiledProperties.PRIORITY) ?? 0;
+                        const getPriority = (tile: ITile): number => TiledUtils.getPropertyValue(tile, TiledProperties.PRIORITY) ?? 0;
                         return getPriority(nextTile) - getPriority(tile);
                     })
                     .forEach((tile: ITile) => {

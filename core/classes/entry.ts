@@ -1,17 +1,17 @@
-import {Log} from "../util/log";
-import {Names} from "../global/names";
-import {IServices, Services} from "../lib/services";
-import {Mvc} from "../lib/services/mvc";
-import {GraphicsModule} from "./modules/graphics_module/graphics-module";
-import {LoadingModule} from "./modules/loading_module/loading-module";
-import {EventManager} from "../lib/services/event-manager";
-import {Configs} from "../lib/services/configs";
-import {LayersModule} from "./modules/layers_module/layers-module";
-import {SceneManager} from "../lib/services/scene-manager";
-import {LoadingNames} from "./modules/loading_module/static/loading-names";
-import {StateManager} from "../lib/services/state-manager";
-import {States} from "../global/states";
-import {SetupModule} from "./modules/setup_module/setup-module";
+import { Log } from '../util/log';
+import { Names } from '../global/names';
+import { IServices, Services } from '../lib/services';
+import { Mvc } from '../lib/services/mvc';
+import { GraphicsModule } from './modules/graphics_module/graphics-module';
+import { LoadingModule } from './modules/loading_module/loading-module';
+import { EventManager } from '../lib/services/event-manager';
+import { Configs } from '../lib/services/configs';
+import { LayersModule } from './modules/layers_module/layers-module';
+import { SceneManager } from '../lib/services/scene-manager';
+import { LoadingNames } from './modules/loading_module/static/loading-names';
+import { StateManager } from '../lib/services/state-manager';
+import { States } from '../global/states';
+import { SetupModule } from './modules/setup_module/setup-module';
 
 export class Entry {
     private _engineVersion: string = '0.1.31';
@@ -30,11 +30,11 @@ export class Entry {
         this.startEngine();
     }
 
-    get services(): IServices {
+    protected get services(): IServices {
         return Services.instance();
     }
 
-    get mvc(): Mvc {
+    protected get mvc(): Mvc {
         return this.services.get(Names.Services.MVC) as Mvc;
     }
 
@@ -73,8 +73,8 @@ export class Entry {
 
     protected initStates(): void {
         const stateManager: StateManager = this.services.get(Names.Services.STATE_MANAGER);
-        stateManager.registerState(States.LOADING, {from: [States.INIT]});
-        stateManager.registerState(States.MAIN_MENU, {from: [States.LOADING]});
+        stateManager.registerState(States.LOADING, { from: [States.INIT] });
+        stateManager.registerState(States.MAIN_MENU, { from: [States.LOADING] });
     }
 
     protected startMVC(): void {
