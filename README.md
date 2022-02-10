@@ -1,5 +1,9 @@
 # Creator Game Engine
 
+## Overview
+
+This game engine created for developing web games using HTML5 Canvas and Pixi.js framework.
+
 ## Installation
 
 Project structure:
